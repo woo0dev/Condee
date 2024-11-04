@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct MainSceneView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var CustomImages: [CustomImage]
-
+	@StateObject var viewModel: MainSceneViewModel
+	
+	init(viewModel: MainSceneViewModel) {
+		_viewModel = StateObject(wrappedValue: viewModel)
+	}
+	
     var body: some View {
 		Text("Hello World!")
     }

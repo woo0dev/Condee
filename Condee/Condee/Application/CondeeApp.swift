@@ -12,7 +12,7 @@ import SwiftData
 struct CondeeApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-			CustomImageStorage.self,
+			CustomImage.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -25,8 +25,7 @@ struct CondeeApp: App {
 
     var body: some Scene {
         WindowGroup {
-			MainSceneView()
+			MainSceneView(viewModel: DependencyContainer.shared.makeMainSceneViewModel(modelContainer: sharedModelContainer))
         }
-        .modelContainer(sharedModelContainer)
     }
 }
