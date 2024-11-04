@@ -15,7 +15,8 @@ final class DependencyContainer {
 	func makeMainSceneViewModel(modelContainer: ModelContainer) -> MainSceneViewModel {
 		let modelContext = ModelContext(modelContainer)
 		let repository = CustomImageRepositoryImpl(modelContext: modelContext)
-		let useCase = FetchAllCustomImagesUseCaseImpl(repository: repository)
-		return MainSceneViewModel(fetchIAllCustomImagesUseCase: useCase)
+		let fetchUseCase = FetchAllCustomImagesUseCaseImpl(repository: repository)
+		let deleteUseCase = DeleteCustomImageUseCaseImpl(repository: repository)
+		return MainSceneViewModel(fetchIAllCustomImagesUseCase: fetchUseCase, deleteCustomImageUseCase: deleteUseCase)
 	}
 }

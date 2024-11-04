@@ -27,7 +27,7 @@ struct CustomImageRepositoryTests {
 			try await setUp()
 			
 			let context = ModelContext(modelContainer)
-			let imageURL = URL(string: "https://example.com/image.jpg")!
+			let imageURL = URL(string: "https://picsum.photos/1179/2556")!
 			
 			let customImage = CustomImage(imageURL: imageURL)
 			
