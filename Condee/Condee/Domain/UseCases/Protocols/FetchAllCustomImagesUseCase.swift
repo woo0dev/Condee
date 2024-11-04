@@ -1,5 +1,5 @@
 //
-//  FetchAllCustomImageUseCase.swift
+//  FetchAllCustomImagesUseCase.swift
 //  Condee
 //
 //  Created by woo0 on 11/4/24.
@@ -7,6 +7,6 @@
 
 import Combine
 
-protocol FetchAllCustomImageUseCase {
+protocol FetchAllCustomImagesUseCase {
 	func execute() -> AnyPublisher<[CustomImage], Error>
 }

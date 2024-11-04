@@ -1,5 +1,5 @@
 //
-//  FetchAllCustomImageUseCase.swift
+//  FetchAllCustomImagesUseCaseImpl.swift
 //  Condee
 //
 //  Created by woo0 on 11/4/24.
@@ -7,7 +7,7 @@
 
 import Combine
 
-final class FetchAllCustomImageUseCaseImpl: FetchAllCustomImageUseCase {
+final class FetchAllCustomImagesUseCaseImpl: FetchAllCustomImagesUseCase {
 	private let repository: CustomImageRepository
 
 	init(repository: CustomImageRepository) {

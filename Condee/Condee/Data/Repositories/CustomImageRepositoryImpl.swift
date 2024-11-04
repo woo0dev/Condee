@@ -28,9 +28,9 @@ final class CustomImageRepositoryImpl: CustomImageRepository {
 	}
 
 	func create(customImage: CustomImage) -> AnyPublisher<Void, Error> {
-		modelContext.insert(customImage)
 		return Future { promise in
 			do {
+				self.modelContext.insert(customImage)
 				try self.modelContext.save()
 				promise(.success(()))
 			} catch {
@@ -41,9 +41,9 @@ final class CustomImageRepositoryImpl: CustomImageRepository {
 	}
 
 	func delete(customImage: CustomImage) -> AnyPublisher<Void, Error> {
-		modelContext.delete(customImage)
 		return Future { promise in
 			do {
+				self.modelContext.delete(customImage)
 				try self.modelContext.save()
 				promise(.success(()))
 			} catch {
