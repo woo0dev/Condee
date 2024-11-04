@@ -14,6 +14,18 @@ final class CustomImageRepositoryImpl: CustomImageRepository {
 	init(modelContext: ModelContext) {
 		self.modelContext = modelContext
 	}
+	
+	func fetchAll() -> AnyPublisher<[CustomImage], Error> {
+		return Future { promise in
+			do {
+				let customImages = try self.modelContext.fetch(FetchDescriptor<CustomImage>())
+				promise(.success(customImages))
+			} catch {
+				promise(.failure(error))
+			}
+		}
+		.eraseToAnyPublisher()
+	}
 
 	func create(customImage: CustomImage) -> AnyPublisher<Void, Error> {
 		modelContext.insert(customImage)
