@@ -5,4 +5,9 @@
 //  Created by woo0 on 11/3/24.
 //
 
-import Foundation
+import Combine
+
+protocol CustomImageRepository {
+	func create(customImage: CustomImage) -> AnyPublisher<Void, Error>
+	func delete(customImage: CustomImage) -> AnyPublisher<Void, Error>
+}

@@ -10,7 +10,7 @@ import SwiftData
 
 struct MainSceneView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var CustomImageStorages: [CustomImageStorage]
+    @Query private var CustomImages: [CustomImage]
 
     var body: some View {
 		Text("Hello World!")
