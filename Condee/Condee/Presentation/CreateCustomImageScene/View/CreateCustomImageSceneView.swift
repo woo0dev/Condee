@@ -9,6 +9,30 @@ import SwiftUI
 
 struct CreateCustomImageSceneView: View {
 	var body: some View {
-		Text("CreateCustomImageSceneView")
+		VStack {
+			ZStack {
+				GridPatternBackgroundView()
+					.accessibilityIdentifier("GridPatternBackgroundView")
+			}
+			.padding()
+			HStack() {
+				Button(action: {
+					
+				}, label: {
+					
+				})
+				Button(action: {
+					
+				}, label: {
+					
+				})
+				Button(action: {
+					
+				}, label: {
+					
+				})
+				Spacer()
+			}
+		}
 	}
 }
