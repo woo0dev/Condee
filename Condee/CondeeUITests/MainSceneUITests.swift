@@ -8,8 +8,8 @@
 import XCTest
 
 @MainActor
-final class MainSceneViewUITests: XCTestCase {
-	let app = XCUIApplication()
+final class MainSceneUITests: XCTestCase {
+	private let app = XCUIApplication()
 	
     override func setUpWithError() throws {
         continueAfterFailure = false
