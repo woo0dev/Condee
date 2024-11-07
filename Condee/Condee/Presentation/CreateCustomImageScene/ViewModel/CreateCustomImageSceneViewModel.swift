@@ -44,6 +44,11 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 		isEmojiHalfModalPresented = true
 	}
 	
+	func didSelectEmoji(emoji: Image) {
+		addedEmojis.append(emoji)
+		print(addedEmojis)
+	}
+	
 	func didSelectAddTextButton() {
 		isTextActionSheetPresented = true
 	}

@@ -29,6 +29,11 @@ struct CreateCustomImageSceneView: View {
 		}
 		.padding(20)
 		.actionSheet(isPresented: $viewModel.isPhotoActionSheetPresented, content: showAddImage)
+		.sheet(isPresented: $viewModel.isEmojiHalfModalPresented, content: {
+			EmojisView(viewModel: viewModel)
+				.cornerRadius(20)
+				.presentationDetents([.height(300)])
+		})
 		.photosPicker(
 			isPresented: $viewModel.isPhotosPickerPresented,
 			selection: $viewModel.selectedPhotosItems,
