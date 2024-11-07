@@ -17,7 +17,7 @@ struct GridPatternBackgroundView: View {
 			ForEach(0..<rows, id: \.self) { row in
 				ForEach(0..<columns, id: \.self) { column in
 					Rectangle()
-						.fill((row + column).isMultiple(of: 2) ? Color.gray : Color.white)
+						.fill((row + column).isMultiple(of: 2) ? Color(UIColor.lightGray) : Color.white)
 						.frame(width: squareSize, height: squareSize)
 						.position(
 							x: CGFloat(column) * squareSize + squareSize / 2,
@@ -27,4 +27,8 @@ struct GridPatternBackgroundView: View {
 			}
 		}
 	}
+}
+
+#Preview {
+	GridPatternBackgroundView()
 }
