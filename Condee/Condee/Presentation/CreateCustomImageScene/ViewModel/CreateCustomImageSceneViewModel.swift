@@ -13,13 +13,12 @@ import PhotosUI
 @MainActor
 final class CreateCustomImageSceneViewModel: ObservableObject {
 	@Published var selectedPhotosItems: [PhotosPickerItem] = []
-	@Published var imageSource: ImageSource = .backgroundImage
+	@Published var imageSource: ImageSource? = nil
+	
 	@Published var selectedBackgroundImage: Image? = nil
-	@Published var addedImages: [Image] = []
-	@Published var addedEmojis: [Image] = []
-	@Published var addedExtractTests: [Image] = []
-	@Published var addedDirectInputTests: [String] = []
-	@Published var selectedColor: Color = .black
+	@Published var addedCanvasElements: [CanvasElement] = []
+	@Published var currentEditingCanvasElement: CanvasElement? = nil
+	
 	@Published var isPhotosPickerPresented: Bool = false
 	@Published var isPhotoActionSheetPresented: Bool = false
 	@Published var isEmojiHalfModalPresented: Bool = false
@@ -44,9 +43,10 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 		isEmojiHalfModalPresented = true
 	}
 	
-	func didSelectEmoji(emoji: Image) {
-		addedEmojis.append(emoji)
-		print(addedEmojis)
+	func didSelectEmoji(emojiImage: Image) {
+		let canvasElement = CanvasElement(type: .emoji(emojiImage))
+		addedCanvasElements.append(canvasElement)
+		currentEditingCanvasElement = canvasElement
 	}
 	
 	func didSelectAddTextButton() {
@@ -61,14 +61,21 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 					if let data = data,
 					   let uiImage = UIImage(data: data) {
 						Task { @MainActor in
-							switch self.imageSource {
-							case .backgroundImage:
-								self.selectedBackgroundImage = Image(uiImage: uiImage)
-							case .additionalImage:
-								self.addedImages.append(Image(uiImage: uiImage))
-							case .extractImage:
-								self.addedExtractTests.append(Image(uiImage: uiImage))
+							if let source = self.imageSource {
+								switch source {
+								case .backgroundImage:
+									self.selectedBackgroundImage = Image(uiImage: uiImage)
+								case .additionalImage:
+									let canvasElement = CanvasElement(type: .additionalImage(Image(uiImage: uiImage)))
+									self.addedCanvasElements.append(canvasElement)
+									self.currentEditingCanvasElement = canvasElement
+								case .extractImage:
+									let canvasElement = CanvasElement(type: .extractImage(Image(uiImage: uiImage)))
+									self.addedCanvasElements.append(canvasElement)
+									self.currentEditingCanvasElement = canvasElement
+								}
 							}
+							// TODO: source가 초기화 되지 않았을 경우 예외처리
 						}
 					}
 				case .failure(let error):
