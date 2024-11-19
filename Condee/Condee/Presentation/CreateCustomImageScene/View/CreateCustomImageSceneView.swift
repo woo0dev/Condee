@@ -12,19 +12,18 @@ struct CreateCustomImageSceneView: View {
 	@StateObject var viewModel: CreateCustomImageSceneViewModel = CreateCustomImageSceneViewModel()
 	
 	var body: some View {
-		VStack {
+		VStack() {
 			GeometryReader { geometry in
-				let width: CGFloat = (geometry.size.width - 40)
-				let height: CGFloat = (width / 9) * 19.5
-				let centerX = geometry.size.width / 2
-				let centerY = geometry.size.height / 2
+				let width: CGFloat = min((geometry.size.width - 40), geometry.size.width)
+				let height: CGFloat = min((width / 9) * 19.5, geometry.size.height)
+				let centerX: CGFloat = geometry.size.width / 2
+				let centerY: CGFloat = geometry.size.height / 2
 				if width > 0 && height > 0 {
 					CanvasView(viewModel: viewModel)
-					.frame(width: width, height: height)
-					.position(x: centerX, y: centerY)
+						.frame(width: width, height: height)
+						.offset(x: centerX - width / 2, y: centerY - height / 2)
 				}
 			}
-			.padding()
 			AdditionalButtonsView(viewModel: viewModel)
 		}
 		.padding(20)

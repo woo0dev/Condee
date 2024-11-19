@@ -7,16 +7,40 @@
 
 import SwiftUI
 
-struct	CanvasView: View {
+struct CanvasView: View {
 	@ObservedObject var viewModel: CreateCustomImageSceneViewModel
 	
 	var body: some View {
-		ZStack {
-			GridPatternBackgroundView()
-				.accessibilityIdentifier("GridPatternBackgroundView")
-			if let backgroundImage = viewModel.selectedBackgroundImage {
-				backgroundImage
-					.resizable()
+		GeometryReader { geometry in
+			ZStack {
+				GridPatternBackgroundView()
+					.accessibilityIdentifier("GridPatternBackgroundView")
+					.onTapGesture {
+						viewModel.currentEditingCanvasElement = nil
+					}
+				if let backgroundImage = viewModel.selectedBackgroundImage {
+					backgroundImage
+						.resizable()
+						.accessibilityIdentifier("GridPatternBackgroundWithImage")
+						.onTapGesture {
+							viewModel.currentEditingCanvasElement = nil
+						}
+				}
+				ForEach(viewModel.addedCanvasElements.indices, id: \.self) { index in
+					switch viewModel.addedCanvasElements[index].type {
+					case .additionalImage(let image), .emoji(let image), .extractImage(let image):
+						image
+							.resizable()
+							.scaledToFit()
+							.handleCanvasElementGesture(viewModel: viewModel, canvasElement: $viewModel.addedCanvasElements[index], index: index)
+							.clipShape(Rectangle()
+								.size(width: geometry.size.width, height: geometry.size.height)
+							)
+					case .directInputText(let content, let color):
+						Text(content)
+							.foregroundStyle(color)
+					}
+				}
 			}
 		}
 	}

@@ -19,7 +19,7 @@ struct DetailCustomImageSceneView: View {
 				image
 					.resizable()
 					.scaledToFit()
-			case .failure(let error):
+			case .failure(_):
 				Image(systemName: "exclamationmark.triangle")
 					.resizable()
 					.scaledToFit()

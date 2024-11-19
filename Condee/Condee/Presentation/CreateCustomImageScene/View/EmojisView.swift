@@ -17,7 +17,7 @@ struct EmojisView: View {
 			LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
 				ForEach(emojis.indices, id: \.self) { index in
 					Button(action: {
-						viewModel.didSelectEmoji(emoji: emojis[index])
+						viewModel.didSelectEmoji(emojiImage: emojis[index])
 					}, label: {
 						emojis[index]
 							.resizable()

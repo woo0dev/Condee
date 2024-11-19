@@ -39,7 +39,7 @@ struct MainSceneView: View {
 }
 
 #Preview {
-	var sharedModelContainer: ModelContainer = {
+	let sharedModelContainer: ModelContainer = {
 		let schema = Schema([
 			CustomImage.self,
 		])

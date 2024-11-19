@@ -7,22 +7,20 @@
 
 import SwiftUI
 
-struct CanvasElement: Identifiable {
+struct CanvasElement: Identifiable, Hashable, Equatable {
 	let id: UUID = UUID()
 	var type: CanvasElementType
+	var size: CGSize = .zero
 	var offset: CGSize = .zero
-	var scale: CGFloat = 1.0
 	var rotation: Angle = .zero
 	
 	var image: Image? {
-		if case .additionalImage(let img) = type {
+		switch type {
+		case .additionalImage(let img), .emoji(let img), .extractImage(let img):
 			return img
-		} else if case .emoji(let img) = type {
-			return img
-		} else if case .extractImage(let img) = type {
-			return img
+		default:
+			return nil
 		}
-		return nil
 	}
 	
 	var text: String? {
@@ -37,5 +35,13 @@ struct CanvasElement: Identifiable {
 			return col
 		}
 		return nil
+	}
+	
+	func hash(into hasher: inout Hasher) {
+		hasher.combine(id)
+	}
+	
+	static func == (lhs: CanvasElement, rhs: CanvasElement) -> Bool {
+		lhs.id == rhs.id
 	}
 }

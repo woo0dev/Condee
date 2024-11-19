@@ -53,6 +53,11 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 		isTextActionSheetPresented = true
 	}
 	
+	func didSelectDeleteButton(index: Int) {
+		addedCanvasElements.remove(at: index)
+		currentEditingCanvasElement = nil
+	}
+	
 	func convertPhotosPickerItemsToImage() {
 		if let item = selectedPhotosItems.first {
 			item.loadTransferable(type: Data.self) { loadingResult in
