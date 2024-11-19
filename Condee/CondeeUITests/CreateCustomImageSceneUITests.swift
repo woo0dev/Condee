@@ -17,6 +17,9 @@ final class CreateCustomImageSceneUITests: XCTestCase {
 	}
 	
 	func testCreateButtonExists() {
+		let addButton = self.app.buttons["addButton"]
+		addButton.tap()
+		
 		let createButton = app.buttons["CreateButton"]
 		XCTAssertTrue(createButton.exists, "생성 버튼이 존재하지 않습니다.")
 		createButton.tap()
@@ -26,11 +29,17 @@ final class CreateCustomImageSceneUITests: XCTestCase {
 	}
 	
 	func testGridPatternBackgroundExists() {
+		let addButton = self.app.buttons["addButton"]
+		addButton.tap()
+		
 		let backgroundView = app.otherElements["GridPatternBackgroundView"]
 		XCTAssertTrue(backgroundView.exists, "격자무늬 배경이 존재하지 않습니다.")
 	}
 	
 	func testBottomButtonsExist() {
+		let addButton = self.app.buttons["addButton"]
+		addButton.tap()
+		
 		let addPhotoButton = app.buttons["AddPhotoButton"]
 		let addEmojiButton = app.buttons["AddEmojiButton"]
 		let addTextButton = app.buttons["AddTextButton"]
@@ -41,76 +50,105 @@ final class CreateCustomImageSceneUITests: XCTestCase {
 	}
 	
 	func testPhotoAddButtonActionSheet() {
+		let addButton = self.app.buttons["addButton"]
+		addButton.tap()
+		
 		let addPhotoButton = app.buttons["AddPhotoButton"]
 		addPhotoButton.tap()
 		
-		let backgroundImageOption = app.buttons["BackgroundImageOption"]
-		let addImageOption = app.buttons["AddImageOption"]
-		let cancelOption = app.buttons["CancelOption"]
-		
-		XCTAssertTrue(backgroundImageOption.exists, "배경사진 버튼이 존재하지 않습니다.")
-		XCTAssertTrue(addImageOption.exists, "추가 사진 버튼이 존재하지 않습니다.")
-		XCTAssertTrue(cancelOption.exists, "취소 버튼이 존재하지 않습니다.")
+		DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+			let backgroundImageOption = self.app.buttons["BackgroundImageOption"]
+			let addImageOption = self.app.buttons["AddImageOption"]
+			let cancelOption = self.app.buttons["CancelOption"]
+			
+			XCTAssertTrue(backgroundImageOption.exists, "배경사진 버튼이 존재하지 않습니다.")
+			XCTAssertTrue(addImageOption.exists, "추가 사진 버튼이 존재하지 않습니다.")
+			XCTAssertTrue(cancelOption.exists, "취소 버튼이 존재하지 않습니다.")
+		}
 	}
 	
 	func testBackgroundImageAddition() {
-		let backgroundImageOption = app.buttons["BackgroundImageOption"]
-		XCTAssertTrue(backgroundImageOption.exists, "배경사진 버튼이 존재하지 않습니다.")
-		backgroundImageOption.tap()
+		let addButton = self.app.buttons["addButton"]
+		addButton.tap()
 		
-		let photosPickerView = app.sheets["PhotosPickerView"]
-		XCTAssertTrue(photosPickerView.waitForExistence(timeout: 2), "PhotosPickerView가 존재하지 않습니다.")
+		let addPhotoButton = app.buttons["AddPhotoButton"]
+		addPhotoButton.tap()
 		
-		let firstPhoto = photosPickerView.collectionViews.cells.element(boundBy: 0)
-		XCTAssertTrue(firstPhoto.exists, "선택 가능한 첫 번째 사진이 없습니다.")
-		firstPhoto.tap()
-		
-		let gridPatternBackgroundWithImage = app.otherElements["GridPatternBackgroundWithImage"]
-		XCTAssertTrue(gridPatternBackgroundWithImage.waitForExistence(timeout: 2), "배경 이미지가 격자 무늬 배경에 존재하지 않습니다.")
-		
-		let gridPatternBackgroundFrame = gridPatternBackgroundWithImage.frame
-		let deviceScreenFrame = app.windows.element(boundBy: 0).frame
-		XCTAssertEqual(gridPatternBackgroundFrame, deviceScreenFrame, "배경 이미지가 격자 배경 크기에 맞게 조정되지 않았습니다.")
+		DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+			let backgroundImageOption = self.app.buttons["BackgroundImageOption"]
+			XCTAssertTrue(backgroundImageOption.exists, "배경사진 버튼이 존재하지 않습니다.")
+			backgroundImageOption.tap()
+			
+			let photosPickerView = self.app.sheets["PhotosPickerView"]
+			XCTAssertTrue(photosPickerView.waitForExistence(timeout: 2), "PhotosPickerView가 존재하지 않습니다.")
+			
+			let firstPhoto = photosPickerView.collectionViews.cells.element(boundBy: 0)
+			XCTAssertTrue(firstPhoto.exists, "선택 가능한 첫 번째 사진이 없습니다.")
+			firstPhoto.tap()
+			
+			let gridPatternBackgroundWithImage = self.app.otherElements["GridPatternBackgroundWithImage"]
+			XCTAssertTrue(gridPatternBackgroundWithImage.waitForExistence(timeout: 2), "배경 이미지가 격자 무늬 배경에 존재하지 않습니다.")
+			
+			let gridPatternBackgroundFrame = gridPatternBackgroundWithImage.frame
+			let deviceScreenFrame = self.app.windows.element(boundBy: 0).frame
+			XCTAssertEqual(gridPatternBackgroundFrame, deviceScreenFrame, "배경 이미지가 격자 배경 크기에 맞게 조정되지 않았습니다.")
+		}
 	}
 	
 	func testAddAdditionalPhoto() {
-		let addImageOption = app.buttons["AddImageOption"]
-		XCTAssertTrue(addImageOption.exists, "추가 사진 버튼이 존재하지 않습니다.")
-		addImageOption.tap()
+		let addButton = self.app.buttons["addButton"]
+		addButton.tap()
 		
-		let photosPickerView = app.sheets["PhotosPickerView"]
-		XCTAssertTrue(photosPickerView.waitForExistence(timeout: 2), "PhotosPickerView가 존재하지 않습니다.")
+		let addPhotoButton = app.buttons["AddPhotoButton"]
+		addPhotoButton.tap()
 		
-		let firstPhoto = photosPickerView.collectionViews.cells.element(boundBy: 0)
-		XCTAssertTrue(firstPhoto.exists, "선택 가능한 첫 번째 사진이 없습니다.")
-		firstPhoto.tap()
-		
-		let additionalPhotoView = app.otherElements["AdditionalPhotoView"]
-		XCTAssertTrue(additionalPhotoView.waitForExistence(timeout: 2), "추가된 사진이 배경뷰 위에 존재하지 않습니다.")
-		
-		let backgroundView = app.otherElements["GridPatternBackgroundView"]
-		let backgroundFrame = backgroundView.frame
-		let additionalPhotoFrame = additionalPhotoView.frame
-		
-		XCTAssertTrue(backgroundFrame.contains(additionalPhotoFrame), "추가된 사진이 배경뷰 밖으로 나갔습니다.")
-		
-		additionalPhotoView.gestureTestOnElement(in: backgroundView)
+		DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+			let addImageOption = self.app.buttons["AddImageOption"]
+			XCTAssertTrue(addImageOption.exists, "추가 사진 버튼이 존재하지 않습니다.")
+			addImageOption.tap()
+			
+			let photosPickerView = self.app.sheets["PhotosPickerView"]
+			XCTAssertTrue(photosPickerView.waitForExistence(timeout: 2), "PhotosPickerView가 존재하지 않습니다.")
+			
+			let firstPhoto = photosPickerView.collectionViews.cells.element(boundBy: 0)
+			XCTAssertTrue(firstPhoto.exists, "선택 가능한 첫 번째 사진이 없습니다.")
+			firstPhoto.tap()
+			
+			let additionalPhotoView = self.app.otherElements["AdditionalPhotoView"]
+			XCTAssertTrue(additionalPhotoView.waitForExistence(timeout: 2), "추가된 사진이 배경뷰 위에 존재하지 않습니다.")
+			
+			let backgroundView = self.app.otherElements["GridPatternBackgroundView"]
+			let backgroundFrame = backgroundView.frame
+			let additionalPhotoFrame = additionalPhotoView.frame
+			
+			XCTAssertTrue(backgroundFrame.contains(additionalPhotoFrame), "추가된 사진이 배경뷰 밖으로 나갔습니다.")
+			
+			additionalPhotoView.gestureTestOnElement(in: backgroundView)
+		}
 	}
 	
 	func testAddEmoji() {
+		let addButton = self.app.buttons["addButton"]
+		addButton.tap()
+		
 		let addEmojiButton = app.buttons["AddEmojiButton"]
 		addEmojiButton.tap()
-
-		let emojisView = app.otherElements["EmojisView"]
-		let emojisGridView = emojisView.collectionViews["EmojisGridView"]
-		let firstEmoji = emojisGridView.cells.element(boundBy: 0)
-		firstEmoji.tap()
-
-		let addedEmojiView = app.otherElements["AddedEmojiView"]
-		addedEmojiView.gestureTestOnElement(in: app.otherElements["GridPatternBackgroundView"])
+		
+		DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+			let emojisView = self.app.otherElements["EmojisView"]
+			let emojisGridView = emojisView.collectionViews["EmojisGridView"]
+			let firstEmoji = emojisGridView.cells.element(boundBy: 0)
+			firstEmoji.tap()
+			
+			let addedEmojiView = self.app.otherElements["AddedEmojiView"]
+			addedEmojiView.gestureTestOnElement(in: self.app.otherElements["GridPatternBackgroundView"])
+		}
 	}
 	
 	func testTextAddButtonActionSheet() {
+		let addButton = self.app.buttons["addButton"]
+		addButton.tap()
+		
 		let addTextButton = app.buttons["AddTextButton"]
 		addTextButton.tap()
 		
@@ -124,6 +162,9 @@ final class CreateCustomImageSceneUITests: XCTestCase {
 	}
 	
 	func testExtractImageOptionOpensImagePicker() throws {
+		let addButton = self.app.buttons["addButton"]
+		addButton.tap()
+		
 		let addTextButton = app.buttons["AddTextButton"]
 		addTextButton.tap()
 		
@@ -140,6 +181,9 @@ final class CreateCustomImageSceneUITests: XCTestCase {
 	}
 	
 	func testDirectInputOptionOpensTextInputView() throws {
+		let addButton = self.app.buttons["addButton"]
+		addButton.tap()
+		
 		let addTextButton = app.buttons["AddTextButton"]
 		addTextButton.tap()
 		
