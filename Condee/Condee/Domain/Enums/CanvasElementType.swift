@@ -11,5 +11,5 @@ enum CanvasElementType {
 	case additionalImage(Image)
 	case emoji(Image)
 	case extractImage(Image)
-	case directInputText(String, Color)
+	case directInputText(String)
 }

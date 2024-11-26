@@ -17,6 +17,12 @@ final class DependencyContainer {
 		let repository = CustomImageRepositoryImpl(modelContext: modelContext)
 		let fetchUseCase = FetchAllCustomImagesUseCaseImpl(repository: repository)
 		let deleteUseCase = DeleteCustomImageUseCaseImpl(repository: repository)
-		return MainSceneViewModel(fetchIAllCustomImagesUseCase: fetchUseCase, deleteCustomImageUseCase: deleteUseCase)
+		return MainSceneViewModel(fetchAllCustomImagesUseCase: fetchUseCase, deleteCustomImageUseCase: deleteUseCase)
+	}
+	
+	@MainActor
+	func makeCreateCustomImageSceneViewModel() -> CreateCustomImageSceneViewModel {
+		let updateCanvasElementTextUseCase = UpdateCanvasElementTextUseCaseImpl()
+		return CreateCustomImageSceneViewModel(updateTextUseCase: updateCanvasElementTextUseCase)
 	}
 }

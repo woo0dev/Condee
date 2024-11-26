@@ -15,6 +15,7 @@ struct AdditionalButtonsView: View {
 	var body: some View {
 		HStack(spacing: 30) {
 			Button(action: {
+				viewModel.actionSheetType = .image
 				viewModel.didSelectAddPhotoButton()
 			}, label: {
 				Image(systemName: "photo")
@@ -35,6 +36,7 @@ struct AdditionalButtonsView: View {
 			.foregroundStyle(colorScheme == .light ? .black : .white)
 			.accessibilityIdentifier("AddEmojiButton")
 			Button(action: {
+				viewModel.actionSheetType = .text
 				viewModel.didSelectAddTextButton()
 			}, label: {
 				Image(systemName: "t.circle")
@@ -50,5 +52,5 @@ struct AdditionalButtonsView: View {
 }
 
 #Preview {
-	AdditionalButtonsView(viewModel: CreateCustomImageSceneViewModel())
+	AdditionalButtonsView(viewModel: DependencyContainer.shared.makeCreateCustomImageSceneViewModel())
 }

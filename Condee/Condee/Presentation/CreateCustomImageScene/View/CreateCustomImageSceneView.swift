@@ -9,7 +9,7 @@ import SwiftUI
 import PhotosUI
 
 struct CreateCustomImageSceneView: View {
-	@StateObject var viewModel: CreateCustomImageSceneViewModel = CreateCustomImageSceneViewModel()
+	@StateObject var viewModel: CreateCustomImageSceneViewModel = DependencyContainer.shared.makeCreateCustomImageSceneViewModel()
 	
 	var body: some View {
 		VStack() {
@@ -27,7 +27,16 @@ struct CreateCustomImageSceneView: View {
 			AdditionalButtonsView(viewModel: viewModel)
 		}
 		.padding(20)
-		.actionSheet(isPresented: $viewModel.isPhotoActionSheetPresented, content: showAddImage)
+		.actionSheet(isPresented: $viewModel.isActionSheetPresented) {
+			switch viewModel.actionSheetType {
+			case .image:
+				return showAddImage()
+			case .text:
+				return showAddText()
+			default:
+				return ActionSheet(title: Text("Error"))
+			}
+		}
 		.sheet(isPresented: $viewModel.isEmojiHalfModalPresented, content: {
 			EmojisView(viewModel: viewModel)
 				.cornerRadius(20)
@@ -62,6 +71,26 @@ struct CreateCustomImageSceneView: View {
 		return ActionSheet(title: title,
 						   message: nil,
 						   buttons: [backgroundImageOption, addImageOption, cancelOption])
+	}
+	
+	func showAddText() -> ActionSheet {
+		let extractImageOption: ActionSheet.Button = .default(
+			Text("이미지에서 추출하기").accessibilityLabel("ExtractImageOption")
+		) {
+			
+		}
+		let directInputOption: ActionSheet.Button = .default(
+			Text("직접 입력하기").accessibilityLabel("DirectInputOption")
+		) {
+			viewModel.didSelectDirectInputOption()
+		}
+		let cancelOption: ActionSheet.Button = .cancel(Text("취소").accessibilityLabel("CancelOption"))
+		
+		let title = Text("추가할 텍스트 선택")
+		
+		return ActionSheet(title: title,
+						   message: nil,
+						   buttons: [extractImageOption, directInputOption, cancelOption])
 	}
 }
 

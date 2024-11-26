@@ -20,8 +20,8 @@ final class MainSceneViewModel: ObservableObject {
 	private let deleteCustomImageUseCase: DeleteCustomImageUseCase
 	private var cancellables = Set<AnyCancellable>()
 	
-	init(fetchIAllCustomImagesUseCase: FetchAllCustomImagesUseCase, deleteCustomImageUseCase: DeleteCustomImageUseCase) {
-		self.fetchAllCustomImagesUseCase = fetchIAllCustomImagesUseCase
+	init(fetchAllCustomImagesUseCase: FetchAllCustomImagesUseCase, deleteCustomImageUseCase: DeleteCustomImageUseCase) {
+		self.fetchAllCustomImagesUseCase = fetchAllCustomImagesUseCase
 		self.deleteCustomImageUseCase = deleteCustomImageUseCase
 	}
 	

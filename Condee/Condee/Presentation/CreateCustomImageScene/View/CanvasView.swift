@@ -32,13 +32,13 @@ struct CanvasView: View {
 						image
 							.resizable()
 							.scaledToFit()
-							.handleCanvasElementGesture(viewModel: viewModel, canvasElement: $viewModel.addedCanvasElements[index], index: index)
+							.handleImageGesture(viewModel: viewModel, canvasElement: $viewModel.addedCanvasElements[index], index: index)
 							.clipShape(Rectangle()
 								.size(width: geometry.size.width, height: geometry.size.height)
 							)
-					case .directInputText(let content, let color):
+					case .directInputText(let content):
 						Text(content)
-							.foregroundStyle(color)
+							.handleTextField(viewModel: viewModel, canvasElement: $viewModel.addedCanvasElements[index], index: index)
 					}
 				}
 			}

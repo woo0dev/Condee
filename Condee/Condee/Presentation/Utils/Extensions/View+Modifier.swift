@@ -8,7 +8,11 @@
 import SwiftUI
 
 extension View {
-	func handleCanvasElementGesture(viewModel: CreateCustomImageSceneViewModel, canvasElement: Binding<CanvasElement>, index: Int) -> some View {
-		self.modifier(CanvasElementGestureModifier(viewModel: viewModel, canvasElement: canvasElement, index: index))
+	func handleImageGesture(viewModel: CreateCustomImageSceneViewModel, canvasElement: Binding<CanvasElement>, index: Int) -> some View {
+		self.modifier(ImageGestureModifier(viewModel: viewModel, canvasElement: canvasElement, index: index))
+	}
+	
+	func handleTextField(viewModel: CreateCustomImageSceneViewModel, canvasElement: Binding<CanvasElement>, index: Int) -> some View {
+		self.modifier(InteractiveTextFieldModifier(viewModel: viewModel, canvasElement: canvasElement, index: index))
 	}
 }

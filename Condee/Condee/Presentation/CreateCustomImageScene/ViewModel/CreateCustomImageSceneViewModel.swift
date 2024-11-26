@@ -14,19 +14,26 @@ import PhotosUI
 final class CreateCustomImageSceneViewModel: ObservableObject {
 	@Published var selectedPhotosItems: [PhotosPickerItem] = []
 	@Published var imageSource: ImageSource? = nil
+	@Published var actionSheetType: ActionSheetType? = nil
 	
 	@Published var selectedBackgroundImage: Image? = nil
 	@Published var addedCanvasElements: [CanvasElement] = []
 	@Published var currentEditingCanvasElement: CanvasElement? = nil
 	
 	@Published var isPhotosPickerPresented: Bool = false
-	@Published var isPhotoActionSheetPresented: Bool = false
+	@Published var isActionSheetPresented: Bool = false
 	@Published var isEmojiHalfModalPresented: Bool = false
-	@Published var isTextActionSheetPresented: Bool = false
+	@Published var isDirectInputModalPresented: Bool = false
 	@Published var isColorPickerPresented: Bool = false
 	
+	private let updateTextUseCase: UpdateCanvasElementTextUseCase
+	
+	init(updateTextUseCase: UpdateCanvasElementTextUseCase) {
+		self.updateTextUseCase = updateTextUseCase
+	}
+	
 	func didSelectAddPhotoButton() {
-		isPhotoActionSheetPresented = true
+		isActionSheetPresented = true
 	}
 	
 	func didSelectBackgroundImageOption() {
@@ -50,12 +57,22 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 	}
 	
 	func didSelectAddTextButton() {
-		isTextActionSheetPresented = true
+		isActionSheetPresented = true
+	}
+	
+	func didSelectDirectInputOption() {
+		let canvasElement = CanvasElement(type: .directInputText(""))
+		addedCanvasElements.append(canvasElement)
+		currentEditingCanvasElement = canvasElement
 	}
 	
 	func didSelectDeleteButton(index: Int) {
 		addedCanvasElements.remove(at: index)
 		currentEditingCanvasElement = nil
+	}
+	
+	func updateText(newText: String, index: Int) {
+		addedCanvasElements[index] = updateTextUseCase.execute(element: addedCanvasElements[index], newText: newText)
 	}
 	
 	func convertPhotosPickerItemsToImage() {

@@ -1,5 +1,5 @@
 //
-//  CanvasElementGestureModifier.swift
+//  ImageGestureModifier.swift
 //  Condee
 //
 //  Created by woo0 on 11/9/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CanvasElementGestureModifier: ViewModifier {
+struct ImageGestureModifier: ViewModifier {
 	@ObservedObject var viewModel: CreateCustomImageSceneViewModel
 	
 	@Binding var canvasElement: CanvasElement
@@ -24,7 +24,11 @@ struct CanvasElementGestureModifier: ViewModifier {
 						GeometryReader { contentGeometry in
 							Color.clear
 								.onAppear {
-									canvasElement.size = contentGeometry.size
+									canvasElement.size = CGSize(width: contentGeometry.size.width / 2, height: contentGeometry.size.height / 2)
+									canvasElement.offset = CGSize(
+										width: geometry.size.width / 2 - canvasElement.size.width / 2,
+										height: geometry.size.height / 2 - canvasElement.size.height / 2
+									)
 								}
 								.onChange(of: contentGeometry.size) { _, newSize in
 									canvasElement.size = newSize
@@ -59,16 +63,16 @@ struct CanvasElementGestureModifier: ViewModifier {
 					Button(action: {
 						viewModel.didSelectDeleteButton(index: index)
 					}, label: {
-						Image(systemName: "xmark.circle")
+						Image(systemName: "xmark.circle.fill")
 							.resizable()
-							.foregroundStyle(.red)
+							.foregroundStyle(.white, .red)
 							.frame(width: 20, height: 20)
 					})
 					.offset(x: -canvasElement.size.width / 2, y: -canvasElement.size.height / 2)
 					.rotationEffect(canvasElement.rotation, anchor: .center)
-					Image(systemName: "arrow.up.left.and.arrow.down.right.circle")
+					Image(systemName: "arrow.up.left.and.arrow.down.right.circle.fill")
 						.resizable()
-						.foregroundStyle(.blue)
+						.foregroundStyle(.white, .blue)
 						.frame(width: 20, height: 20)
 						.offset(x: canvasElement.size.width / 2, y: canvasElement.size.height / 2)
 						.rotationEffect(canvasElement.rotation, anchor: .center)
@@ -103,7 +107,14 @@ struct CanvasElementGestureModifier: ViewModifier {
 						)
 				}
 			}
-			.offset(canvasElement.offset)
+			.offset(
+				canvasElement.offset == .zero
+				? CGSize(
+					width: geometry.size.width / 2 - canvasElement.size.width / 2,
+					height: geometry.size.height / 2 - canvasElement.size.height / 2
+				)
+				: canvasElement.offset
+			)
 		}
 	}
 }

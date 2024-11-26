@@ -24,15 +24,8 @@ struct CanvasElement: Identifiable, Hashable, Equatable {
 	}
 	
 	var text: String? {
-		if case .directInputText(let content, _) = type {
+		if case .directInputText(let content) = type {
 			return content
-		}
-		return nil
-	}
-	
-	var color: Color? {
-		if case .directInputText(_, let col) = type {
-			return col
 		}
 		return nil
 	}
