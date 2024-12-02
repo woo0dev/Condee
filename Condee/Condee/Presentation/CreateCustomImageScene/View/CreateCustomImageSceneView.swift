@@ -12,21 +12,38 @@ struct CreateCustomImageSceneView: View {
 	@StateObject var viewModel: CreateCustomImageSceneViewModel = DependencyContainer.shared.makeCreateCustomImageSceneViewModel()
 	
 	var body: some View {
-		VStack() {
-			GeometryReader { geometry in
-				let width: CGFloat = min((geometry.size.width - 40), geometry.size.width)
-				let height: CGFloat = min((width / 9) * 19.5, geometry.size.height)
-				let centerX: CGFloat = geometry.size.width / 2
-				let centerY: CGFloat = geometry.size.height / 2
-				if width > 0 && height > 0 {
+		GeometryReader { geometry in
+			VStack {
+				let containerSize = geometry.size
+				let aspectRatio: CGFloat = 9 / 19.5
+				
+				let toolbarHeight: CGFloat = 50
+				
+				let canvasHeight: CGFloat = containerSize.height - toolbarHeight
+				let canvasWidth: CGFloat = canvasHeight * aspectRatio
+				
+				if canvasWidth > 0 && canvasHeight > 0 {
 					CanvasView(viewModel: viewModel)
-						.frame(width: width, height: height)
-						.offset(x: centerX - width / 2, y: centerY - height / 2)
+						.frame(width: canvasWidth, height: canvasHeight)
+						.border(.gray, width: 1)
+						.clipped()
 				}
+				ScrollView(.horizontal) {
+					HStack {
+						AdditionalToolbar(viewModel: viewModel)
+						TextStyleToolbar(viewModel: viewModel)
+					}
+					.frame(height: toolbarHeight)
+					.padding([.leading, .trailing], 20)
+				}
+				.overlay(
+					Rectangle()
+						.frame(height: 1)
+						.foregroundColor(.gray),
+					alignment: .top
+				)
 			}
-			AdditionalButtonsView(viewModel: viewModel)
 		}
-		.padding(20)
 		.actionSheet(isPresented: $viewModel.isActionSheetPresented) {
 			switch viewModel.actionSheetType {
 			case .image:

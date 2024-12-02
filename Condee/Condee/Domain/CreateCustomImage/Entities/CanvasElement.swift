@@ -13,6 +13,8 @@ struct CanvasElement: Identifiable, Hashable, Equatable {
 	var size: CGSize = .zero
 	var offset: CGSize = .zero
 	var rotation: Angle = .zero
+	var fontSize: CGFloat = 17
+	var fontColor: Color = .black
 	
 	var image: Image? {
 		switch type {

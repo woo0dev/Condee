@@ -39,6 +39,9 @@ struct CanvasView: View {
 					case .directInputText(let content):
 						Text(content)
 							.handleTextField(viewModel: viewModel, canvasElement: $viewModel.addedCanvasElements[index], index: index)
+							.clipShape(Rectangle()
+								.size(width: geometry.size.width, height: geometry.size.height)
+							)
 					}
 				}
 			}

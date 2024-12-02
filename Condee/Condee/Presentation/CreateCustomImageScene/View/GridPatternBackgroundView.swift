@@ -11,8 +11,8 @@ struct GridPatternBackgroundView: View {
 	var body: some View {
 		GeometryReader { geometry in
 			let squareSize: CGFloat = 10
-			let columns: Int = Int(geometry.size.width / squareSize)
-			let rows: Int = Int(geometry.size.height / squareSize)
+			let columns: Int = Int(ceil(geometry.size.width / squareSize))
+			let rows: Int = Int(ceil(geometry.size.height / squareSize))
 			
 			ForEach(0..<rows, id: \.self) { row in
 				ForEach(0..<columns, id: \.self) { column in

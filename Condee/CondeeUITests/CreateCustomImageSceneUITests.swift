@@ -17,7 +17,7 @@ final class CreateCustomImageSceneUITests: XCTestCase {
 	}
 	
 	func testCreateButtonExists() {
-		let addButton = self.app.buttons["addButton"]
+		let addButton = self.app.buttons["AddButton"]
 		addButton.tap()
 		
 		let createButton = app.buttons["CreateButton"]
@@ -29,7 +29,7 @@ final class CreateCustomImageSceneUITests: XCTestCase {
 	}
 	
 	func testGridPatternBackgroundExists() {
-		let addButton = self.app.buttons["addButton"]
+		let addButton = self.app.buttons["AddButton"]
 		addButton.tap()
 		
 		let backgroundView = app.otherElements["GridPatternBackgroundView"]
@@ -37,7 +37,7 @@ final class CreateCustomImageSceneUITests: XCTestCase {
 	}
 	
 	func testBottomButtonsExist() {
-		let addButton = self.app.buttons["addButton"]
+		let addButton = self.app.buttons["AddButton"]
 		addButton.tap()
 		
 		let addPhotoButton = app.buttons["AddPhotoButton"]
@@ -50,7 +50,7 @@ final class CreateCustomImageSceneUITests: XCTestCase {
 	}
 	
 	func testPhotoAddButtonActionSheet() {
-		let addButton = self.app.buttons["addButton"]
+		let addButton = self.app.buttons["AddButton"]
 		addButton.tap()
 		
 		let addPhotoButton = app.buttons["AddPhotoButton"]
@@ -68,7 +68,7 @@ final class CreateCustomImageSceneUITests: XCTestCase {
 	}
 	
 	func testBackgroundImageAddition() {
-		let addButton = self.app.buttons["addButton"]
+		let addButton = self.app.buttons["AddButton"]
 		addButton.tap()
 		
 		let addPhotoButton = app.buttons["AddPhotoButton"]
@@ -96,7 +96,7 @@ final class CreateCustomImageSceneUITests: XCTestCase {
 	}
 	
 	func testAddAdditionalPhoto() {
-		let addButton = self.app.buttons["addButton"]
+		let addButton = self.app.buttons["AddButton"]
 		addButton.tap()
 		
 		let addPhotoButton = app.buttons["AddPhotoButton"]
@@ -128,7 +128,7 @@ final class CreateCustomImageSceneUITests: XCTestCase {
 	}
 	
 	func testAddEmoji() {
-		let addButton = self.app.buttons["addButton"]
+		let addButton = self.app.buttons["AddButton"]
 		addButton.tap()
 		
 		let addEmojiButton = app.buttons["AddEmojiButton"]
@@ -146,7 +146,7 @@ final class CreateCustomImageSceneUITests: XCTestCase {
 	}
 	
 	func testTextAddButtonActionSheet() {
-		let addButton = self.app.buttons["addButton"]
+		let addButton = self.app.buttons["AddButton"]
 		addButton.tap()
 		
 		let addTextButton = app.buttons["AddTextButton"]
@@ -162,7 +162,7 @@ final class CreateCustomImageSceneUITests: XCTestCase {
 	}
 	
 	func testExtractImageOptionOpensImagePicker() throws {
-		let addButton = self.app.buttons["addButton"]
+		let addButton = self.app.buttons["AddButton"]
 		addButton.tap()
 		
 		let addTextButton = app.buttons["AddTextButton"]
@@ -181,7 +181,7 @@ final class CreateCustomImageSceneUITests: XCTestCase {
 	}
 	
 	func testDirectInputOptionOpensTextInputView() throws {
-		let addButton = self.app.buttons["addButton"]
+		let addButton = self.app.buttons["AddButton"]
 		addButton.tap()
 		
 		let addTextButton = app.buttons["AddTextButton"]
@@ -193,7 +193,7 @@ final class CreateCustomImageSceneUITests: XCTestCase {
 		let textInputView = app.otherElements["TextInputView"]
 		XCTAssertTrue(textInputView.exists)
 		
-		let colorPickerButton = app.buttons["colorPickerButton"]
+		let colorPickerButton = app.buttons["ColorPickerButton"]
 		XCTAssertTrue(colorPickerButton.exists)
 		colorPickerButton.tap()
 		

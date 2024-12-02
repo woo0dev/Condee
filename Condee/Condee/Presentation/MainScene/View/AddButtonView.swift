@@ -26,7 +26,7 @@ struct AddButtonView: View {
 						.cornerRadius(20)
 				})
 				.padding(20)
-				.accessibilityIdentifier("addButton")
+				.accessibilityIdentifier("AddButton")
 			}
 		}
 	}

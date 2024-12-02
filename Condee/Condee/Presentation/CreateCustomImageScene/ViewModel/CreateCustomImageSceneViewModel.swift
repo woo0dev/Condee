@@ -75,6 +75,14 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 		addedCanvasElements[index] = updateTextUseCase.execute(element: addedCanvasElements[index], newText: newText)
 	}
 	
+	func updateFontSize(newSize: CGFloat, index: Int) {
+		addedCanvasElements[index].fontSize = newSize
+	}
+	
+	func updateTextColor(newColor: Color, index: Int) {
+		addedCanvasElements[index].fontColor = newColor
+	}
+	
 	func convertPhotosPickerItemsToImage() {
 		if let item = selectedPhotosItems.first {
 			item.loadTransferable(type: Data.self) { loadingResult in

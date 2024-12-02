@@ -13,8 +13,6 @@ struct InteractiveTextFieldModifier: ViewModifier {
 	
 	@Binding var canvasElement: CanvasElement
 	
-	@State private var fontColor: Color = .black
-	@State private var fontSize: CGFloat = 17
 	@State private var isEditing: Bool = true
 	@State private var isResized: Bool = false
 	@State private var text: String = ""
@@ -115,10 +113,15 @@ struct InteractiveTextFieldModifier: ViewModifier {
 								.onChanged { value in
 									if isResized == false { isResized = true }
 									
-									let dx = value.location.x
-									let newWidth = max(fontSize, abs(dx) * 2)
-
-									canvasElement.size = textSizeFor(text: text, maxWidth: newWidth)
+									let transform = CGAffineTransform(rotationAngle: canvasElement.rotation.radians)
+									let rotatedLocation = value.location.applying(transform.inverted())
+									
+									let dx = rotatedLocation.x
+									
+									if dx > 5 {
+										let newWidth = max(canvasElement.fontSize, abs(dx) * 2)
+										canvasElement.size = textSizeFor(text: text, maxWidth: newWidth)
+									}
 								}
 						)
 				}
@@ -139,6 +142,9 @@ struct InteractiveTextFieldModifier: ViewModifier {
 					}
 				}
 			})
+			.onChange(of: canvasElement.fontSize, {
+				canvasElement.size = textSizeFor(text: text, maxWidth: canvasElement.size.width)
+			})
 			.onChange(of: viewModel.currentEditingCanvasElement, {
 				if isEditing {
 					isEditing = false
@@ -154,14 +160,14 @@ struct InteractiveTextFieldModifier: ViewModifier {
 	
 	func commonStyle<V: View>(_ view: V) -> some View {
 		view
-			.font(.system(size: fontSize))
+			.font(.system(size: canvasElement.fontSize))
 			.frame(width: canvasElement.size.width, height: canvasElement.size.height)
 			.rotationEffect(canvasElement.rotation, anchor: .center)
-			.foregroundStyle(fontColor)
+			.foregroundStyle(canvasElement.fontColor)
 	}
 	
 	func textSizeFor(text: String, maxWidth: CGFloat) -> CGSize {
-		let uiFont = UIFont.systemFont(ofSize: fontSize)
+		let uiFont = UIFont.systemFont(ofSize: canvasElement.fontSize)
 		let attributes: [NSAttributedString.Key: Any] = [.font: uiFont]
 		let width = (text as NSString).size(withAttributes: attributes).width + 20
 		let constraintSize = isResized ? CGSize(width: maxWidth, height: .greatestFiniteMagnitude) : CGSize(width: width, height: .greatestFiniteMagnitude)
@@ -173,7 +179,7 @@ struct InteractiveTextFieldModifier: ViewModifier {
 			context: nil
 		)
 		
-		let newWidth = ceil(boundingBox.width) + 20
+		let newWidth = isResized ? maxWidth : ceil(boundingBox.width) + 20
 		let newHeight = ceil(boundingBox.height) + 20
 		
 		return CGSize(width: newWidth, height: newHeight)

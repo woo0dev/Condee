@@ -1,5 +1,5 @@
 //
-//  AdditionalButtonsView.swift
+//  AdditionalToolbar.swift
 //  Condee
 //
 //  Created by woo0 on 11/7/24.
@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-struct AdditionalButtonsView: View {
+struct AdditionalToolbar: View {
 	@Environment(\.colorScheme) var colorScheme
 	
 	@ObservedObject var viewModel: CreateCustomImageSceneViewModel
 	
 	var body: some View {
-		HStack(spacing: 30) {
+		HStack(spacing: 20) {
 			Button(action: {
 				viewModel.actionSheetType = .image
 				viewModel.didSelectAddPhotoButton()
@@ -52,5 +52,5 @@ struct AdditionalButtonsView: View {
 }
 
 #Preview {
-	AdditionalButtonsView(viewModel: DependencyContainer.shared.makeCreateCustomImageSceneViewModel())
+	AdditionalToolbar(viewModel: DependencyContainer.shared.makeCreateCustomImageSceneViewModel())
 }
