@@ -10,6 +10,8 @@ import SwiftUI
 struct CanvasView: View {
 	@ObservedObject var viewModel: CreateCustomImageSceneViewModel
 	
+	@State private var isImageVisible: Bool = true
+	
 	var body: some View {
 		GeometryReader { geometry in
 			ZStack {
@@ -18,13 +20,15 @@ struct CanvasView: View {
 					.onTapGesture {
 						viewModel.currentEditingCanvasElement = nil
 					}
-				if let backgroundImage = viewModel.selectedBackgroundImage {
+				if isImageVisible, let backgroundImage = viewModel.selectedBackgroundImage {
 					backgroundImage
 						.resizable()
+						.scaledToFit()
 						.accessibilityIdentifier("GridPatternBackgroundWithImage")
 						.onTapGesture {
 							viewModel.currentEditingCanvasElement = nil
 						}
+						.handleBackgroundImageGesture(canvasSize: geometry.size)
 				}
 				ForEach(viewModel.addedCanvasElements.indices, id: \.self) { index in
 					switch viewModel.addedCanvasElements[index].type {
@@ -45,6 +49,12 @@ struct CanvasView: View {
 					}
 				}
 			}
+			.onChange(of: viewModel.selectedBackgroundImage, {
+				isImageVisible = false
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+					isImageVisible = true
+				}
+			})
 		}
 	}
 }

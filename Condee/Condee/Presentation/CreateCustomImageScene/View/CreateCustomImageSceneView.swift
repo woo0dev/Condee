@@ -15,7 +15,7 @@ struct CreateCustomImageSceneView: View {
 		GeometryReader { geometry in
 			VStack {
 				let containerSize = geometry.size
-				let aspectRatio: CGFloat = 9 / 19.5
+				let aspectRatio: CGFloat = UIScreen.main.bounds.width / UIScreen.main.bounds.height
 				
 				let toolbarHeight: CGFloat = 50
 				
@@ -44,6 +44,7 @@ struct CreateCustomImageSceneView: View {
 				)
 			}
 		}
+		.ignoresSafeArea(.keyboard)
 		.actionSheet(isPresented: $viewModel.isActionSheetPresented) {
 			switch viewModel.actionSheetType {
 			case .image:

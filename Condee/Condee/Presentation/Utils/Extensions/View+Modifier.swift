@@ -8,11 +8,25 @@
 import SwiftUI
 
 extension View {
+	func handleBackgroundImageGesture(canvasSize: CGSize) -> some View {
+		self.modifier(BackgroundImageGestureModifier(canvasSize: canvasSize))
+	}
+	
 	func handleImageGesture(viewModel: CreateCustomImageSceneViewModel, canvasElement: Binding<CanvasElement>, index: Int) -> some View {
 		self.modifier(ImageGestureModifier(viewModel: viewModel, canvasElement: canvasElement, index: index))
 	}
 	
 	func handleTextField(viewModel: CreateCustomImageSceneViewModel, canvasElement: Binding<CanvasElement>, index: Int) -> some View {
 		self.modifier(InteractiveTextFieldModifier(viewModel: viewModel, canvasElement: canvasElement, index: index))
+	}
+}
+
+extension View {
+	@ViewBuilder func `if`<Content: View>(_ condition: Bool, transform: (Self) -> Content) -> some View {
+		if condition {
+			transform(self)
+		} else {
+			self
+		}
 	}
 }
