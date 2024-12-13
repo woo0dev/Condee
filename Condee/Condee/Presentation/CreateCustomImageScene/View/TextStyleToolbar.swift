@@ -21,10 +21,9 @@ struct TextStyleToolbar: View {
 		HStack(spacing: 20) {
 			if let index = viewModel.addedCanvasElements.firstIndex(where: { $0.id == viewModel.currentEditingCanvasElement?.id }) {
 				Text("\(Int(viewModel.addedCanvasElements[index].fontSize)) pt")
+					.accessibilityIdentifier("FontSizeLabel")
 					.font(.system(size: 20))
 					.foregroundStyle(colorScheme == .light ? .black : .white)
-					.accessibilityIdentifier("FontSizeLabel")
-				
 				HStack(spacing: 0) {
 					Button(action: {
 						if fontSize - 1 >= 5 {
@@ -35,9 +34,9 @@ struct TextStyleToolbar: View {
 							.font(.system(size: 24))
 							.frame(maxWidth: .infinity, maxHeight: .infinity)
 					})
+					.accessibilityIdentifier("IncreaseFontSizeButton")
 					.frame(width: 40, height: 40)
 					.foregroundStyle(colorScheme == .light ? .black : .white)
-					.accessibilityIdentifier("IncreaseFontSizeButton")
 					Divider()
 						.frame(width: 1, height: 30)
 						.foregroundStyle(colorScheme == .light ? .black : .white)
@@ -50,14 +49,13 @@ struct TextStyleToolbar: View {
 							.font(.system(size: 24))
 							.frame(maxWidth: .infinity, maxHeight: .infinity)
 					})
+					.accessibilityIdentifier("DecreaseFontSizeButton")
 					.frame(width: 40, height: 40)
 					.foregroundStyle(colorScheme == .light ? .black : .white)
-					.accessibilityIdentifier("DecreaseFontSizeButton")
 				}
 				.frame(height: 40)
 				.background(Color.gray)
 				.clipShape(RoundedRectangle(cornerRadius: 10))
-				
 				ColorPicker("", selection: $selectedColor)
 					.labelsHidden()
 					.scaleEffect(1.5)
@@ -66,8 +64,9 @@ struct TextStyleToolbar: View {
 							colorPickerSize = CGSize(width: geometry.size.width * 1.5, height: geometry.size.height * 1.5)
 						}
 					})
-					.frame(width: colorPickerSize == .zero ? 40 : colorPickerSize.width, height: colorPickerSize == .zero ? 40 : colorPickerSize.height)
+					.accessibilityAddTraits(.isButton)
 					.accessibilityIdentifier("ColorPickerButton")
+					.frame(width: colorPickerSize == .zero ? 40 : colorPickerSize.width, height: colorPickerSize == .zero ? 40 : colorPickerSize.height)
 			}
 		}
 		.onAppear {

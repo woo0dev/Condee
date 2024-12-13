@@ -23,8 +23,8 @@ struct CanvasView: View {
 				if isImageVisible, let backgroundImage = viewModel.selectedBackgroundImage {
 					backgroundImage
 						.resizable()
-						.scaledToFit()
 						.accessibilityIdentifier("GridPatternBackgroundWithImage")
+						.scaledToFit()
 						.onTapGesture {
 							viewModel.currentEditingCanvasElement = nil
 						}
@@ -32,9 +32,10 @@ struct CanvasView: View {
 				}
 				ForEach(viewModel.addedCanvasElements.indices, id: \.self) { index in
 					switch viewModel.addedCanvasElements[index].type {
-					case .additionalImage(let image), .emoji(let image), .extractImage(let image):
+					case .additionalImage(let image), .sticker(let image), .extractImage(let image):
 						image
 							.resizable()
+							.accessibilityIdentifier("AddedImageView")
 							.scaledToFit()
 							.handleImageGesture(viewModel: viewModel, canvasElement: $viewModel.addedCanvasElements[index], index: index)
 							.clipShape(Rectangle()

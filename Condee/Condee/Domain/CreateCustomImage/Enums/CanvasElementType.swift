@@ -9,7 +9,7 @@ import SwiftUI
 
 enum CanvasElementType {
 	case additionalImage(Image)
-	case emoji(Image)
+	case sticker(Image)
 	case extractImage(Image)
 	case directInputText(String)
 }

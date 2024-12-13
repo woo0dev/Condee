@@ -18,7 +18,7 @@ struct CanvasElement: Identifiable, Hashable, Equatable {
 	
 	var image: Image? {
 		switch type {
-		case .additionalImage(let img), .emoji(let img), .extractImage(let img):
+		case .additionalImage(let img), .sticker(let img), .extractImage(let img):
 			return img
 		default:
 			return nil

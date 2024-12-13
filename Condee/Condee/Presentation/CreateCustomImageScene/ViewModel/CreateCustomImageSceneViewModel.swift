@@ -22,7 +22,7 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 	
 	@Published var isPhotosPickerPresented: Bool = false
 	@Published var isActionSheetPresented: Bool = false
-	@Published var isEmojiHalfModalPresented: Bool = false
+	@Published var isStickerHalfModalPresented: Bool = false
 	@Published var isDirectInputModalPresented: Bool = false
 	@Published var isColorPickerPresented: Bool = false
 	
@@ -46,14 +46,15 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 		isPhotosPickerPresented = true
 	}
 	
-	func didSelectAddEmojiButton() {
-		isEmojiHalfModalPresented = true
+	func didSelectAddStickerButton() {
+		isStickerHalfModalPresented = true
 	}
 	
-	func didSelectEmoji(emojiImage: Image) {
-		let canvasElement = CanvasElement(type: .emoji(emojiImage))
+	func didSelectSticker(stickerImage: Image) {
+		let canvasElement = CanvasElement(type: .sticker(stickerImage))
 		addedCanvasElements.append(canvasElement)
 		currentEditingCanvasElement = canvasElement
+		isStickerHalfModalPresented = false
 	}
 	
 	func didSelectAddTextButton() {

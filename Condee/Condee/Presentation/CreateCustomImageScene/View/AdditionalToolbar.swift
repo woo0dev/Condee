@@ -23,18 +23,18 @@ struct AdditionalToolbar: View {
 					.scaledToFit()
 					.frame(width: 40, height: 40)
 			})
-			.foregroundStyle(colorScheme == .light ? .black : .white)
 			.accessibilityIdentifier("AddPhotoButton")
+			.foregroundStyle(colorScheme == .light ? .black : .white)
 			Button(action: {
-				viewModel.didSelectAddEmojiButton()
+				viewModel.didSelectAddStickerButton()
 			}, label: {
 				Image(systemName: "e.circle")
 					.resizable()
 					.scaledToFit()
 					.frame(width: 40, height: 40)
 			})
+			.accessibilityIdentifier("AddStickerButton")
 			.foregroundStyle(colorScheme == .light ? .black : .white)
-			.accessibilityIdentifier("AddEmojiButton")
 			Button(action: {
 				viewModel.actionSheetType = .text
 				viewModel.didSelectAddTextButton()
@@ -44,8 +44,8 @@ struct AdditionalToolbar: View {
 					.scaledToFit()
 					.frame(width: 40, height: 40)
 			})
-			.foregroundStyle(colorScheme == .light ? .black : .white)
 			.accessibilityIdentifier("AddTextButton")
+			.foregroundStyle(colorScheme == .light ? .black : .white)
 			Spacer()
 		}
 	}

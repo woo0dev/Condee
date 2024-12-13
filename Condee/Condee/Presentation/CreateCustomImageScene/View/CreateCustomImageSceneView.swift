@@ -55,8 +55,8 @@ struct CreateCustomImageSceneView: View {
 				return ActionSheet(title: Text("Error"))
 			}
 		}
-		.sheet(isPresented: $viewModel.isEmojiHalfModalPresented, content: {
-			EmojisView(viewModel: viewModel)
+		.sheet(isPresented: $viewModel.isStickerHalfModalPresented, content: {
+			StickersView(viewModel: viewModel)
 				.cornerRadius(20)
 				.presentationDetents([.height(300)])
 		})
@@ -73,16 +73,16 @@ struct CreateCustomImageSceneView: View {
 	
 	func showAddImage() -> ActionSheet {
 		let backgroundImageOption: ActionSheet.Button = .default(
-			Text("배경 사진 선택하기").accessibilityLabel("BackgroundImageOption")
+			Text("배경 사진 선택하기")
 		) {
 			viewModel.didSelectBackgroundImageOption()
 		}
 		let addImageOption: ActionSheet.Button = .default(
-			Text("사진 추가하기").accessibilityLabel("AddImageOption")
+			Text("사진 추가하기")
 		) {
 			viewModel.didSelectAddImageOption()
 		}
-		let cancelOption: ActionSheet.Button = .cancel(Text("취소").accessibilityLabel("CancelOption"))
+		let cancelOption: ActionSheet.Button = .cancel(Text("취소"))
 		
 		let title = Text("추가할 사진 선택")
 		
@@ -93,16 +93,16 @@ struct CreateCustomImageSceneView: View {
 	
 	func showAddText() -> ActionSheet {
 		let extractImageOption: ActionSheet.Button = .default(
-			Text("이미지에서 추출하기").accessibilityLabel("ExtractImageOption")
+			Text("이미지에서 추출하기")
 		) {
 			
 		}
 		let directInputOption: ActionSheet.Button = .default(
-			Text("직접 입력하기").accessibilityLabel("DirectInputOption")
+			Text("직접 입력하기")
 		) {
 			viewModel.didSelectDirectInputOption()
 		}
-		let cancelOption: ActionSheet.Button = .cancel(Text("취소").accessibilityLabel("CancelOption"))
+		let cancelOption: ActionSheet.Button = .cancel(Text("취소"))
 		
 		let title = Text("추가할 텍스트 선택")
 		

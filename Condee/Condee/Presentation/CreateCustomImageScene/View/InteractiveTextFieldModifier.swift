@@ -39,7 +39,7 @@ struct InteractiveTextFieldModifier: ViewModifier {
 		GeometryReader { geometry in
 			ZStack {
 				if isEditing {
-					commonStyle(TextEditor(text: $text))
+					commonStyle(TextEditor(text: $text).accessibilityIdentifier("TextInputView"))
 						.focused($isFocused)
 						.scrollContentBackground(.hidden)
 						.onAppear {
@@ -79,10 +79,12 @@ struct InteractiveTextFieldModifier: ViewModifier {
 							.foregroundStyle(.white, .red)
 							.frame(width: 20, height: 20)
 					})
+					.accessibilityIdentifier("ElementDeleteButton")
 					.offset(x: -canvasElement.size.width / 2, y: -canvasElement.size.height / 2)
 					.rotationEffect(canvasElement.rotation, anchor: .center)
 					Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90.circle.fill")
 						.resizable()
+						.accessibilityIdentifier("SizeAdjustButton")
 						.foregroundStyle(.white, .blue)
 						.frame(width: 20, height: 20)
 						.offset(x: canvasElement.size.width / 2, y: -canvasElement.size.height / 2)
@@ -104,6 +106,7 @@ struct InteractiveTextFieldModifier: ViewModifier {
 						)
 					Image(systemName: "arrow.up.left.and.arrow.down.right.circle.fill")
 						.resizable()
+						.accessibilityIdentifier("RotationAdjustButton")
 						.foregroundStyle(.white, .blue)
 						.frame(width: 20, height: 20)
 						.offset(x: canvasElement.size.width / 2, y: canvasElement.size.height / 2)

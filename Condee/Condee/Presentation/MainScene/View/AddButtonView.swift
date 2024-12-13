@@ -25,8 +25,8 @@ struct AddButtonView: View {
 						.foregroundColor(.black)
 						.cornerRadius(20)
 				})
-				.padding(20)
 				.accessibilityIdentifier("AddButton")
+				.padding(20)
 			}
 		}
 	}

@@ -12,7 +12,7 @@ struct HeaderView: View {
 	
 	var body: some View {
 		Text(title)
-			.font(.largeTitle)
 			.accessibilityIdentifier(title)
+			.font(.largeTitle)
 	}
 }

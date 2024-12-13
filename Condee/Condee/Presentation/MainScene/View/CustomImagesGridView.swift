@@ -22,8 +22,8 @@ struct CustomImagesGridView: View {
 							NavigationLink(value: customImage, label: {
 								image
 									.resizable()
-									.scaledToFit()
 									.accessibilityIdentifier("CustomImageView")
+									.scaledToFit()
 									.contextMenu {
 										Button(action: {
 											viewModel.deleteCustomImage(customImage)
