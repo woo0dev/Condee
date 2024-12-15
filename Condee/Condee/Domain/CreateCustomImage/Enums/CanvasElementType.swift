@@ -13,3 +13,12 @@ enum CanvasElementType {
 	case extractImage(Image)
 	case directInputText(String)
 }
+
+extension CanvasElementType {
+	var isTextElement: Bool {
+		if case .directInputText = self {
+			return true
+		}
+		return false
+	}
+}
