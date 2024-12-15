@@ -107,9 +107,17 @@ final class CreateCustomImageSceneUITests: XCTestCase {
 		XCTAssertTrue(firstPhoto.waitForExistence(timeout: 5), "선택 가능한 첫 번째 사진이 없습니다.")
 		firstPhoto.tap()
 		
-		// TODO: 텍스트 추출
+		let extractImageView = app.images["ExtractImageView"]
+		XCTAssertTrue(extractImageView.waitForExistence(timeout: 5), "텍스트 추출 이미지가 존재하지 않습니다.")
 		
-		let extractImageView = app.images["AddedImageView"]
+		let cancelButton = app.buttons["CancelButton"]
+		XCTAssertTrue(cancelButton.exists, "취소 버튼이 존재하지 않습니다.")
+		
+		let doneButton = app.buttons["DoneButton"]
+		XCTAssertTrue(doneButton.exists, "완료 버튼이 존재하지 않습니다.")
+		doneButton.tap()
+		
+		let addedExtractImageView = app.images["AddedImageView"]
 		XCTAssertTrue(extractImageView.waitForExistence(timeout: 5), "텍스트 추출 이미지가 존재하지 않습니다.")
 	}
 	
