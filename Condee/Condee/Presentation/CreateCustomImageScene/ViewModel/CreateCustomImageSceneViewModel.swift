@@ -19,10 +19,12 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 	@Published var selectedBackgroundImage: Image? = nil
 	@Published var addedCanvasElements: [CanvasElement] = []
 	@Published var currentEditingCanvasElement: CanvasElement? = nil
+	@Published var extractImage: Image? = nil
 	
 	@Published var isPhotosPickerPresented: Bool = false
 	@Published var isActionSheetPresented: Bool = false
 	@Published var isStickerHalfModalPresented: Bool = false
+	@Published var isExtractImageModalPresented: Bool = false
 	@Published var isDirectInputModalPresented: Bool = false
 	@Published var isColorPickerPresented: Bool = false
 	
@@ -59,6 +61,11 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 	
 	func didSelectAddTextButton() {
 		isActionSheetPresented = true
+	}
+	
+	func didSelectExtractImageOption() {
+		imageSource = .extractImage
+		isPhotosPickerPresented = true
 	}
 	
 	func didSelectDirectInputOption() {
@@ -101,9 +108,11 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 									self.addedCanvasElements.append(canvasElement)
 									self.currentEditingCanvasElement = canvasElement
 								case .extractImage:
-									let canvasElement = CanvasElement(type: .extractImage(Image(uiImage: uiImage)))
-									self.addedCanvasElements.append(canvasElement)
-									self.currentEditingCanvasElement = canvasElement
+									self.isExtractImageModalPresented = true
+									self.extractImage = Image(uiImage: uiImage)
+//									let canvasElement = CanvasElement(type: .extractImage(Image(uiImage: uiImage)))
+//									self.addedCanvasElements.append(canvasElement)
+//									self.currentEditingCanvasElement = canvasElement
 								}
 							}
 							// TODO: source가 초기화 되지 않았을 경우 예외처리
@@ -113,6 +122,7 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 					print("Failed to load photo: \(error)")
 				}
 			}
+			selectedPhotosItems = []
 		}
 	}
 }

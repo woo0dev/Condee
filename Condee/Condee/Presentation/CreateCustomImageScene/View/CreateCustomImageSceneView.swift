@@ -60,6 +60,9 @@ struct CreateCustomImageSceneView: View {
 				.cornerRadius(20)
 				.presentationDetents([.height(300)])
 		})
+		.sheet(isPresented: $viewModel.isExtractImageModalPresented, content: {
+			TextExtractorView(viewModel: viewModel, isExtractImageModalPresented: $viewModel.isExtractImageModalPresented)
+		})
 		.photosPicker(
 			isPresented: $viewModel.isPhotosPickerPresented,
 			selection: $viewModel.selectedPhotosItems,
@@ -95,7 +98,7 @@ struct CreateCustomImageSceneView: View {
 		let extractImageOption: ActionSheet.Button = .default(
 			Text("이미지에서 추출하기")
 		) {
-			
+			viewModel.didSelectExtractImageOption()
 		}
 		let directInputOption: ActionSheet.Button = .default(
 			Text("직접 입력하기")
