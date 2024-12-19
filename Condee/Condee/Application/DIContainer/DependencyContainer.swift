@@ -25,4 +25,16 @@ final class DependencyContainer {
 		let updateCanvasElementTextUseCase = UpdateCanvasElementTextUseCaseImpl()
 		return CreateCustomImageSceneViewModel(updateTextUseCase: updateCanvasElementTextUseCase)
 	}
+	
+	@MainActor
+	func makeTextExtractorViewModel(viewModel: CreateCustomImageSceneViewModel) -> TextExtractorViewModel {
+		let cropImageUseCase = CropImageUseCaseImpl()
+		
+		return TextExtractorViewModel(
+			addedCanvasElements: viewModel.addedCanvasElements,
+			currentEditingCanvasElement: viewModel.currentEditingCanvasElement,
+			extractUIImage: viewModel.extractUIImage,
+			cropImageUseCase: cropImageUseCase
+		)
+	}
 }

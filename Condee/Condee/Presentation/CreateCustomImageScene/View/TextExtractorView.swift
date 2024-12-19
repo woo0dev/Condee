@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TextExtractorView: View {
-	@ObservedObject var viewModel: CreateCustomImageSceneViewModel
+	@StateObject var viewModel: TextExtractorViewModel
 	
 	@Binding var isExtractImageModalPresented: Bool
 	
@@ -22,20 +22,25 @@ struct TextExtractorView: View {
 						isExtractImageModalPresented = false
 					}, label: {
 						Text("취소")
+							.padding(20)
 					})
 					Spacer()
 					Button(action: {
-						print("완료")
+						viewModel.cropImage()
 					}, label: {
 						Text("완료")
+							.padding(20)
 					})
 				}
-				.padding(20)
+				.overlay(
+					Rectangle()
+						.frame(height: 1)
+						.foregroundColor(.primary)
+					, alignment: .bottom
+				)
 				Spacer()
-				if let image = viewModel.extractImage {
-					image
-						.resizable()
-						.scaledToFit()
+				if let image = viewModel.extractUIImage {
+					ImageCropView(cropRect: $viewModel.cropRect, image: image)
 				}
 				Spacer()
 			}

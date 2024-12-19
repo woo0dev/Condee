@@ -61,7 +61,7 @@ struct CreateCustomImageSceneView: View {
 				.presentationDetents([.height(300)])
 		})
 		.sheet(isPresented: $viewModel.isExtractImageModalPresented, content: {
-			TextExtractorView(viewModel: viewModel, isExtractImageModalPresented: $viewModel.isExtractImageModalPresented)
+			TextExtractorView(viewModel: DependencyContainer.shared.makeTextExtractorViewModel(viewModel: viewModel), isExtractImageModalPresented: $viewModel.isExtractImageModalPresented)
 		})
 		.photosPicker(
 			isPresented: $viewModel.isPhotosPickerPresented,

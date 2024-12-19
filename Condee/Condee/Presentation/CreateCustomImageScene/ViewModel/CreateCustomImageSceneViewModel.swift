@@ -19,7 +19,7 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 	@Published var selectedBackgroundImage: Image? = nil
 	@Published var addedCanvasElements: [CanvasElement] = []
 	@Published var currentEditingCanvasElement: CanvasElement? = nil
-	@Published var extractImage: Image? = nil
+	@Published var extractUIImage: UIImage? = nil
 	
 	@Published var isPhotosPickerPresented: Bool = false
 	@Published var isActionSheetPresented: Bool = false
@@ -109,7 +109,7 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 									self.currentEditingCanvasElement = canvasElement
 								case .extractImage:
 									self.isExtractImageModalPresented = true
-									self.extractImage = Image(uiImage: uiImage)
+									self.extractUIImage = uiImage
 //									let canvasElement = CanvasElement(type: .extractImage(Image(uiImage: uiImage)))
 //									self.addedCanvasElements.append(canvasElement)
 //									self.currentEditingCanvasElement = canvasElement
