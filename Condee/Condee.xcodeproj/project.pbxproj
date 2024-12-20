@@ -195,6 +195,9 @@
 			);
 			mainGroup = E2EE5ADC2CD5F20D00DEB2E6;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				E24B177E2D1518A90071572F /* XCRemoteSwiftPackageReference "opencv-spm" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E2EE5AE62CD5F20D00DEB2E6 /* Products */;
 			projectDirPath = "";
@@ -558,6 +561,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E24B177E2D1518A90071572F /* XCRemoteSwiftPackageReference "opencv-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/yeatse/opencv-spm";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.10.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = E2EE5ADD2CD5F20D00DEB2E6 /* Project object */;
 }
