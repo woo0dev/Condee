@@ -34,6 +34,7 @@ final class DependencyContainer {
 			addedCanvasElements: viewModel.addedCanvasElements,
 			currentEditingCanvasElement: viewModel.currentEditingCanvasElement,
 			extractUIImage: viewModel.extractUIImage,
+			isExtractImageModalPresented: viewModel.isExtractImageModalPresented,
 			cropImageUseCase: cropImageUseCase
 		)
 	}

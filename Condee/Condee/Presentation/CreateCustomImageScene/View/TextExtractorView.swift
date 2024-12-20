@@ -10,8 +10,6 @@ import SwiftUI
 struct TextExtractorView: View {
 	@StateObject var viewModel: TextExtractorViewModel
 	
-	@Binding var isExtractImageModalPresented: Bool
-	
 	var body: some View {
 		ZStack {
 			Color(.systemBackground)
@@ -19,7 +17,7 @@ struct TextExtractorView: View {
 			VStack {
 				HStack {
 					Button(action: {
-						isExtractImageModalPresented = false
+						viewModel.isExtractImageModalPresented = false
 					}, label: {
 						Text("취소")
 							.padding(20)
