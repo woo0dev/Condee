@@ -17,14 +17,14 @@ struct TextExtractorView: View {
 			VStack {
 				HStack {
 					Button(action: {
-						viewModel.isExtractImageModalPresented = false
+						viewModel.cancleTapped()
 					}, label: {
 						Text("취소")
 							.padding(20)
 					})
 					Spacer()
 					Button(action: {
-						viewModel.cropImage()
+						viewModel.doneTapped()
 					}, label: {
 						Text("완료")
 							.padding(20)
@@ -37,8 +37,28 @@ struct TextExtractorView: View {
 					, alignment: .bottom
 				)
 				Spacer()
-				if let image = viewModel.extractUIImage {
-					ImageCropView(cropRect: $viewModel.cropRect, image: image)
+				if let image = viewModel.getTextExtractionImage() {
+					if let extractedImage = viewModel.selectedExtractedImage {
+						ZStack {
+							GridPatternBackgroundView()
+							Image(uiImage: extractedImage)
+								.resizable()
+								.scaledToFit()
+						}
+					} else {
+						ImageCropView(cropRect: $viewModel.cropRect, imageRect: $viewModel.imageRect, image: image)
+						Button(action: {
+							viewModel.extractTapped()
+						}, label: {
+							Text("배경 제거하기")
+								.font(.title3)
+								.padding()
+						})
+						.foregroundColor(Color(.systemBackground))
+						.background(.primary)
+						.cornerRadius(20)
+						.padding(.bottom)
+					}
 				}
 				Spacer()
 			}

@@ -9,37 +9,43 @@ import SwiftUI
 
 @MainActor
 final class TextExtractorViewModel: ObservableObject {
-	@Published var addedCanvasElements: [CanvasElement]
-	@Published var currentEditingCanvasElement: CanvasElement?
-	
-	@Published var extractUIImage: UIImage?
 	@Published var cropRect: CGRect = .zero
+	@Published var imageRect: CGRect = .zero
+	@Published var selectedExtractedImage: UIImage? = nil
 	
-	@Published var isExtractImageModalPresented: Bool
-	
+	private let createCustomImageSceneViewModel: CreateCustomImageSceneViewModel
+	private let adjustContrastUseCase: AdjustContrastUseCase
 	private let cropImageUseCase: CropImageUseCase
+	private let extractTextUseCase: ExtractTextUseCase
 	
-	init(addedCanvasElements: [CanvasElement], currentEditingCanvasElement: CanvasElement? = nil, extractUIImage: UIImage? = nil, isExtractImageModalPresented: Bool, cropImageUseCase: CropImageUseCase) {
-		self.addedCanvasElements = addedCanvasElements
-		self.currentEditingCanvasElement = currentEditingCanvasElement
-		self.extractUIImage = extractUIImage
+	init(createCustomImageSceneViewModel: CreateCustomImageSceneViewModel, adjustContrastUseCase: AdjustContrastUseCase, cropImageUseCase: CropImageUseCase, extractTextUseCase: ExtractTextUseCase) {
+		self.createCustomImageSceneViewModel = createCustomImageSceneViewModel
+		self.adjustContrastUseCase = adjustContrastUseCase
 		self.cropImageUseCase = cropImageUseCase
-		self.isExtractImageModalPresented = isExtractImageModalPresented
+		self.extractTextUseCase = extractTextUseCase
 	}
 	
-	func tappedCancleButton() {
-		isExtractImageModalPresented = false
+	func getTextExtractionImage() -> UIImage? {
+		return createCustomImageSceneViewModel.extractUIImage
 	}
 	
-	func tappedExtractCompleteButton() {
-		
+	func cancleTapped() {
+		createCustomImageSceneViewModel.cancleImageExtraction()
 	}
 	
-	// TODO: crop 후 바로 extract 하도록 수정
-	func cropImage() {
-		if let image = extractUIImage {
-			extractUIImage = cropImageUseCase.execute(image: image, cropRect: cropRect)
+	func doneTapped() {
+		if let image = selectedExtractedImage {
+			createCustomImageSceneViewModel.doneImageExtraction(image: Image(uiImage: image))
+		} else {
+			createCustomImageSceneViewModel.cancleImageExtraction()
 		}
+	}
+	
+	func extractTapped() {
+		guard let image = createCustomImageSceneViewModel.extractUIImage else { return }
+		let cropImage = cropImageUseCase.execute(image: image, cropRect: cropRect, imageRect: imageRect)
+		guard let adjustImage = adjustContrastUseCase.execute(image: cropImage) else { return }
+		selectedExtractedImage = extractTextUseCase.execute(image: adjustImage).last
 	}
 }
 

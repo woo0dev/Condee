@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct ImageCropView: View {
-	@State private var imageFrame: CGRect = .zero
 	@State private var lastDragPosition: CGPoint = .zero
 	
 	@Binding var cropRect: CGRect
+	@Binding var imageRect: CGRect
+	
 	@State var image: UIImage
 	
 	var body: some View {
@@ -30,14 +31,14 @@ struct ImageCropView: View {
 										let xOffset = (geometry.size.width - width) / 2
 										let yOffset = (geometry.size.height - height) / 2
 										
-										imageFrame = CGRect(x: xOffset, y: yOffset, width: width, height: height)
-										cropRect = imageFrame
+										imageRect = CGRect(x: xOffset, y: yOffset, width: width, height: height)
+										cropRect = imageRect
 									}
 							}
 						)
 					
 					Color.gray.opacity(0.5)
-						.frame(width: imageFrame.size.width, height: imageFrame.size.height)
+						.frame(width: imageRect.size.width, height: imageRect.size.height)
 					
 					Image(uiImage: image)
 						.resizable()
@@ -64,8 +65,8 @@ struct ImageCropView: View {
 									let newX = lastDragPosition.x + value.translation.width
 									let newY = lastDragPosition.y + value.translation.height
 									
-									cropRect.origin.x = min(max(newX, imageFrame.origin.x), imageFrame.maxX - cropRect.width)
-									cropRect.origin.y = min(max(newY, imageFrame.origin.y), imageFrame.maxY - cropRect.height)
+									cropRect.origin.x = min(max(newX, imageRect.origin.x), imageRect.maxX - cropRect.width)
+									cropRect.origin.y = min(max(newY, imageRect.origin.y), imageRect.maxY - cropRect.height)
 								}
 								.onEnded { _ in
 									lastDragPosition = cropRect.origin
@@ -90,10 +91,10 @@ struct ImageCropView: View {
 						let newX = value.location.x
 						let newY = value.location.y
 						
-						cropRect.origin.x = max(imageFrame.minX, min(newX, imageFrame.maxX - 20))
-						cropRect.origin.y = max(imageFrame.minY, min(newY, imageFrame.maxY - 20))
-						cropRect.size.width = max(20, min(newWidth, imageFrame.maxX - cropRect.origin.x))
-						cropRect.size.height = max(20, min(newHeight, imageFrame.maxY - cropRect.origin.y))
+						cropRect.origin.x = max(imageRect.minX, min(newX, imageRect.maxX - 20))
+						cropRect.origin.y = max(imageRect.minY, min(newY, imageRect.maxY - 20))
+						cropRect.size.width = max(20, min(newWidth, imageRect.maxX - cropRect.origin.x))
+						cropRect.size.height = max(20, min(newHeight, imageRect.maxY - cropRect.origin.y))
 					})
 			
 			Image("TopTrailingCorner")
@@ -106,10 +107,10 @@ struct ImageCropView: View {
 						let newX = cropRect.origin.x
 						let newY = value.location.y
 
-						cropRect.origin.x = max(imageFrame.minX, min(newX, imageFrame.maxX - 20))
-						cropRect.origin.y = max(imageFrame.minY, min(newY, imageFrame.maxY - 20))
-						cropRect.size.width = max(20, min(newWidth, imageFrame.maxX - cropRect.origin.x))
-						cropRect.size.height = max(20, min(newHeight, imageFrame.maxY - cropRect.origin.y))
+						cropRect.origin.x = max(imageRect.minX, min(newX, imageRect.maxX - 20))
+						cropRect.origin.y = max(imageRect.minY, min(newY, imageRect.maxY - 20))
+						cropRect.size.width = max(20, min(newWidth, imageRect.maxX - cropRect.origin.x))
+						cropRect.size.height = max(20, min(newHeight, imageRect.maxY - cropRect.origin.y))
 					})
 			
 			Image("BottomLeadingCorner")
@@ -122,10 +123,10 @@ struct ImageCropView: View {
 						let newX = value.location.x
 						let newY = cropRect.origin.y
 
-						cropRect.origin.x = max(imageFrame.minX, min(newX, imageFrame.maxX - 20))
-						cropRect.origin.y = max(imageFrame.minY, min(newY, imageFrame.maxY - 20))
-						cropRect.size.width = max(20, min(newWidth, imageFrame.maxX - cropRect.origin.x))
-						cropRect.size.height = max(20, min(newHeight, imageFrame.maxY - cropRect.origin.y))
+						cropRect.origin.x = max(imageRect.minX, min(newX, imageRect.maxX - 20))
+						cropRect.origin.y = max(imageRect.minY, min(newY, imageRect.maxY - 20))
+						cropRect.size.width = max(20, min(newWidth, imageRect.maxX - cropRect.origin.x))
+						cropRect.size.height = max(20, min(newHeight, imageRect.maxY - cropRect.origin.y))
 					})
 			
 			Image("BottomTrailingCorner")
@@ -138,10 +139,10 @@ struct ImageCropView: View {
 						let newX = cropRect.origin.x
 						let newY = cropRect.origin.y
 
-						cropRect.origin.x = max(imageFrame.minX, min(newX, imageFrame.maxX - 20))
-						cropRect.origin.y = max(imageFrame.minY, min(newY, imageFrame.maxY - 20))
-						cropRect.size.width = max(20, min(newWidth, imageFrame.maxX - cropRect.origin.x))
-						cropRect.size.height = max(20, min(newHeight, imageFrame.maxY - cropRect.origin.y))
+						cropRect.origin.x = max(imageRect.minX, min(newX, imageRect.maxX - 20))
+						cropRect.origin.y = max(imageRect.minY, min(newY, imageRect.maxY - 20))
+						cropRect.size.width = max(20, min(newWidth, imageRect.maxX - cropRect.origin.x))
+						cropRect.size.height = max(20, min(newHeight, imageRect.maxY - cropRect.origin.y))
 					})
 		}
 		.foregroundColor(.primary)

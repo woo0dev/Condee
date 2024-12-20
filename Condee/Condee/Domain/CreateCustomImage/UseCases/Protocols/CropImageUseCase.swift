@@ -8,5 +8,5 @@
 import SwiftUI
 
 protocol CropImageUseCase {
-	func execute(image: UIImage, cropRect: CGRect) -> UIImage
+	func execute(image: UIImage, cropRect: CGRect, imageRect: CGRect) -> UIImage
 }

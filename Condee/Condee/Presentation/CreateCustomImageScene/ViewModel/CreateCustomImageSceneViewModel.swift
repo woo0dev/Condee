@@ -91,6 +91,17 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 		addedCanvasElements[index].fontColor = newColor
 	}
 	
+	func cancleImageExtraction() {
+		isExtractImageModalPresented = false
+	}
+	
+	func doneImageExtraction(image: Image) {
+		let canvasElement = CanvasElement(type: .extractImage(image))
+		addedCanvasElements.append(canvasElement)
+		currentEditingCanvasElement = canvasElement
+		isExtractImageModalPresented = false
+	}
+	
 	func convertPhotosPickerItemsToImage() {
 		if let item = selectedPhotosItems.first {
 			item.loadTransferable(type: Data.self) { loadingResult in
@@ -110,9 +121,6 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 								case .extractImage:
 									self.isExtractImageModalPresented = true
 									self.extractUIImage = uiImage
-//									let canvasElement = CanvasElement(type: .extractImage(Image(uiImage: uiImage)))
-//									self.addedCanvasElements.append(canvasElement)
-//									self.currentEditingCanvasElement = canvasElement
 								}
 							}
 							// TODO: source가 초기화 되지 않았을 경우 예외처리

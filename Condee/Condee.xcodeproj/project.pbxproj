@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E24B17812D151B7E0071572F /* OpenCV in Frameworks */ = {isa = PBXBuildFile; productRef = E24B17802D151B7E0071572F /* OpenCV */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		E2EE5AF82CD5F20E00DEB2E6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E24B17812D151B7E0071572F /* OpenCV in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,12 +77,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E24B177F2D151B7E0071572F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E2EE5ADC2CD5F20D00DEB2E6 = {
 			isa = PBXGroup;
 			children = (
 				E2EE5AE72CD5F20D00DEB2E6 /* Condee */,
 				E2EE5AFA2CD5F20E00DEB2E6 /* CondeeTests */,
 				E2EE5B042CD5F20E00DEB2E6 /* CondeeUITests */,
+				E24B177F2D151B7E0071572F /* Frameworks */,
 				E2EE5AE62CD5F20D00DEB2E6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -112,6 +125,7 @@
 			);
 			name = Condee;
 			packageProductDependencies = (
+				E24B17802D151B7E0071572F /* OpenCV */,
 			);
 			productName = Condee;
 			productReference = E2EE5AE52CD5F20D00DEB2E6 /* Condee.app */;
@@ -572,6 +586,14 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E24B17802D151B7E0071572F /* OpenCV */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E24B177E2D1518A90071572F /* XCRemoteSwiftPackageReference "opencv-spm" */;
+			productName = OpenCV;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E2EE5ADD2CD5F20D00DEB2E6 /* Project object */;
 }

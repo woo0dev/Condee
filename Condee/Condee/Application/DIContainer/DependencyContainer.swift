@@ -5,7 +5,7 @@
 //  Created by woo0 on 11/4/24.
 //
 
-import Foundation
+import SwiftUI
 import SwiftData
 
 final class DependencyContainer {
@@ -28,14 +28,15 @@ final class DependencyContainer {
 	
 	@MainActor
 	func makeTextExtractorViewModel(viewModel: CreateCustomImageSceneViewModel) -> TextExtractorViewModel {
+		let adjustcontrastUseCase = AdjustContrastUseCaseImpl()
 		let cropImageUseCase = CropImageUseCaseImpl()
+		let extractTextUseCase = ExtractTextUseCaseImpl()
 		
 		return TextExtractorViewModel(
-			addedCanvasElements: viewModel.addedCanvasElements,
-			currentEditingCanvasElement: viewModel.currentEditingCanvasElement,
-			extractUIImage: viewModel.extractUIImage,
-			isExtractImageModalPresented: viewModel.isExtractImageModalPresented,
-			cropImageUseCase: cropImageUseCase
+			createCustomImageSceneViewModel: viewModel,
+			adjustContrastUseCase: adjustcontrastUseCase,
+			cropImageUseCase: cropImageUseCase,
+			extractTextUseCase: extractTextUseCase
 		)
 	}
 }
