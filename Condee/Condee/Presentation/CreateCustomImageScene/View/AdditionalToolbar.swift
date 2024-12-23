@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct AdditionalToolbar: View {
-	@Environment(\.colorScheme) var colorScheme
-	
 	@ObservedObject var viewModel: CreateCustomImageSceneViewModel
 	
 	var body: some View {
@@ -24,7 +22,7 @@ struct AdditionalToolbar: View {
 					.frame(width: 40, height: 40)
 			})
 			.accessibilityIdentifier("AddPhotoButton")
-			.foregroundStyle(colorScheme == .light ? .black : .white)
+			.foregroundStyle(.primary)
 			Button(action: {
 				viewModel.didSelectAddStickerButton()
 			}, label: {
@@ -34,7 +32,7 @@ struct AdditionalToolbar: View {
 					.frame(width: 40, height: 40)
 			})
 			.accessibilityIdentifier("AddStickerButton")
-			.foregroundStyle(colorScheme == .light ? .black : .white)
+			.foregroundStyle(.primary)
 			Button(action: {
 				viewModel.actionSheetType = .text
 				viewModel.didSelectAddTextButton()
@@ -45,7 +43,7 @@ struct AdditionalToolbar: View {
 					.frame(width: 40, height: 40)
 			})
 			.accessibilityIdentifier("AddTextButton")
-			.foregroundStyle(colorScheme == .light ? .black : .white)
+			.foregroundStyle(.primary)
 			Spacer()
 		}
 	}

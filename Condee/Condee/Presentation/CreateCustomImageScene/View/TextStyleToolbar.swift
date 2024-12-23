@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct TextStyleToolbar: View {
-	@Environment(\.colorScheme) var colorScheme
-	
 	@ObservedObject var viewModel: CreateCustomImageSceneViewModel
 	
 	@State private var colorPickerSize: CGSize = .zero
@@ -25,7 +23,7 @@ struct TextStyleToolbar: View {
 						Text("\(Int(viewModel.addedCanvasElements[index].fontSize)) pt")
 							.accessibilityIdentifier("FontSizeLabel")
 							.font(.system(size: 20))
-							.foregroundStyle(colorScheme == .light ? .black : .white)
+							.foregroundStyle(.primary)
 						HStack(spacing: 0) {
 							Button(action: {
 								if fontSize - 1 >= 5 {
@@ -38,10 +36,10 @@ struct TextStyleToolbar: View {
 							})
 							.accessibilityIdentifier("IncreaseFontSizeButton")
 							.frame(width: 40, height: 40)
-							.foregroundStyle(colorScheme == .light ? .black : .white)
+							.foregroundStyle(.primary)
 							Divider()
 								.frame(width: 1, height: 30)
-								.foregroundStyle(colorScheme == .light ? .black : .white)
+								.foregroundStyle(.primary)
 							Button(action: {
 								if fontSize + 1 <= 100 {
 									fontSize += 1
@@ -53,7 +51,7 @@ struct TextStyleToolbar: View {
 							})
 							.accessibilityIdentifier("DecreaseFontSizeButton")
 							.frame(width: 40, height: 40)
-							.foregroundStyle(colorScheme == .light ? .black : .white)
+							.foregroundStyle(.primary)
 						}
 						.frame(height: 40)
 						.background(Color.gray)
@@ -90,6 +88,5 @@ struct TextStyleToolbar: View {
 }
 
 #Preview {
-	@Previewable @Environment(\.colorScheme) var colorScheme
-	TextStyleToolbar(colorScheme: _colorScheme, viewModel: DependencyContainer.shared.makeCreateCustomImageSceneViewModel(), fontSize: 17, selectedColor: .black)
+	TextStyleToolbar(viewModel: DependencyContainer.shared.makeCreateCustomImageSceneViewModel(), fontSize: 17, selectedColor: .black)
 }
