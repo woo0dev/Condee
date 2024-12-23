@@ -19,16 +19,22 @@ final class TextExtractorViewModel: ObservableObject {
 	private let adjustContrastUseCase: AdjustContrastUseCase
 	private let cropImageUseCase: CropImageUseCase
 	private let extractTextUseCase: ExtractTextUseCase
+	private let imageResizingUseCase: ImageResizingUseCase
 	
-	init(createCustomImageSceneViewModel: CreateCustomImageSceneViewModel, adjustContrastUseCase: AdjustContrastUseCase, cropImageUseCase: CropImageUseCase, extractTextUseCase: ExtractTextUseCase) {
+	init(createCustomImageSceneViewModel: CreateCustomImageSceneViewModel, adjustContrastUseCase: AdjustContrastUseCase, cropImageUseCase: CropImageUseCase, extractTextUseCase: ExtractTextUseCase, imageResizingUseCase: ImageResizingUseCase) {
 		self.createCustomImageSceneViewModel = createCustomImageSceneViewModel
 		self.adjustContrastUseCase = adjustContrastUseCase
 		self.cropImageUseCase = cropImageUseCase
 		self.extractTextUseCase = extractTextUseCase
+		self.imageResizingUseCase = imageResizingUseCase
 	}
 	
 	func getTextExtractionImage() -> UIImage? {
-		return createCustomImageSceneViewModel.extractUIImage
+		guard let extractUIImage = createCustomImageSceneViewModel.extractUIImage else { return nil }
+		
+		let resizedImage = imageResizingUseCase.execute(image: extractUIImage)
+		
+		return resizedImage
 	}
 	
 	func cancleTapped() {
