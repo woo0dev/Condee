@@ -75,6 +75,9 @@ struct TextExtractorView: View {
 				}
 				Spacer()
 			}
+			if viewModel.isExtracting {
+				SparklesAnimationView(size: viewModel.imageRect.size)
+			}
 		}
 	}
 }

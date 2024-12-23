@@ -13,6 +13,7 @@ final class TextExtractorViewModel: ObservableObject {
 	@Published var imageRect: CGRect = .zero
 	@Published var extractedImages: [UIImage] = []
 	@Published var selectedExtractedImage: UIImage? = nil
+	@Published var isExtracting: Bool = false
 	
 	private let createCustomImageSceneViewModel: CreateCustomImageSceneViewModel
 	private let adjustContrastUseCase: AdjustContrastUseCase
@@ -43,11 +44,14 @@ final class TextExtractorViewModel: ObservableObject {
 	}
 	
 	func extractTapped() {
-		guard let image = createCustomImageSceneViewModel.extractUIImage else { return }
-		let cropImage = cropImageUseCase.execute(image: image, cropRect: cropRect, imageRect: imageRect)
-		guard let adjustImage = adjustContrastUseCase.execute(image: cropImage) else { return }
-		extractedImages = extractTextUseCase.execute(image: adjustImage)
-		selectedExtractedImage = extractedImages.first
+		isExtracting = true
+		DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+			guard let image = self.getTextExtractionImage() else { return }
+			let cropImage = self.cropImageUseCase.execute(image: image, cropRect: self.cropRect, imageRect: self.imageRect)
+			guard let adjustImage = self.adjustContrastUseCase.execute(image: cropImage) else { return }
+			self.extractedImages = self.extractTextUseCase.execute(image: adjustImage)
+			self.selectedExtractedImage = self.extractedImages.first
+			self.isExtracting = false
+		}
 	}
 }
-
