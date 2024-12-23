@@ -22,7 +22,8 @@ struct StickersView: View {
 						stickers[index]
 							.resizable()
 							.scaledToFit()
-							.frame(width: 50, height: 50)
+							.frame(maxWidth: .infinity, maxHeight: .infinity)
+							.aspectRatio(1, contentMode: .fit)
 							.padding(20)
 							.background(Color(UIColor.lightGray))
 							.cornerRadius(20)

@@ -27,7 +27,7 @@ final class CreateCustomImageSceneUITests: XCTestCase {
 	
 	func testCreateButtonTriggers() {
 		app.buttons["CreateButton"].tap()
-		XCTAssertTrue(app.otherElements["ResultCustomImageView"].exists, "커스텀 이미지 결과 뷰가 존재하지 않습니다.")
+		XCTAssertTrue(app.images["CustomImageView"].waitForExistence(timeout: 5), "커스텀 이미지가 존재하지 않습니다.")
 	}
 	
 	func testPhotoAddActionSheetOptionsExistence() {
@@ -113,12 +113,21 @@ final class CreateCustomImageSceneUITests: XCTestCase {
 		let cancelButton = app.buttons["CancelButton"]
 		XCTAssertTrue(cancelButton.exists, "취소 버튼이 존재하지 않습니다.")
 		
+		let extractbutton = app.buttons["ExtractButton"]
+		XCTAssertTrue(extractbutton.exists, "배경 제거하기 버튼이 존재하지 않습니다.")
+		extractbutton.tap()
+		
+		let extractedImage = app.images["ExtractedImage"]
+		XCTAssertTrue(extractedImage.waitForExistence(timeout: 5), "추출된 이미지가 존재하지 않습니다.")
+		
 		let doneButton = app.buttons["DoneButton"]
 		XCTAssertTrue(doneButton.exists, "완료 버튼이 존재하지 않습니다.")
 		doneButton.tap()
 		
 		let addedExtractImageView = app.images["AddedImageView"]
-		XCTAssertTrue(extractImageView.waitForExistence(timeout: 5), "텍스트 추출 이미지가 존재하지 않습니다.")
+		XCTAssertTrue(addedExtractImageView.waitForExistence(timeout: 5), "텍스트 추출 이미지가 존재하지 않습니다.")
+		
+		addedExtractImageView.gestureTestToImage(in: app)
 	}
 	
 	func testDirectInputOptionTriggers() throws {

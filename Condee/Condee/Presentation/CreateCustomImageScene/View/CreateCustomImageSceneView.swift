@@ -45,6 +45,11 @@ struct CreateCustomImageSceneView: View {
 			}
 		}
 		.ignoresSafeArea(.keyboard)
+		.navigationBarItems(trailing: Button(action: {
+			
+		}, label: {
+			Text("완료")
+		}).accessibilityIdentifier("CreateButton"))
 		.actionSheet(isPresented: $viewModel.isActionSheetPresented) {
 			switch viewModel.actionSheetType {
 			case .image:

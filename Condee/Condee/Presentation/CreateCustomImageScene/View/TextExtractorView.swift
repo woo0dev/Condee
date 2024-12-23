@@ -22,6 +22,7 @@ struct TextExtractorView: View {
 						Text("취소")
 							.padding(20)
 					})
+					.accessibilityIdentifier("CancelButton")
 					Spacer()
 					Button(action: {
 						viewModel.doneTapped()
@@ -29,6 +30,7 @@ struct TextExtractorView: View {
 						Text("완료")
 							.padding(20)
 					})
+					.accessibilityIdentifier("DoneButton")
 				}
 				.overlay(
 					Rectangle()
@@ -45,6 +47,7 @@ struct TextExtractorView: View {
 									Image(uiImage: extractedImage)
 										.resizable()
 										.scaledToFit()
+										.accessibilityIdentifier("ExtractedImage")
 										.background(GridPatternBackgroundView())
 								}
 								.clipShape(RoundedRectangle(cornerRadius: 20))
@@ -61,6 +64,7 @@ struct TextExtractorView: View {
 						.transition(.opacity.animation(.easeIn))
 					} else {
 						ImageCropView(cropRect: $viewModel.cropRect, imageRect: $viewModel.imageRect, image: image)
+							.accessibilityIdentifier("ExtractImageView")
 							.transition(.opacity.animation(.easeOut))
 						Button(action: {
 							viewModel.extractTapped()
@@ -69,6 +73,7 @@ struct TextExtractorView: View {
 								.font(.title3)
 								.padding()
 						})
+						.accessibilityIdentifier("ExtractButton")
 						.foregroundColor(Color(.systemBackground))
 						.background(.primary)
 						.cornerRadius(20)
