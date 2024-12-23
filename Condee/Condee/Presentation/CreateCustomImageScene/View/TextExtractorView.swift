@@ -58,8 +58,10 @@ struct TextExtractorView: View {
 								}
 							}
 						}
+						.transition(.opacity.animation(.easeIn))
 					} else {
 						ImageCropView(cropRect: $viewModel.cropRect, imageRect: $viewModel.imageRect, image: image)
+							.transition(.opacity.animation(.easeOut))
 						Button(action: {
 							viewModel.extractTapped()
 						}, label: {
