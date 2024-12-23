@@ -38,12 +38,25 @@ struct TextExtractorView: View {
 				)
 				Spacer()
 				if let image = viewModel.getTextExtractionImage() {
-					if let extractedImage = viewModel.selectedExtractedImage {
-						ZStack {
-							GridPatternBackgroundView()
-							Image(uiImage: extractedImage)
-								.resizable()
-								.scaledToFit()
+					if viewModel.extractedImages.count > 0 {
+						ScrollView() {
+							ForEach(viewModel.extractedImages, id: \.self) { extractedImage in
+								ZStack {
+									Image(uiImage: extractedImage)
+										.resizable()
+										.scaledToFit()
+										.background(GridPatternBackgroundView())
+								}
+								.clipShape(RoundedRectangle(cornerRadius: 20))
+								.overlay(
+									RoundedRectangle(cornerRadius: 20)
+										.stroke(viewModel.selectedExtractedImage == extractedImage ? Color.blue : Color.clear, lineWidth: 4)
+								)
+								.padding()
+								.onTapGesture {
+									viewModel.selectedExtractedImage = extractedImage
+								}
+							}
 						}
 					} else {
 						ImageCropView(cropRect: $viewModel.cropRect, imageRect: $viewModel.imageRect, image: image)

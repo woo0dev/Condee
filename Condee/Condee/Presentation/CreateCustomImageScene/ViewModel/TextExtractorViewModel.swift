@@ -11,6 +11,7 @@ import SwiftUI
 final class TextExtractorViewModel: ObservableObject {
 	@Published var cropRect: CGRect = .zero
 	@Published var imageRect: CGRect = .zero
+	@Published var extractedImages: [UIImage] = []
 	@Published var selectedExtractedImage: UIImage? = nil
 	
 	private let createCustomImageSceneViewModel: CreateCustomImageSceneViewModel
@@ -45,7 +46,8 @@ final class TextExtractorViewModel: ObservableObject {
 		guard let image = createCustomImageSceneViewModel.extractUIImage else { return }
 		let cropImage = cropImageUseCase.execute(image: image, cropRect: cropRect, imageRect: imageRect)
 		guard let adjustImage = adjustContrastUseCase.execute(image: cropImage) else { return }
-		selectedExtractedImage = extractTextUseCase.execute(image: adjustImage).last
+		extractedImages = extractTextUseCase.execute(image: adjustImage)
+		selectedExtractedImage = extractedImages.first
 	}
 }
 
