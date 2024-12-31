@@ -39,7 +39,7 @@ struct TextExtractorView: View {
 					, alignment: .bottom
 				)
 				Spacer()
-				if let image = viewModel.getTextExtractionImage() {
+				if let image = viewModel.extractImage, viewModel.isEditing == false {
 					if viewModel.extractedImages.count > 0 {
 						ScrollView() {
 							ForEach(viewModel.extractedImages, id: \.self) { extractedImage in
@@ -62,6 +62,17 @@ struct TextExtractorView: View {
 							}
 						}
 						.transition(.opacity.animation(.easeIn))
+						Button(action: {
+							viewModel.editTapped()
+						}, label: {
+							Text("편집")
+								.font(.title3)
+								.padding()
+						})
+						.foregroundColor(Color(.systemBackground))
+						.background(.primary)
+						.cornerRadius(20)
+						.padding(.bottom)
 					} else {
 						ImageCropView(cropRect: $viewModel.cropRect, imageRect: $viewModel.imageRect, image: image)
 							.accessibilityIdentifier("ExtractImageView")
@@ -79,6 +90,9 @@ struct TextExtractorView: View {
 						.cornerRadius(20)
 						.padding(.bottom)
 					}
+				} else if let selectedExtractedImage = viewModel.selectedExtractedImage {
+					ErasableImageView(viewModel: viewModel, image: selectedExtractedImage)
+						.background(GridPatternBackgroundView().clipped())
 				}
 				Spacer()
 			}
