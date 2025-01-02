@@ -84,7 +84,7 @@ struct TextExtractorView: View {
 					}
 				} else if let selectedExtractedImage = viewModel.selectedExtractedImage {
 					ErasableImageView(viewModel: viewModel, image: selectedExtractedImage)
-						.background(GridPatternBackgroundView().clipped())
+						.transition(.opacity.animation(.easeIn))
 				}
 				Spacer()
 			}
