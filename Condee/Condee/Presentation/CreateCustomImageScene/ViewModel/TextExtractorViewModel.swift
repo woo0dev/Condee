@@ -50,7 +50,7 @@ final class TextExtractorViewModel: ObservableObject {
 	}
 	
 	func doneTapped() {
-		if let image = selectedExtractedImage {
+		if let image = selectedExtractedImage?.croppedToContent() {
 			createCustomImageSceneViewModel.doneImageExtraction(image: Image(uiImage: image))
 		} else {
 			createCustomImageSceneViewModel.cancleImageExtraction()

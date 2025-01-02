@@ -29,4 +29,18 @@ extension View {
 			self
 		}
 	}
+	
+	func asUIImage() -> UIImage? {
+		let controller = UIHostingController(rootView: self)
+		let targetView = controller.view
+		
+		let targetSize = controller.sizeThatFits(in: CGSize(width: CGFloat.infinity, height: CGFloat.infinity))
+		targetView?.bounds = CGRect(origin: .zero, size: targetSize)
+		targetView?.backgroundColor = .clear
+		
+		let renderer = UIGraphicsImageRenderer(size: targetSize)
+		return renderer.image { context in
+			targetView?.drawHierarchy(in: targetView!.bounds, afterScreenUpdates: true)
+		}
+	}
 }

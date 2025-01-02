@@ -1,5 +1,5 @@
 //
-//  Array+Extensions.swift
+//  Array+Extension.swift
 //  Condee
 //
 //  Created by woo0 on 11/19/24.
