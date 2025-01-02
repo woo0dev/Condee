@@ -66,12 +66,8 @@ struct TextExtractorView: View {
 							viewModel.editTapped()
 						}, label: {
 							Text("편집")
-								.font(.title3)
-								.padding()
 						})
-						.foregroundColor(Color(.systemBackground))
-						.background(.primary)
-						.cornerRadius(20)
+						.buttonStyle(RoundedRectangleButtonStyle())
 						.padding(.bottom)
 					} else {
 						ImageCropView(cropRect: $viewModel.cropRect, imageRect: $viewModel.imageRect, image: image)
@@ -81,13 +77,9 @@ struct TextExtractorView: View {
 							viewModel.extractTapped()
 						}, label: {
 							Text("배경 제거하기")
-								.font(.title3)
-								.padding()
 						})
 						.accessibilityIdentifier("ExtractButton")
-						.foregroundColor(Color(.systemBackground))
-						.background(.primary)
-						.cornerRadius(20)
+						.buttonStyle(RoundedRectangleButtonStyle())
 						.padding(.bottom)
 					}
 				} else if let selectedExtractedImage = viewModel.selectedExtractedImage {

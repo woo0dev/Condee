@@ -24,38 +24,7 @@ struct TextStyleToolbar: View {
 							.accessibilityIdentifier("FontSizeLabel")
 							.font(.system(size: 20))
 							.foregroundStyle(.primary)
-						HStack(spacing: 0) {
-							Button(action: {
-								if fontSize - 1 >= 5 {
-									fontSize -= 1
-								}
-							}, label: {
-								Image(systemName: "minus")
-									.font(.system(size: 24))
-									.frame(maxWidth: .infinity, maxHeight: .infinity)
-							})
-							.accessibilityIdentifier("IncreaseFontSizeButton")
-							.frame(width: 40, height: 40)
-							.foregroundStyle(.primary)
-							Divider()
-								.frame(width: 1, height: 30)
-								.foregroundStyle(.primary)
-							Button(action: {
-								if fontSize + 1 <= 100 {
-									fontSize += 1
-								}
-							}, label: {
-								Image(systemName: "plus")
-									.font(.system(size: 24))
-									.frame(maxWidth: .infinity, maxHeight: .infinity)
-							})
-							.accessibilityIdentifier("DecreaseFontSizeButton")
-							.frame(width: 40, height: 40)
-							.foregroundStyle(.primary)
-						}
-						.frame(height: 40)
-						.background(Color.gray)
-						.clipShape(RoundedRectangle(cornerRadius: 10))
+						ResizeButton(size: $fontSize, minSize: 5, maxSize: 100)
 						ColorPicker("", selection: $selectedColor)
 							.labelsHidden()
 							.scaleEffect(1.5)

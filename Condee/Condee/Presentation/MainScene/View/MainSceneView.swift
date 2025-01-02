@@ -23,7 +23,20 @@ struct MainSceneView: View {
 					CustomImagesGridView(viewModel: viewModel)
 				}
 				.padding([.top, .leading, .trailing], 20)
-				AddButtonView(viewModel: viewModel)
+				VStack {
+					Spacer()
+					HStack {
+						Spacer()
+						Button(action: {
+							viewModel.didSelectAddButton()
+						}, label: {
+							Label("새로 만들기", systemImage: "plus")
+						})
+						.accessibilityIdentifier("AddButton")
+						.buttonStyle(RoundedRectangleButtonStyle())
+						.padding(20)
+					}
+				}
 			}
 			.navigationDestination(for: CustomImage.self) { image in
 				DetailCustomImageSceneView(customImage: image)
