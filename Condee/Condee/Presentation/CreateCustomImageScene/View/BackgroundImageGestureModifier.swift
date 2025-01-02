@@ -14,7 +14,7 @@ struct BackgroundImageGestureModifier: ViewModifier {
 	let canvasSize: CGSize
 	
 	func body(content: Content) -> some View {
-		ScrollView(isHorizontalScroll ? .horizontal : .vertical) {
+		ScrollView(isHorizontalScroll ? .horizontal : .vertical, showsIndicators: false) {
 			content
 				.if(imageSize != .zero) { view in
 					view.frame(width: imageSize.width, height: imageSize.height)

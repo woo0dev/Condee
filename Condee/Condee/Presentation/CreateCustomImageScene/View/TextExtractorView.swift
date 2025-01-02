@@ -41,7 +41,7 @@ struct TextExtractorView: View {
 				Spacer()
 				if let image = viewModel.extractImage, viewModel.isEditing == false {
 					if viewModel.extractedImages.count > 0 {
-						ScrollView() {
+						ScrollView(showsIndicators: false) {
 							ForEach(viewModel.extractedImages, id: \.self) { extractedImage in
 								ZStack {
 									Image(uiImage: extractedImage)

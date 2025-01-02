@@ -13,7 +13,7 @@ struct StickersView: View {
 	var stickers: [Image] = [Image("mouse"), Image("cow"), Image("tiger"), Image("rabbit"), Image("dragon"), Image("snake"), Image("horse"), Image("sheep"), Image("monkey"), Image("chicken"), Image("dog"), Image("pig")]
 	
 	var body: some View {
-		ScrollView {
+		ScrollView(showsIndicators: false) {
 			LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
 				ForEach(stickers.indices, id: \.self) { index in
 					Button(action: {

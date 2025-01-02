@@ -11,7 +11,7 @@ struct CustomImagesGridView: View {
 	@ObservedObject var viewModel: MainSceneViewModel
 	
 	var body: some View {
-		ScrollView(.vertical) {
+		ScrollView(.vertical, showsIndicators: false) {
 			LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: viewModel.numberOfColumns), spacing: 20) {
 				ForEach(viewModel.customImages, id: \.self) { customImage in
 					AsyncImage(url: customImage.imageURL) { phase in

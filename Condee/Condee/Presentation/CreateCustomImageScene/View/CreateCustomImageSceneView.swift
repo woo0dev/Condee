@@ -28,7 +28,7 @@ struct CreateCustomImageSceneView: View {
 						.border(.gray, width: 1)
 						.clipped()
 				}
-				ScrollView(.horizontal) {
+				ScrollView(.horizontal, showsIndicators: false) {
 					HStack {
 						AdditionalToolbar(viewModel: viewModel)
 						TextStyleToolbar(viewModel: viewModel)
