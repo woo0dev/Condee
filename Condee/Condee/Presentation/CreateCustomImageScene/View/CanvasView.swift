@@ -12,6 +12,9 @@ struct CanvasView: View {
 	
 	@State private var isImageVisible: Bool = true
 	
+	@State var backgroundImageRect: CGRect = .zero
+	@State var cropRect: CGRect = .zero
+	
 	var body: some View {
 		GeometryReader { geometry in
 			ZStack {
@@ -21,14 +24,14 @@ struct CanvasView: View {
 						viewModel.currentEditingCanvasElement = nil
 					}
 				if isImageVisible, let backgroundImage = viewModel.selectedBackgroundImage {
-					backgroundImage
+					Image(uiImage: backgroundImage)
 						.resizable()
 						.accessibilityIdentifier("GridPatternBackgroundWithImage")
 						.scaledToFit()
 						.onTapGesture {
 							viewModel.currentEditingCanvasElement = nil
 						}
-						.handleBackgroundImageGesture(canvasSize: geometry.size)
+						.handleBackgroundImageGesture(backgroundImageRect: $backgroundImageRect, cropRect: $cropRect, canvasSize: geometry.size)
 				}
 				ForEach(viewModel.addedCanvasElements.indices, id: \.self) { index in
 					switch viewModel.addedCanvasElements[index].type {
@@ -54,6 +57,12 @@ struct CanvasView: View {
 				isImageVisible = false
 				DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
 					isImageVisible = true
+				}
+			})
+			.onChange(of: viewModel.isDoneButtonTapped, {
+				if viewModel.isDoneButtonTapped {
+					let canvasView = CapturedCanvasView(viewModel: viewModel)
+					viewModel.createResultImage(view: canvasView, size: geometry.size, cropRect: cropRect, imageRect: backgroundImageRect)
 				}
 			})
 		}

@@ -46,7 +46,7 @@ struct CreateCustomImageSceneView: View {
 		}
 		.ignoresSafeArea(.keyboard)
 		.navigationBarItems(trailing: Button(action: {
-			
+			viewModel.doneTapped()
 		}, label: {
 			Text("완료")
 		}).accessibilityIdentifier("CreateButton"))
@@ -68,6 +68,15 @@ struct CreateCustomImageSceneView: View {
 		.sheet(isPresented: $viewModel.isExtractImageModalPresented, content: {
 			TextExtractorView(viewModel: DependencyContainer.shared.makeTextExtractorViewModel(viewModel: viewModel))
 		})
+		.sheet(isPresented: $viewModel.isDetailCustomImageViewPresented, content: {
+			viewModel.createImage?
+				.resizable()
+				.scaledToFit()
+				.padding(20)
+		})
+//		.navigationDestination(isPresented: $viewModel.isDetailCustomImageViewPresented) {
+//			DetailCustomImageSceneView(customImage: CustomImage(imageURL: ""))
+//		}
 		.photosPicker(
 			isPresented: $viewModel.isPhotosPickerPresented,
 			selection: $viewModel.selectedPhotosItems,

@@ -22,8 +22,10 @@ final class DependencyContainer {
 	
 	@MainActor
 	func makeCreateCustomImageSceneViewModel() -> CreateCustomImageSceneViewModel {
+		let cropImageUseCase = CropImageUseCaseImpl()
+		let imageFixingUseCase = ImageFixingUseCaseImpl()
 		let updateCanvasElementTextUseCase = UpdateCanvasElementTextUseCaseImpl()
-		return CreateCustomImageSceneViewModel(updateTextUseCase: updateCanvasElementTextUseCase)
+		return CreateCustomImageSceneViewModel(cropImageUseCase: cropImageUseCase, imageFixingUseCase: imageFixingUseCase, updateTextUseCase: updateCanvasElementTextUseCase)
 	}
 	
 	@MainActor
