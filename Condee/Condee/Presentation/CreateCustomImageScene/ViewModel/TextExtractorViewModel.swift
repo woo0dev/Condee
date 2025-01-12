@@ -24,14 +24,16 @@ final class TextExtractorViewModel: ObservableObject {
 	private let cropImageUseCase: CropImageUseCase
 	private let extractTextUseCase: ExtractTextUseCase
 	private let imageResizingUseCase: ImageResizingUseCase
+	private let removeEmptySpaceUseCase: RemoveEmptySpaceUseCase
 	private let eraseImageUseCase: EraseImageUseCase
 	
-	init(createCustomImageSceneViewModel: CreateCustomImageSceneViewModel, adjustContrastUseCase: AdjustContrastUseCase, cropImageUseCase: CropImageUseCase, extractTextUseCase: ExtractTextUseCase, imageResizingUseCase: ImageResizingUseCase, eraseImageUseCase: EraseImageUseCase) {
+	init( createCustomImageSceneViewModel: CreateCustomImageSceneViewModel, adjustContrastUseCase: AdjustContrastUseCase, cropImageUseCase: CropImageUseCase, extractTextUseCase: ExtractTextUseCase, imageResizingUseCase: ImageResizingUseCase, removeEmptySpaceUseCase: RemoveEmptySpaceUseCase, eraseImageUseCase: EraseImageUseCase) {
 		self.createCustomImageSceneViewModel = createCustomImageSceneViewModel
 		self.adjustContrastUseCase = adjustContrastUseCase
 		self.cropImageUseCase = cropImageUseCase
 		self.extractTextUseCase = extractTextUseCase
 		self.imageResizingUseCase = imageResizingUseCase
+		self.removeEmptySpaceUseCase = removeEmptySpaceUseCase
 		self.eraseImageUseCase = eraseImageUseCase
 		extractImage = getTextExtractionImage()
 	}
@@ -51,7 +53,11 @@ final class TextExtractorViewModel: ObservableObject {
 	
 	func doneTapped() {
 		if let image = selectedExtractedImage?.croppedToContent() {
-			createCustomImageSceneViewModel.doneImageExtraction(image: Image(uiImage: image))
+			if let finalImage = removeEmptySpaceUseCase.execute(from: image) {
+				createCustomImageSceneViewModel.doneImageExtraction(image: Image(uiImage: finalImage))
+			} else {
+				createCustomImageSceneViewModel.doneImageExtraction(image: Image(uiImage: image))
+			}
 		} else {
 			createCustomImageSceneViewModel.cancleImageExtraction()
 		}

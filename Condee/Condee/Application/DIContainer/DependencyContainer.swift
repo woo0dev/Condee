@@ -34,6 +34,7 @@ final class DependencyContainer {
 		let cropImageUseCase = CropImageUseCaseImpl()
 		let extractTextUseCase = ExtractTextUseCaseImpl()
 		let imageResizingUseCase = ImageResizingUseCaseImpl()
+		let removeEmptySpaceUseCase = RemoveEmptySpaceUseCaseImpl()
 		let eraseImageUseCase = EraseImageUseCaseImpl()
 		
 		return TextExtractorViewModel(
@@ -42,6 +43,7 @@ final class DependencyContainer {
 			cropImageUseCase: cropImageUseCase,
 			extractTextUseCase: extractTextUseCase,
 			imageResizingUseCase: imageResizingUseCase,
+			removeEmptySpaceUseCase: removeEmptySpaceUseCase,
 			eraseImageUseCase: eraseImageUseCase
 		)
 	}
