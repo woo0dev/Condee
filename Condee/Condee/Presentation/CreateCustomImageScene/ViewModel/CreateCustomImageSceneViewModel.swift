@@ -15,13 +15,14 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 	@Published var imageSource: ImageSource? = nil
 	@Published var actionSheetType: ActionSheetType? = nil
 	
-	@Published var createImage: Image? = nil
+	@Published var createImage: UIImage? = nil
 	@Published var selectedBackgroundImage: UIImage? = nil
 	@Published var addedCanvasElements: [CanvasElement] = []
 	@Published var currentEditingCanvasElement: CanvasElement? = nil
 	@Published var extractUIImage: UIImage? = nil
 	
 	@Published var isDetailCustomImageViewPresented: Bool = false
+	@Published var isSavingComplete: Bool = false
 	@Published var isDoneButtonTapped: Bool = false
 	@Published var isPhotosPickerPresented: Bool = false
 	@Published var isActionSheetPresented: Bool = false
@@ -30,14 +31,22 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 	@Published var isDirectInputModalPresented: Bool = false
 	@Published var isColorPickerPresented: Bool = false
 	
+	private var cancellables = Set<AnyCancellable>()
+	private let createCustomImageUseCase: CreateCustomImageUseCase
 	private let cropImageUseCase: CropImageUseCase
 	private let imageFixingUseCase: ImageFixingUseCase
 	private let updateTextUseCase: UpdateCanvasElementTextUseCase
 	
-	init(cropImageUseCase: CropImageUseCase, imageFixingUseCase: ImageFixingUseCase, updateTextUseCase: UpdateCanvasElementTextUseCase) {
+	init(createCustomImageUseCase: CreateCustomImageUseCase, cropImageUseCase: CropImageUseCase, imageFixingUseCase: ImageFixingUseCase, updateTextUseCase: UpdateCanvasElementTextUseCase) {
+		self.createCustomImageUseCase = createCustomImageUseCase
 		self.cropImageUseCase = cropImageUseCase
 		self.imageFixingUseCase = imageFixingUseCase
 		self.updateTextUseCase = updateTextUseCase
+	}
+	
+	private func getFileURL(for uuid: String) -> URL? {
+		let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+		return directoryURL?.appendingPathComponent(uuid + ".png")
 	}
 	
 	func didSelectAddPhotoButton() {
@@ -122,9 +131,36 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 		renderer.scale = UIScreen.main.scale
 		renderer.proposedSize = .init(size)
 		if let uiimage = renderer.uiImage {
-			createImage = Image(uiImage: uiimage)
+			createImage = uiimage
 			isDetailCustomImageViewPresented = true
 			isDoneButtonTapped = false
+		}
+	}
+	
+	func saveCreatedImage() {
+		let uuid = UUID()
+		
+		guard let image = createImage, let imageData = image.pngData(), let fileURL = getFileURL(for: uuid.uuidString) else { return }
+		
+		do {
+			try imageData.write(to: fileURL)
+			
+			let customImage = CustomImage(id: uuid, imageURL: fileURL)
+			
+			createCustomImageUseCase.execute(customImage: customImage)
+				.sink(receiveCompletion: { completion in
+					switch completion {
+					case .finished:
+						break
+					case .failure(let error):
+						print("Failed to create custom image: \(error)")
+					}
+				}, receiveValue: { [weak self] _ in
+					self?.isSavingComplete = true
+				})
+				.store(in: &cancellables)
+		} catch(let error) {
+			print("Failed to create custom image: \(error)")
 		}
 	}
 	

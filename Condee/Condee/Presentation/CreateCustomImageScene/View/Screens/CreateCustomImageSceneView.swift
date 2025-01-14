@@ -9,7 +9,7 @@ import SwiftUI
 import PhotosUI
 
 struct CreateCustomImageSceneView: View {
-	@StateObject var viewModel: CreateCustomImageSceneViewModel = DependencyContainer.shared.makeCreateCustomImageSceneViewModel()
+	@StateObject var viewModel: CreateCustomImageSceneViewModel
 	
 	var body: some View {
 		GeometryReader { geometry in
@@ -68,15 +68,11 @@ struct CreateCustomImageSceneView: View {
 		.sheet(isPresented: $viewModel.isExtractImageModalPresented, content: {
 			TextExtractorView(viewModel: DependencyContainer.shared.makeTextExtractorViewModel(viewModel: viewModel))
 		})
-		.sheet(isPresented: $viewModel.isDetailCustomImageViewPresented, content: {
-			viewModel.createImage?
-				.resizable()
-				.scaledToFit()
-				.padding(20)
-		})
-//		.navigationDestination(isPresented: $viewModel.isDetailCustomImageViewPresented) {
-//			DetailCustomImageSceneView(customImage: CustomImage(imageURL: ""))
-//		}
+		.navigationDestination(isPresented: $viewModel.isDetailCustomImageViewPresented) {
+			if let resultImage = viewModel.createImage {
+				CreateImageResultView(viewModel: viewModel, resultImage: resultImage)
+			}
+		}
 		.photosPicker(
 			isPresented: $viewModel.isPhotosPickerPresented,
 			selection: $viewModel.selectedPhotosItems,
@@ -129,6 +125,6 @@ struct CreateCustomImageSceneView: View {
 	}
 }
 
-#Preview {
-	CreateCustomImageSceneView()
-}
+//#Preview {
+//	CreateCustomImageSceneView()
+//}

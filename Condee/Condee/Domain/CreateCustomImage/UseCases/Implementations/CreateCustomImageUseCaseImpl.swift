@@ -15,8 +15,7 @@ final class CreateCustomImageUseCaseImpl: CreateCustomImageUseCase {
 		self.repository = repository
 	}
 
-	func execute(imageURL: URL) -> AnyPublisher<Void, Error> {
-		let customImage = CustomImage(imageURL: imageURL)
+	func execute(customImage: CustomImage) -> AnyPublisher<Void, Error> {
 		return repository.create(customImage: customImage)
 	}
 }

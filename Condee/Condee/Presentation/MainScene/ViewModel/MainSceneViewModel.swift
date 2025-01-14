@@ -12,7 +12,7 @@ import SwiftUI
 @MainActor
 final class MainSceneViewModel: ObservableObject {
 	@Published var customImages: [CustomImage] = []
-	@Published var isAddButtonTapped: Bool = false
+	@Published var isCreateViewPresented: Bool = false
 	@Published var isLongPressGesture: Bool = false
 	@Published var numberOfColumns: Int = 2
 	
@@ -20,12 +20,32 @@ final class MainSceneViewModel: ObservableObject {
 	private let deleteCustomImageUseCase: DeleteCustomImageUseCase
 	private var cancellables = Set<AnyCancellable>()
 	
-	init(fetchAllCustomImagesUseCase: FetchAllCustomImagesUseCase, deleteCustomImageUseCase: DeleteCustomImageUseCase) {
+	let customImageRepository: CustomImageRepository
+	
+	init(fetchAllCustomImagesUseCase: FetchAllCustomImagesUseCase, deleteCustomImageUseCase: DeleteCustomImageUseCase, customImageRepository: CustomImageRepository) {
 		self.fetchAllCustomImagesUseCase = fetchAllCustomImagesUseCase
 		self.deleteCustomImageUseCase = deleteCustomImageUseCase
+		self.customImageRepository = customImageRepository
 	}
 	
 	func fetchAll() {
+		fetchAllCustomImagesUseCase.execute()
+			.sink(receiveCompletion: { completion in
+				switch completion {
+				case .finished:
+					break
+				case .failure(let error):
+					print("Failed to fetch all custom images: \(error)")
+				}
+			}, receiveValue: { [weak self] images in
+				for image in images {
+					if !FileManager.default.fileExists(atPath: image.imageURL.path) {
+						self?.deleteCustomImage(image)
+					}
+				}
+			})
+			.store(in: &cancellables)
+		
 		fetchAllCustomImagesUseCase.execute()
 			.sink(receiveCompletion: { completion in
 				switch completion {
@@ -56,7 +76,7 @@ final class MainSceneViewModel: ObservableObject {
 	}
 	
 	func didSelectAddButton() {
-		isAddButtonTapped = true
+		isCreateViewPresented = true
 	}
 	
 	func didLongPressGesture() {

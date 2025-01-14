@@ -12,7 +12,6 @@ struct CapturedCanvasView: View {
 	
 	var body: some View {
 		ZStack(alignment: .topLeading) {
-			GridPatternBackgroundView()
 			if let backgroundImage = viewModel.selectedBackgroundImage {
 				Image(uiImage: backgroundImage)
 					.resizable()

@@ -41,8 +41,8 @@ struct MainSceneView: View {
 			.navigationDestination(for: CustomImage.self) { image in
 				DetailCustomImageSceneView(customImage: image)
 			}
-			.navigationDestination(isPresented: $viewModel.isAddButtonTapped) {
-				CreateCustomImageSceneView()
+			.navigationDestination(isPresented: $viewModel.isCreateViewPresented) {
+				CreateCustomImageSceneView(viewModel: DependencyContainer.shared.makeCreateCustomImageSceneViewModel(repository: viewModel.customImageRepository))
 			}
 		}
 		.onAppear {
@@ -64,7 +64,7 @@ struct MainSceneView: View {
 			fatalError("Could not create ModelContainer: \(error)")
 		}
 	}()
-	let dummyImages: [CustomImage] = [CustomImage(imageURL: URL(string: "https://picsum.photos/1179/2556")!), CustomImage(imageURL: URL(string: "https://picsum.photos/1179/2556")!), CustomImage(imageURL: URL(string: "https://picsum.photos/1179/2556")!), CustomImage(imageURL: URL(string: "https://picsum.photos/1179/2556")!), CustomImage(imageURL: URL(string: "https://picsum.photos/1179/2556")!), CustomImage(imageURL: URL(string: "https://picsum.photos/1179/2556")!)]
+	let dummyImages: [CustomImage] = [CustomImage(id: UUID(), imageURL: URL(string: "https://picsum.photos/1179/2556")!), CustomImage(id: UUID(), imageURL: URL(string: "https://picsum.photos/1179/2556")!), CustomImage(id: UUID(), imageURL: URL(string: "https://picsum.photos/1179/2556")!), CustomImage(id: UUID(), imageURL: URL(string: "https://picsum.photos/1179/2556")!), CustomImage(id: UUID(), imageURL: URL(string: "https://picsum.photos/1179/2556")!), CustomImage(id: UUID(), imageURL: URL(string: "https://picsum.photos/1179/2556")!)]
 	let preViewModel = DependencyContainer.shared.makeMainSceneViewModel(modelContainer: sharedModelContainer)
 	
 	MainSceneView(viewModel: preViewModel)

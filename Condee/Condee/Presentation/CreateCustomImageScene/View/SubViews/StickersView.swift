@@ -36,6 +36,6 @@ struct StickersView: View {
 	}
 }
 
-#Preview {
-	StickersView(viewModel: DependencyContainer.shared.makeCreateCustomImageSceneViewModel())
-}
+//#Preview {
+//	StickersView(viewModel: DependencyContainer.shared.makeCreateCustomImageSceneViewModel())
+//}

@@ -10,11 +10,12 @@ import SwiftData
 
 @Model
 final class CustomImage: Identifiable, Hashable {
-	@Attribute(.unique) var id: UUID = UUID()
+	@Attribute(.unique) var id: UUID
 	var timestamp: Date = Date()
 	var imageURL: URL
 	
-	init(imageURL: URL) {
+	init(id: UUID, imageURL: URL) {
+		self.id = id
 		self.imageURL = imageURL
 	}
 }

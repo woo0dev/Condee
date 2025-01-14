@@ -9,5 +9,5 @@ import Combine
 import Foundation
 
 protocol CreateCustomImageUseCase {
-	func execute(imageURL: URL) -> AnyPublisher<Void, Error>
+	func execute(customImage: CustomImage) -> AnyPublisher<Void, Error>
 }
