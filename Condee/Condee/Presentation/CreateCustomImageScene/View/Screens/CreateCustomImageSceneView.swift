@@ -11,6 +11,8 @@ import PhotosUI
 struct CreateCustomImageSceneView: View {
 	@StateObject var viewModel: CreateCustomImageSceneViewModel
 	
+	@Binding var navigationPath: NavigationPath
+	
 	var body: some View {
 		GeometryReader { geometry in
 			VStack {
@@ -68,11 +70,14 @@ struct CreateCustomImageSceneView: View {
 		.sheet(isPresented: $viewModel.isExtractImageModalPresented, content: {
 			TextExtractorView(viewModel: DependencyContainer.shared.makeTextExtractorViewModel(viewModel: viewModel))
 		})
-		.navigationDestination(isPresented: $viewModel.isDetailCustomImageViewPresented) {
-			if let resultImage = viewModel.createImage {
-				CreateImageResultView(viewModel: viewModel, resultImage: resultImage)
+		.navigationDestination(for: UIImage.self, destination: { image in
+			CreateImageResultView(viewModel: viewModel, navigationPath: $navigationPath, resultImage: image)
+		})
+		.onChange(of: viewModel.isDetailCustomImageViewPresented, {
+			if let image = viewModel.createImage {
+				navigationPath.append(image)
 			}
-		}
+		})
 		.photosPicker(
 			isPresented: $viewModel.isPhotosPickerPresented,
 			selection: $viewModel.selectedPhotosItems,

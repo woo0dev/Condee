@@ -54,5 +54,8 @@ struct CustomImagesGridView: View {
 			)
 			.accessibilityIdentifier("CustomImagesView")
 		}
+		.refreshable {
+			viewModel.fetchAll()
+		}
 	}
 }

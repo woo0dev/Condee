@@ -11,12 +11,14 @@ import SwiftData
 struct MainSceneView: View {
 	@StateObject var viewModel: MainSceneViewModel
 	
+	@State private var navigationPath = NavigationPath()
+	
 	init(viewModel: MainSceneViewModel) {
 		_viewModel = StateObject(wrappedValue: viewModel)
 	}
 	
     var body: some View {
-		NavigationStack {
+		NavigationStack(path: $navigationPath) {
 			ZStack {
 				VStack(alignment: .leading) {
 					HeaderView(title: "Condee")
@@ -27,9 +29,7 @@ struct MainSceneView: View {
 					Spacer()
 					HStack {
 						Spacer()
-						Button(action: {
-							viewModel.didSelectAddButton()
-						}, label: {
+						NavigationLink(value: "CreateCustomImageSceneView", label: {
 							Label("새로 만들기", systemImage: "plus")
 						})
 						.accessibilityIdentifier("AddButton")
@@ -41,13 +41,20 @@ struct MainSceneView: View {
 			.navigationDestination(for: CustomImage.self) { image in
 				DetailCustomImageSceneView(customImage: image)
 			}
-			.navigationDestination(isPresented: $viewModel.isCreateViewPresented) {
-				CreateCustomImageSceneView(viewModel: DependencyContainer.shared.makeCreateCustomImageSceneViewModel(repository: viewModel.customImageRepository))
-			}
+			.navigationDestination(for: String.self, destination: { value in
+				if value == "CreateCustomImageSceneView" {
+					CreateCustomImageSceneView(viewModel: DependencyContainer.shared.makeCreateCustomImageSceneViewModel(repository: viewModel.customImageRepository), navigationPath: $navigationPath)
+				}
+			})
 		}
 		.onAppear {
 			viewModel.fetchAll()
 		}
+		.onChange(of: navigationPath, {
+			if navigationPath.isEmpty {
+				viewModel.fetchAll()
+			}
+		})
     }
 }
 

@@ -10,6 +10,8 @@ import SwiftUI
 struct CreateImageResultView: View {
 	@ObservedObject var viewModel: CreateCustomImageSceneViewModel
 	
+	@Binding var navigationPath: NavigationPath
+	
 	let resultImage: UIImage
 	
 	var body: some View {
@@ -24,5 +26,10 @@ struct CreateImageResultView: View {
 		}, label: {
 			Text("저장")
 		}))
+		.onChange(of: viewModel.isSavingComplete, {
+			if viewModel.isSavingComplete {
+				navigationPath = .init()
+			}
+		})
 	}
 }
