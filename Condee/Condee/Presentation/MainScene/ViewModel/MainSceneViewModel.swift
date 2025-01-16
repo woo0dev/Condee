@@ -12,50 +12,44 @@ import SwiftUI
 @MainActor
 final class MainSceneViewModel: ObservableObject {
 	@Published var customImages: [CustomImage] = []
+	@Published var images: [UIImage?] = []
 	@Published var isCreateViewPresented: Bool = false
 	@Published var isLongPressGesture: Bool = false
 	@Published var numberOfColumns: Int = 2
 	
 	private let fetchAllCustomImagesUseCase: FetchAllCustomImagesUseCase
 	private let deleteCustomImageUseCase: DeleteCustomImageUseCase
+	private let imageLoaderUseCase: ImageLoaderUseCase
 	private var cancellables = Set<AnyCancellable>()
 	
 	let customImageRepository: CustomImageRepository
 	
-	init(fetchAllCustomImagesUseCase: FetchAllCustomImagesUseCase, deleteCustomImageUseCase: DeleteCustomImageUseCase, customImageRepository: CustomImageRepository) {
+	init(fetchAllCustomImagesUseCase: FetchAllCustomImagesUseCase, deleteCustomImageUseCase: DeleteCustomImageUseCase, imageLoaderUseCase: ImageLoaderUseCase, customImageRepository: CustomImageRepository) {
 		self.fetchAllCustomImagesUseCase = fetchAllCustomImagesUseCase
 		self.deleteCustomImageUseCase = deleteCustomImageUseCase
+		self.imageLoaderUseCase = imageLoaderUseCase
 		self.customImageRepository = customImageRepository
 	}
 	
 	func fetchAll() {
 		fetchAllCustomImagesUseCase.execute()
-			.sink(receiveCompletion: { completion in
-				switch completion {
-				case .finished:
-					break
-				case .failure(let error):
-					print("Failed to fetch all custom images: \(error)")
-				}
-			}, receiveValue: { [weak self] images in
-				for image in images {
-					if !FileManager.default.fileExists(atPath: image.imageURL.path) {
-						self?.deleteCustomImage(image)
+			.flatMap { filteredCustomImages in
+				self.imageLoaderUseCase.execute(from: filteredCustomImages)
+					.map { uiImages in
+						return (filteredCustomImages, uiImages)
 					}
-				}
-			})
-			.store(in: &cancellables)
-		
-		fetchAllCustomImagesUseCase.execute()
+			}
+			.receive(on: DispatchQueue.main)
 			.sink(receiveCompletion: { completion in
 				switch completion {
 				case .finished:
 					break
 				case .failure(let error):
-					print("Failed to fetch all custom images: \(error)")
+					print("Failed to fetch images: \(error.localizedDescription)")
 				}
-			}, receiveValue: { [weak self] images in
-				self?.customImages = images
+			}, receiveValue: { [weak self] filteredCustomImages, uiImages in
+				self?.customImages = filteredCustomImages
+				self?.images = uiImages
 			})
 			.store(in: &cancellables)
 	}
