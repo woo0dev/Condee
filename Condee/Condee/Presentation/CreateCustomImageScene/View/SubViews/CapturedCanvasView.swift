@@ -12,7 +12,7 @@ struct CapturedCanvasView: View {
 	
 	var body: some View {
 		ZStack(alignment: .topLeading) {
-			if let backgroundImage = viewModel.selectedBackgroundImage {
+			if let backgroundImage = viewModel.finalCroppedBackgroundImage {
 				Image(uiImage: backgroundImage)
 					.resizable()
 					.scaledToFit()

@@ -17,6 +17,7 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 	
 	@Published var createImage: UIImage? = nil
 	@Published var selectedBackgroundImage: UIImage? = nil
+	@Published var finalCroppedBackgroundImage: UIImage? = nil
 	@Published var addedCanvasElements: [CanvasElement] = []
 	@Published var currentEditingCanvasElement: CanvasElement? = nil
 	@Published var extractUIImage: UIImage? = nil
@@ -122,10 +123,14 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 		isDoneButtonTapped = true
 	}
 	
+	func dismissCreateCustomImageView() {
+		isDetailCustomImageViewPresented = false
+	}
+	
 	func createResultImage(view: some View, size: CGSize, cropRect: CGRect, imageRect: CGRect) {
 		guard let backgroundImage = selectedBackgroundImage else { return }
 		let fixedImage = imageFixingUseCase.execute(image: backgroundImage)
-		selectedBackgroundImage = cropImageUseCase.execute(image: fixedImage, cropRect: cropRect, imageRect: imageRect)
+		finalCroppedBackgroundImage = cropImageUseCase.execute(image: fixedImage, cropRect: cropRect, imageRect: imageRect)
 		
 		let renderer = ImageRenderer(content: view)
 		renderer.scale = UIScreen.main.scale

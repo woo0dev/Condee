@@ -72,9 +72,12 @@ struct CreateCustomImageSceneView: View {
 		})
 		.navigationDestination(for: UIImage.self, destination: { image in
 			CreateImageResultView(viewModel: viewModel, navigationPath: $navigationPath, resultImage: image)
+				.onDisappear() {
+					viewModel.dismissCreateCustomImageView()
+				}
 		})
 		.onChange(of: viewModel.isDetailCustomImageViewPresented, {
-			if let image = viewModel.createImage {
+			if let image = viewModel.createImage, viewModel.isDetailCustomImageViewPresented {
 				navigationPath.append(image)
 			}
 		})

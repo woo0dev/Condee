@@ -24,11 +24,13 @@ struct ImageGestureModifier: ViewModifier {
 						GeometryReader { contentGeometry in
 							Color.clear
 								.onAppear {
-									canvasElement.size = CGSize(width: contentGeometry.size.width / 2, height: contentGeometry.size.height / 2)
-									canvasElement.offset = CGSize(
-										width: geometry.size.width / 2 - canvasElement.size.width / 2,
-										height: geometry.size.height / 2 - canvasElement.size.height / 2
-									)
+									if canvasElement.size == .zero {
+										canvasElement.size = CGSize(width: contentGeometry.size.width / 2, height: contentGeometry.size.height / 2)
+										canvasElement.offset = CGSize(
+											width: geometry.size.width / 2 - canvasElement.size.width / 2,
+											height: geometry.size.height / 2 - canvasElement.size.height / 2
+										)
+									}
 								}
 								.onChange(of: contentGeometry.size) { _, newSize in
 									canvasElement.size = newSize
