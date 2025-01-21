@@ -33,8 +33,10 @@ struct CapturedCanvasView: View {
 				case .directInputText(let content):
 					ZStack {
 						Text(content)
+							.font(.system(size: element.fontSize))
 							.frame(width: element.size.width, height: element.size.height)
 							.rotationEffect(element.rotation)
+							.foregroundStyle(element.fontColor)
 					}
 					.offset(x: element.offset.width, y: element.offset.height)
 				}

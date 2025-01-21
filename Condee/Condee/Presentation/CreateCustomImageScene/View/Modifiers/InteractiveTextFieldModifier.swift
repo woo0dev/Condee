@@ -15,6 +15,7 @@ struct InteractiveTextFieldModifier: ViewModifier {
 	
 	@State private var isEditing: Bool = true
 	@State private var isResized: Bool = false
+	@State private var isInitialized = false
 	@State private var text: String = ""
 	
 	@FocusState private var isFocused: Bool
@@ -84,7 +85,7 @@ struct InteractiveTextFieldModifier: ViewModifier {
 					.rotationEffect(canvasElement.rotation, anchor: .center)
 					Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90.circle.fill")
 						.resizable()
-						.accessibilityIdentifier("SizeAdjustButton")
+						.accessibilityIdentifier("RotationAdjustButton")
 						.foregroundStyle(.white, .blue)
 						.frame(width: 20, height: 20)
 						.offset(x: canvasElement.size.width / 2, y: -canvasElement.size.height / 2)
@@ -106,7 +107,7 @@ struct InteractiveTextFieldModifier: ViewModifier {
 						)
 					Image(systemName: "arrow.up.left.and.arrow.down.right.circle.fill")
 						.resizable()
-						.accessibilityIdentifier("RotationAdjustButton")
+						.accessibilityIdentifier("SizeAdjustButton")
 						.foregroundStyle(.white, .blue)
 						.frame(width: 20, height: 20)
 						.offset(x: canvasElement.size.width / 2, y: canvasElement.size.height / 2)
@@ -118,27 +119,21 @@ struct InteractiveTextFieldModifier: ViewModifier {
 									
 									let transform = CGAffineTransform(rotationAngle: canvasElement.rotation.radians)
 									let rotatedLocation = value.location.applying(transform.inverted())
+									let dx = rotatedLocation.x * 2
+									let newWidth = max(canvasElement.fontSize, dx)
+									let newSize = textSizeFor(text: text, maxWidth: newWidth)
 									
-									let dx = rotatedLocation.x
-									
-									if dx > 5 {
-										let newWidth = max(canvasElement.fontSize, abs(dx) * 2)
-										canvasElement.size = textSizeFor(text: text, maxWidth: newWidth)
-									}
+									canvasElement.offset.width -= (newSize.width - canvasElement.size.width) / 2
+									canvasElement.size = newSize
 								}
 						)
 				}
 			}
-			.offset(
-				canvasElement.offset == .zero
-				? CGSize(
-					width: geometry.size.width / 2 - canvasElement.size.width / 2,
-					height: geometry.size.height / 2 - canvasElement.size.height / 2
-				)
-				: canvasElement.offset
-			)
+			.offset(canvasElement.offset)
 			.onChange(of: text, { _, newText in
-				canvasElement.size = textSizeFor(text: text, maxWidth: canvasElement.size.width)
+				let newSize = textSizeFor(text: text, maxWidth: canvasElement.size.width)
+				canvasElement.offset.width -= (newSize.width - canvasElement.size.width) / 2
+				canvasElement.size = newSize
 				DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
 					if newText == text {
 						viewModel.updateText(newText: text, index: index)
@@ -153,6 +148,18 @@ struct InteractiveTextFieldModifier: ViewModifier {
 					isEditing = false
 				}
 			})
+			.onAppear() {
+				if canvasElement.offset == .zero {
+					canvasElement.offset = CGSize(
+						width: geometry.size.width / 2 - canvasElement.size.width / 2,
+						height: geometry.size.height / 2 - canvasElement.size.height / 2
+					)
+				}
+				DispatchQueue.main.async {
+					isInitialized = true
+				}
+			}
+			.animation(isInitialized ? .default : nil, value: canvasElement.size)
 		}
 		.onAppear {
 			if canvasElement.size == .zero {
