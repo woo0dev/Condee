@@ -27,9 +27,6 @@ struct CustomImagesGridView: View {
 										Label("삭제", systemImage: "trash")
 									})
 								}
-								.onLongPressGesture {
-									viewModel.didLongPressGesture()
-								}
 						}
 					})
 					.cornerRadius(20)

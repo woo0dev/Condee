@@ -14,7 +14,6 @@ final class MainSceneViewModel: ObservableObject {
 	@Published var customImages: [CustomImage] = []
 	@Published var images: [UIImage?] = []
 	@Published var isCreateViewPresented: Bool = false
-	@Published var isLongPressGesture: Bool = false
 	@Published var numberOfColumns: Int = 2
 	
 	private let fetchAllCustomImagesUseCase: FetchAllCustomImagesUseCase
@@ -71,10 +70,6 @@ final class MainSceneViewModel: ObservableObject {
 	
 	func didSelectAddButton() {
 		isCreateViewPresented = true
-	}
-	
-	func didLongPressGesture() {
-		isLongPressGesture = true
 	}
 	
 	func handlePinchGesture(with value: CGFloat) {
