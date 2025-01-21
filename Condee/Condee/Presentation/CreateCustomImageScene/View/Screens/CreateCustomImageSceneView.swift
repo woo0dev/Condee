@@ -103,13 +103,18 @@ struct CreateCustomImageSceneView: View {
 		) {
 			viewModel.didSelectAddImageOption()
 		}
+		let pasteImageOption: ActionSheet.Button = .default(
+			Text("복사한 이미지 추가하기")
+		) {
+			viewModel.didSelectPasteImageOption()
+		}
 		let cancelOption: ActionSheet.Button = .cancel(Text("취소"))
 		
 		let title = Text("추가할 사진 선택")
 		
 		return ActionSheet(title: title,
 						   message: nil,
-						   buttons: [backgroundImageOption, addImageOption, cancelOption])
+						   buttons: [backgroundImageOption, addImageOption, pasteImageOption, cancelOption])
 	}
 	
 	func showAddText() -> ActionSheet {

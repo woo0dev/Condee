@@ -64,6 +64,14 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 		isPhotosPickerPresented = true
 	}
 	
+	func didSelectPasteImageOption() {
+		if let image = UIPasteboard.general.image {
+			let canvasElement = CanvasElement(type: .additionalImage(Image(uiImage: image)))
+			addedCanvasElements.append(canvasElement)
+			currentEditingCanvasElement = canvasElement
+		}
+	}
+	
 	func didSelectAddStickerButton() {
 		isStickerHalfModalPresented = true
 	}
