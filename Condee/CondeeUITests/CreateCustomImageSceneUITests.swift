@@ -18,7 +18,7 @@ final class CreateCustomImageSceneUITests: XCTestCase {
 	}
 	
 	func testInitialUIComponentsExistence() {
-		XCTAssertTrue(app.buttons["CreateButton"].exists, "생성 버튼이 존재하지 않습니다.")
+		XCTAssertTrue(app.buttons["PreviewButton"].exists, "생성 버튼이 존재하지 않습니다.")
 		XCTAssertTrue(app.otherElements["GridPatternBackgroundView"].exists, "격자무늬 배경이 존재하지 않습니다.")
 		XCTAssertTrue(app.buttons["AddPhotoButton"].exists, "사진 추가 버튼이 존재하지 않습니다.")
 		XCTAssertTrue(app.buttons["AddStickerButton"].exists, "스티커 추가 버튼이 존재하지 않습니다.")
@@ -26,7 +26,7 @@ final class CreateCustomImageSceneUITests: XCTestCase {
 	}
 	
 	func testCreateButtonTriggers() {
-		app.buttons["CreateButton"].tap()
+		app.buttons["PreviewButton"].tap()
 		XCTAssertTrue(app.images["CustomImageView"].waitForExistence(timeout: 5), "커스텀 이미지가 존재하지 않습니다.")
 	}
 	

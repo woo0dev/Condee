@@ -15,7 +15,8 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 	@Published var imageSource: ImageSource? = nil
 	@Published var actionSheetType: ActionSheetType? = nil
 	
-	@Published var createImage: UIImage? = nil
+	@Published var previewImage: PreviewImage? = nil
+	@Published var previewUIImage: UIImage? = nil
 	@Published var selectedBackgroundImage: UIImage? = nil
 	@Published var finalCroppedBackgroundImage: UIImage? = nil
 	@Published var addedCanvasElements: [CanvasElement] = []
@@ -144,7 +145,8 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 		renderer.scale = UIScreen.main.scale
 		renderer.proposedSize = .init(size)
 		if let uiimage = renderer.uiImage {
-			createImage = uiimage
+			previewImage = PreviewImage(caption: "PreviewImage", image: Image(uiImage: uiimage))
+			previewUIImage = uiimage
 			isDetailCustomImageViewPresented = true
 			isDoneButtonTapped = false
 		}
@@ -153,7 +155,7 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 	func saveCreatedImage() {
 		let uuid = UUID()
 		
-		guard let image = createImage, let imageData = image.pngData(), let fileURL = getFileURL(for: uuid.uuidString) else { return }
+		guard let image = previewUIImage, let imageData = image.pngData(), let fileURL = getFileURL(for: uuid.uuidString) else { return }
 		
 		do {
 			try imageData.write(to: fileURL)

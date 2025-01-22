@@ -12,20 +12,30 @@ struct CreateImageResultView: View {
 	
 	@Binding var navigationPath: NavigationPath
 	
-	let resultImage: UIImage
+	let previewImage: PreviewImage
 	
 	var body: some View {
 		VStack {
-			Image(uiImage: resultImage)
+			previewImage.image
 				.resizable()
 				.scaledToFit()
 				.padding(20)
 		}
-		.navigationBarItems(trailing: Button(action: {
-			viewModel.saveCreatedImage()
-		}, label: {
-			Text("저장")
-		}))
+		.navigationBarItems(
+			trailing:
+				HStack {
+					ShareLink(
+						item: previewImage,
+						preview: SharePreview(previewImage.caption, image: previewImage.image)
+					)
+					.padding()
+					Button(action: {
+						viewModel.saveCreatedImage()
+					}, label: {
+						Text("저장")
+					})
+				}
+		)
 		.onChange(of: viewModel.isSavingComplete, {
 			if viewModel.isSavingComplete {
 				navigationPath = .init()

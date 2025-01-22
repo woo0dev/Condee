@@ -50,8 +50,8 @@ struct CreateCustomImageSceneView: View {
 		.navigationBarItems(trailing: Button(action: {
 			viewModel.doneTapped()
 		}, label: {
-			Text("완료")
-		}).accessibilityIdentifier("CreateButton"))
+			Text("미리보기")
+		}).accessibilityIdentifier("PreviewButton"))
 		.actionSheet(isPresented: $viewModel.isActionSheetPresented) {
 			switch viewModel.actionSheetType {
 			case .image:
@@ -71,13 +71,15 @@ struct CreateCustomImageSceneView: View {
 			TextExtractorView(viewModel: DependencyContainer.shared.makeTextExtractorViewModel(viewModel: viewModel))
 		})
 		.navigationDestination(for: UIImage.self, destination: { image in
-			CreateImageResultView(viewModel: viewModel, navigationPath: $navigationPath, resultImage: image)
-				.onDisappear() {
-					viewModel.dismissCreateCustomImageView()
-				}
+			if let previewImage = viewModel.previewImage {
+				CreateImageResultView(viewModel: viewModel, navigationPath: $navigationPath, previewImage: previewImage)
+					.onDisappear() {
+						viewModel.dismissCreateCustomImageView()
+					}
+			}
 		})
 		.onChange(of: viewModel.isDetailCustomImageViewPresented, {
-			if let image = viewModel.createImage, viewModel.isDetailCustomImageViewPresented {
+			if let image = viewModel.previewUIImage, viewModel.isDetailCustomImageViewPresented {
 				navigationPath.append(image)
 			}
 		})
