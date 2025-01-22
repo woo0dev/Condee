@@ -106,7 +106,13 @@ struct ImageGestureModifier: ViewModifier {
 									let buttonX = canvasElement.offset.width + canvasElement.size.width
 									let buttonY = canvasElement.offset.height + canvasElement.size.height
 									
-									canvasElement.rotation = Angle(radians: atan2(dy, dx) - atan2(buttonY - centerY, buttonX - centerX))
+									let newAngle = Angle(radians: atan2(dy, dx) - atan2(buttonY - centerY, buttonX - centerX))
+									let remainder = abs(newAngle.degrees.truncatingRemainder(dividingBy: 90))
+									if remainder < 5 || remainder > 85 {
+										canvasElement.rotation.degrees = round(newAngle.degrees / 90) * 90
+									} else {
+										canvasElement.rotation = newAngle
+									}
 								}
 						)
 				}
