@@ -38,8 +38,10 @@ struct MainSceneView: View {
 					}
 				}
 			}
-			.navigationDestination(for: CustomImage.self) { image in
-				DetailCustomImageSceneView(customImage: image)
+			.navigationDestination(for: Int.self) { index in
+				if let image = viewModel.images[index].self {
+					DetailCustomImageSceneView(customImage: viewModel.customImages[index], previewImage: PreviewImage(caption: "PreviewImage", image: Image(uiImage: image)))
+				}
 			}
 			.navigationDestination(for: String.self, destination: { value in
 				if value == "CreateCustomImageSceneView" {

@@ -14,7 +14,7 @@ struct CustomImagesGridView: View {
 		ScrollView(.vertical, showsIndicators: false) {
 			LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: viewModel.numberOfColumns), spacing: 20) {
 				ForEach(viewModel.customImages.indices, id: \.self) { index in
-					NavigationLink(value: viewModel.customImages[index], label: {
+					NavigationLink(value: index, label: {
 						if let image = viewModel.images[index] {
 							Image(uiImage: image)
 								.resizable()

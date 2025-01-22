@@ -8,24 +8,35 @@
 import SwiftUI
 
 struct DetailCustomImageSceneView: View {
-	var customImage: CustomImage
+	let customImage: CustomImage
+	let previewImage: PreviewImage
 	
 	var body: some View {
-		AsyncImage(url: customImage.imageURL) { phase in
-			switch phase {
-			case .empty:
-				ProgressView()
-			case .success(let image):
-				image
-					.resizable()
-					.scaledToFit()
-			case .failure(_):
-				Image(systemName: "exclamationmark.triangle")
-					.resizable()
-					.scaledToFit()
-			@unknown default:
-				EmptyView()
+		VStack {
+			AsyncImage(url: customImage.imageURL) { phase in
+				switch phase {
+				case .empty:
+					ProgressView()
+				case .success(let image):
+					image
+						.resizable()
+						.scaledToFit()
+				case .failure(_):
+					Image(systemName: "exclamationmark.triangle")
+						.resizable()
+						.scaledToFit()
+				@unknown default:
+					EmptyView()
+				}
 			}
 		}
+		.navigationBarItems(
+			trailing:
+				ShareLink(
+					item: previewImage,
+					preview: SharePreview(previewImage.caption, image: previewImage.image)
+				)
+				.padding()
+		)
 	}
 }
