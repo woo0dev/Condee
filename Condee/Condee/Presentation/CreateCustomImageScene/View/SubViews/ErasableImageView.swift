@@ -57,10 +57,16 @@ struct ErasableImageView: View {
 				}
 			}
 			.frame(width: imageViewSize == .zero ? UIScreen.main.bounds.width : imageViewSize.width, height: imageViewSize == .zero ? UIScreen.main.bounds.height : imageViewSize.height )
-			.background(GridPatternBackgroundView().clipped())
+			.background(GridPatternBackgroundView(color: $viewModel.gridPatternColor).clipped())
 			Spacer()
 			HStack {
 				Spacer()
+				Button(action: viewModel.toggleGridPatternColor, label: {
+					GridPatternBackgroundView(color: $viewModel.gridPatternColor)
+						.frame(width: 40, height: 40)
+						.cornerRadius(20)
+						.overlay(Circle().stroke(Color.gray, lineWidth: 2))
+				})
 				Circle()
 					.fill(.primary)
 					.frame(width: eraserSize, height: eraserSize)

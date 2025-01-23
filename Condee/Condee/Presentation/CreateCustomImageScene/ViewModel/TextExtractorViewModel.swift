@@ -11,13 +11,18 @@ import opencv2
 
 @MainActor
 final class TextExtractorViewModel: ObservableObject {
+	@Published var gridPatternColor: Color = .white
 	@Published var cropRect: CGRect = .zero
 	@Published var imageRect: CGRect = .zero
 	@Published var extractImage: UIImage? = nil
 	@Published var extractedImages: [UIImage] = []
 	@Published var selectedExtractedImage: UIImage? = nil
+	@Published var lastColorChangeTime: Date? = nil
+	@Published var timeUntilColorChange: Int = 0
+	
 	@Published var isExtracting: Bool = false
 	@Published var isEditing: Bool = false
+	@Published var isToastPresented: Bool = false
 	
 	private let createCustomImageSceneViewModel: CreateCustomImageSceneViewModel
 	private let adjustContrastUseCase: AdjustContrastUseCase
@@ -36,6 +41,22 @@ final class TextExtractorViewModel: ObservableObject {
 		self.removeEmptySpaceUseCase = removeEmptySpaceUseCase
 		self.eraseImageUseCase = eraseImageUseCase
 		extractImage = getTextExtractionImage()
+	}
+	
+	func toggleGridPatternColor() {
+		if let lastColorChangeTime = lastColorChangeTime {
+			timeUntilColorChange = Int(Date.now.timeIntervalSince(lastColorChangeTime)) - 5
+		}
+		if timeUntilColorChange >= 0 || lastColorChangeTime == Date.now {
+			if gridPatternColor == .white {
+				gridPatternColor = .black
+			} else {
+				gridPatternColor = .white
+			}
+			lastColorChangeTime = Date.now
+		} else {
+			isToastPresented = true
+		}
 	}
 	
 	func getTextExtractionImage() -> UIImage? {

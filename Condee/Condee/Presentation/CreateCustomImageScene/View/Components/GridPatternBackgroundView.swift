@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct GridPatternBackgroundView: View {
+	@Binding var color: Color
+	
 	var body: some View {
 		GeometryReader { geometry in
 			let squareSize: CGFloat = 10
@@ -17,7 +19,7 @@ struct GridPatternBackgroundView: View {
 			ForEach(0..<rows, id: \.self) { row in
 				ForEach(0..<columns, id: \.self) { column in
 					Rectangle()
-						.fill((row + column).isMultiple(of: 2) ? Color(UIColor.lightGray) : Color.white)
+						.fill((row + column).isMultiple(of: 2) ? Color(UIColor.lightGray) : color)
 						.frame(width: squareSize, height: squareSize)
 						.position(
 							x: CGFloat(column) * squareSize + squareSize / 2,
@@ -29,6 +31,6 @@ struct GridPatternBackgroundView: View {
 	}
 }
 
-#Preview {
-	GridPatternBackgroundView()
-}
+//#Preview {
+//	GridPatternBackgroundView()
+//}

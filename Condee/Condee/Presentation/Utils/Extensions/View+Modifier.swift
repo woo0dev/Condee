@@ -19,6 +19,10 @@ extension View {
 	func handleTextField(viewModel: CreateCustomImageSceneViewModel, canvasElement: Binding<CanvasElement>, index: Int) -> some View {
 		self.modifier(InteractiveTextFieldModifier(viewModel: viewModel, canvasElement: canvasElement, index: index))
 	}
+	
+	func toast(isPresented: Binding<Bool>, message: String) -> some View {
+		self.modifier(ToastModifier(isPresented: isPresented, message: message))
+	}
 }
 
 extension View {

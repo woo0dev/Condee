@@ -18,7 +18,7 @@ struct CanvasView: View {
 	var body: some View {
 		GeometryReader { geometry in
 			ZStack {
-				GridPatternBackgroundView()
+				GridPatternBackgroundView(color: $viewModel.gridPatternColor)
 					.accessibilityIdentifier("GridPatternBackgroundView")
 					.onTapGesture {
 						viewModel.currentEditingCanvasElement = nil

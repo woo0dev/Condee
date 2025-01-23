@@ -19,9 +19,12 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 	@Published var previewUIImage: UIImage? = nil
 	@Published var selectedBackgroundImage: UIImage? = nil
 	@Published var finalCroppedBackgroundImage: UIImage? = nil
+	@Published var gridPatternColor: Color = .white
 	@Published var addedCanvasElements: [CanvasElement] = []
 	@Published var currentEditingCanvasElement: CanvasElement? = nil
 	@Published var extractUIImage: UIImage? = nil
+	@Published var lastColorChangeTime: Date? = nil
+	@Published var timeUntilColorChange: Int = 0
 	
 	@Published var isDetailCustomImageViewPresented: Bool = false
 	@Published var isSavingComplete: Bool = false
@@ -32,6 +35,7 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 	@Published var isExtractImageModalPresented: Bool = false
 	@Published var isDirectInputModalPresented: Bool = false
 	@Published var isColorPickerPresented: Bool = false
+	@Published var isToastPresented: Bool = false
 	
 	private var cancellables = Set<AnyCancellable>()
 	private let createCustomImageUseCase: CreateCustomImageUseCase
@@ -49,6 +53,22 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 	private func getFileURL(for uuid: String) -> URL? {
 		let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
 		return directoryURL?.appendingPathComponent(uuid + ".png")
+	}
+	
+	func toggleGridPatternColor() {
+		if let lastColorChangeTime = lastColorChangeTime {
+			timeUntilColorChange = Int(Date.now.timeIntervalSince(lastColorChangeTime)) - 5
+		}
+		if timeUntilColorChange >= 0 || lastColorChangeTime == Date.now {
+			if gridPatternColor == .white {
+				gridPatternColor = .black
+			} else {
+				gridPatternColor = .white
+			}
+			lastColorChangeTime = Date.now
+		} else {
+			isToastPresented = true
+		}
 	}
 	
 	func didSelectAddPhotoButton() {

@@ -33,6 +33,12 @@ struct CreateCustomImageSceneView: View {
 				ScrollView(.horizontal, showsIndicators: false) {
 					HStack {
 						AdditionalToolbar(viewModel: viewModel)
+						Button(action: viewModel.toggleGridPatternColor, label: {
+							GridPatternBackgroundView(color: $viewModel.gridPatternColor)
+								.frame(width: 40, height: 40)
+								.cornerRadius(20)
+								.overlay(Circle().stroke(Color.gray, lineWidth: 2))
+						})
 						TextStyleToolbar(viewModel: viewModel)
 					}
 					.frame(height: toolbarHeight)
@@ -92,6 +98,7 @@ struct CreateCustomImageSceneView: View {
 		.onChange(of: viewModel.selectedPhotosItems, {
 			viewModel.convertPhotosPickerItemsToImage()
 		})
+		.toast(isPresented: $viewModel.isToastPresented, message: "\(abs(viewModel.timeUntilColorChange))초 후에 다시 시도해주세요.")
 	}
 	
 	func showAddImage() -> ActionSheet {
