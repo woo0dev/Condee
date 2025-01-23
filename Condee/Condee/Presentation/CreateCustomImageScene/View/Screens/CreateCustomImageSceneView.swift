@@ -31,7 +31,7 @@ struct CreateCustomImageSceneView: View {
 						.clipped()
 				}
 				ScrollView(.horizontal, showsIndicators: false) {
-					HStack {
+					HStack(spacing: 20) {
 						AdditionalToolbar(viewModel: viewModel)
 						Button(action: viewModel.toggleGridPatternColor, label: {
 							GridPatternBackgroundView(color: $viewModel.gridPatternColor)

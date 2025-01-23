@@ -44,7 +44,6 @@ struct AdditionalToolbar: View {
 			})
 			.accessibilityIdentifier("AddTextButton")
 			.foregroundStyle(.primary)
-			Spacer()
 		}
 	}
 }
