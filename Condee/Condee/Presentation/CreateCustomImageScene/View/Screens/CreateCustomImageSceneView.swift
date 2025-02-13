@@ -35,7 +35,7 @@ struct CreateCustomImageSceneView: View {
 						AdditionalToolbar(viewModel: viewModel)
 						Button(action: viewModel.toggleGridPatternColor, label: {
 							GridPatternBackgroundView(color: $viewModel.gridPatternColor)
-								.frame(width: 40, height: 40)
+								.frame(width: 30, height: 30)
 								.cornerRadius(20)
 								.overlay(Circle().stroke(Color.gray, lineWidth: 2))
 						})

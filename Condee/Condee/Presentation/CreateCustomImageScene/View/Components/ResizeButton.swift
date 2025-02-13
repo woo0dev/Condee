@@ -21,11 +21,11 @@ struct ResizeButton: View {
 				}
 			}, label: {
 				Image(systemName: "minus")
-					.font(.system(size: 24))
+					.font(.system(size: 17))
 					.frame(maxWidth: .infinity, maxHeight: .infinity)
 			})
 			.accessibilityIdentifier("IncreaseFontSizeButton")
-			.frame(width: 40, height: 40)
+			.frame(width: 30, height: 30)
 			.foregroundStyle(.primary)
 			Divider()
 				.frame(width: 1, height: 30)
@@ -36,14 +36,14 @@ struct ResizeButton: View {
 				}
 			}, label: {
 				Image(systemName: "plus")
-					.font(.system(size: 24))
+					.font(.system(size: 17))
 					.frame(maxWidth: .infinity, maxHeight: .infinity)
 			})
 			.accessibilityIdentifier("DecreaseFontSizeButton")
-			.frame(width: 40, height: 40)
+			.frame(width: 30, height: 30)
 			.foregroundStyle(.primary)
 		}
-		.frame(height: 40)
+		.frame(height: 30)
 		.background(Color.gray)
 		.clipShape(RoundedRectangle(cornerRadius: 10))
 	}

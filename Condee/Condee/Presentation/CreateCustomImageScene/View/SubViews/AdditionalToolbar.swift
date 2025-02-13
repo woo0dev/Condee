@@ -16,20 +16,20 @@ struct AdditionalToolbar: View {
 				viewModel.actionSheetType = .image
 				viewModel.didSelectAddPhotoButton()
 			}, label: {
-				Image(systemName: "photo")
+				Image(systemName: "photo.on.rectangle.angled")
 					.resizable()
 					.scaledToFit()
-					.frame(width: 40, height: 40)
+					.frame(width: 30, height: 30)
 			})
 			.accessibilityIdentifier("AddPhotoButton")
 			.buttonStyle(.plain)
 			Button(action: {
 				viewModel.didSelectAddStickerButton()
 			}, label: {
-				Image(systemName: "e.circle")
+				Image(systemName: "face.smiling")
 					.resizable()
 					.scaledToFit()
-					.frame(width: 40, height: 40)
+					.frame(width: 30, height: 30)
 			})
 			.accessibilityIdentifier("AddStickerButton")
 			.buttonStyle(.plain)
@@ -37,10 +37,10 @@ struct AdditionalToolbar: View {
 				viewModel.actionSheetType = .text
 				viewModel.didSelectAddTextButton()
 			}, label: {
-				Image(systemName: "t.circle")
+				Image(systemName: "square.and.pencil")
 					.resizable()
 					.scaledToFit()
-					.frame(width: 40, height: 40)
+					.frame(width: 30, height: 30)
 			})
 			.accessibilityIdentifier("AddTextButton")
 			.buttonStyle(.plain)

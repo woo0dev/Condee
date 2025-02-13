@@ -33,9 +33,9 @@ struct CreateImageResultView: View {
 					.buttonStyle(.plain)
 					.padding(.horizontal, 10)
 					Button(action: {
-						viewModel.saveCreatedImage()
+						viewModel.completeCustomImageCreation()
 					}, label: {
-						Text("저장")
+						Text("완료")
 					})
 					.buttonStyle(.plain)
 					.padding(.horizontal, 10)

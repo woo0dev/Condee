@@ -174,7 +174,7 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 		}
 	}
 	
-	func saveCreatedImage() {
+	func completeCustomImageCreation() {
 		let uuid = UUID()
 		
 		guard let image = previewUIImage, let imageData = image.pngData(), let fileURL = getFileURL(for: uuid.uuidString) else { return }

@@ -16,43 +16,35 @@ struct TextStyleToolbar: View {
 	@State var selectedColor: Color = .black
 	
 	var body: some View {
-		HStack(spacing: 20) {
-			if let index = viewModel.addedCanvasElements.firstIndex(where: { $0.id == viewModel.currentEditingCanvasElement?.id }) {
-				if let element = viewModel.addedCanvasElements[safe: index] {
-					if element.type.isTextElement {
-						Text("\(Int(viewModel.addedCanvasElements[index].fontSize)) pt")
-							.accessibilityIdentifier("FontSizeLabel")
-							.font(.system(size: 20))
-							.foregroundStyle(.primary)
-						ResizeButton(size: $fontSize, minSize: 5, maxSize: 100)
-						ColorPicker("", selection: $selectedColor)
-							.labelsHidden()
-							.scaleEffect(1.5)
-							.background(GeometryReader { geometry in
-								Color.clear.onAppear {
-									colorPickerSize = CGSize(width: geometry.size.width * 1.5, height: geometry.size.height * 1.5)
-								}
-							})
-							.accessibilityAddTraits(.isButton)
-							.accessibilityIdentifier("ColorPickerButton")
-							.frame(width: colorPickerSize == .zero ? 40 : colorPickerSize.width, height: colorPickerSize == .zero ? 40 : colorPickerSize.height)
-					}
+		if let index = viewModel.addedCanvasElements.firstIndex(where: { $0.id == viewModel.currentEditingCanvasElement?.id }), let element = viewModel.addedCanvasElements[safe: index], element.type.isTextElement {
+			HStack(spacing: 20) {
+				HStack(spacing: 0) {
+					Text("\(Int(viewModel.addedCanvasElements[index].fontSize))")
+						.accessibilityIdentifier("FontSizeLabel")
+						.frame(width: 30)
+						.font(.system(size: 17))
+						.foregroundStyle(.primary)
+					Text("pt")
+						.font(.system(size: 17))
+						.foregroundStyle(.primary)
 				}
+				ResizeButton(size: $fontSize, minSize: 5, maxSize: 100)
+				ColorPicker("", selection: $selectedColor)
+					.labelsHidden()
+					.accessibilityAddTraits(.isButton)
+					.accessibilityIdentifier("ColorPickerButton")
+					.frame(width: 30, height: 30)
 			}
-		}
-		.onAppear {
-			fontSize = viewModel.currentEditingCanvasElement?.fontSize ?? 17
-		}
-		.onChange(of: fontSize, {
-			if let index = viewModel.addedCanvasElements.firstIndex(where: { $0.id == viewModel.currentEditingCanvasElement?.id }) {
+			.onAppear {
+				fontSize = viewModel.currentEditingCanvasElement?.fontSize ?? 17
+			}
+			.onChange(of: fontSize, {
 				viewModel.updateFontSize(newSize: fontSize, index: index)
-			}
-		})
-		.onChange(of: selectedColor, {
-			if let index = viewModel.addedCanvasElements.firstIndex(where: { $0.id == viewModel.currentEditingCanvasElement?.id }) {
+			})
+			.onChange(of: selectedColor, {
 				viewModel.updateTextColor(newColor: selectedColor, index: index)
-			}
-		})
+			})
+		}
 	}
 }
 

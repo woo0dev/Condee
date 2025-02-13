@@ -36,7 +36,8 @@ struct DetailCustomImageSceneView: View {
 					item: previewImage,
 					preview: SharePreview(previewImage.caption, image: previewImage.image)
 				)
-				.padding()
+				.buttonStyle(.plain)
+				.padding(.horizontal, 10)
 		)
 	}
 }
