@@ -13,7 +13,7 @@ struct ErasableImageView: View {
 	@State private var currentPoint: CGPoint? = nil
 	@State private var lastPoint: CGPoint? = nil
 	@State var imageViewSize: CGSize = .zero
-	@State var eraserSize: CGFloat = 50
+	@State var eraserSize: CGFloat = 40
 	
 	let image: UIImage
 	
@@ -71,7 +71,7 @@ struct ErasableImageView: View {
 					.fill(.primary)
 					.frame(width: eraserSize, height: eraserSize)
 				Text(String(format: "%.0f", eraserSize))
-				ResizeButton(size: $eraserSize, minSize: 5, maxSize: 50)
+				ResizeButton(size: $eraserSize, minSize: 10, maxSize: 40)
 			}
 			.frame(height: 50)
 			.padding(.horizontal, 20)

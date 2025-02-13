@@ -21,21 +21,28 @@ struct CreateImageResultView: View {
 				.scaledToFit()
 				.padding(20)
 		}
-		.navigationBarItems(
-			trailing:
+		.toolbar {
+			ToolbarItem {
 				HStack {
 					ShareLink(
 						item: previewImage,
 						preview: SharePreview(previewImage.caption, image: previewImage.image)
-					)
-					.padding()
+					) {
+						Image(systemName: "square.and.arrow.up")
+					}
+					.buttonStyle(.plain)
+					.padding(.horizontal, 10)
 					Button(action: {
 						viewModel.saveCreatedImage()
 					}, label: {
 						Text("저장")
 					})
+					.buttonStyle(.plain)
+					.padding(.horizontal, 10)
 				}
-		)
+				.frame(maxWidth: .infinity)
+			}
+		}
 		.onChange(of: viewModel.isSavingComplete, {
 			if viewModel.isSavingComplete {
 				navigationPath = .init()

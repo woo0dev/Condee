@@ -19,6 +19,7 @@ final class TextExtractorViewModel: ObservableObject {
 	@Published var selectedExtractedImage: UIImage? = nil
 	@Published var lastColorChangeTime: Date? = nil
 	@Published var timeUntilColorChange: Int = 0
+	@Published var toastMessage: String = ""
 	
 	@Published var isExtracting: Bool = false
 	@Published var isEditing: Bool = false
@@ -56,6 +57,7 @@ final class TextExtractorViewModel: ObservableObject {
 			lastColorChangeTime = Date.now
 		} else {
 			isToastPresented = true
+			toastMessage = "\(abs(timeUntilColorChange))초 후에 다시 시도해주세요."
 		}
 	}
 	

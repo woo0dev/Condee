@@ -98,7 +98,7 @@ struct CreateCustomImageSceneView: View {
 		.onChange(of: viewModel.selectedPhotosItems, {
 			viewModel.convertPhotosPickerItemsToImage()
 		})
-		.toast(isPresented: $viewModel.isToastPresented, message: "\(abs(viewModel.timeUntilColorChange))초 후에 다시 시도해주세요.")
+		.toast(isPresented: $viewModel.isToastPresented, message: viewModel.toastMessage)
 	}
 	
 	func showAddImage() -> ActionSheet {

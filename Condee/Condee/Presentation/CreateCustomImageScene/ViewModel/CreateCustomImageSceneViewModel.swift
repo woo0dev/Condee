@@ -25,6 +25,7 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 	@Published var extractUIImage: UIImage? = nil
 	@Published var lastColorChangeTime: Date? = nil
 	@Published var timeUntilColorChange: Int = 0
+	@Published var toastMessage: String = ""
 	
 	@Published var isDetailCustomImageViewPresented: Bool = false
 	@Published var isSavingComplete: Bool = false
@@ -68,6 +69,7 @@ final class CreateCustomImageSceneViewModel: ObservableObject {
 			lastColorChangeTime = Date.now
 		} else {
 			isToastPresented = true
+			toastMessage = "\(abs(timeUntilColorChange))초 후에 다시 시도해주세요."
 		}
 	}
 	

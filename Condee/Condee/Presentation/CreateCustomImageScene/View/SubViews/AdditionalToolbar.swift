@@ -22,7 +22,7 @@ struct AdditionalToolbar: View {
 					.frame(width: 40, height: 40)
 			})
 			.accessibilityIdentifier("AddPhotoButton")
-			.foregroundStyle(.primary)
+			.buttonStyle(.plain)
 			Button(action: {
 				viewModel.didSelectAddStickerButton()
 			}, label: {
@@ -32,7 +32,7 @@ struct AdditionalToolbar: View {
 					.frame(width: 40, height: 40)
 			})
 			.accessibilityIdentifier("AddStickerButton")
-			.foregroundStyle(.primary)
+			.buttonStyle(.plain)
 			Button(action: {
 				viewModel.actionSheetType = .text
 				viewModel.didSelectAddTextButton()
@@ -43,7 +43,7 @@ struct AdditionalToolbar: View {
 					.frame(width: 40, height: 40)
 			})
 			.accessibilityIdentifier("AddTextButton")
-			.foregroundStyle(.primary)
+			.buttonStyle(.plain)
 		}
 	}
 }

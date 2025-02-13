@@ -92,6 +92,6 @@ struct TextExtractorView: View {
 				SparklesAnimationView(size: viewModel.imageRect.size)
 			}
 		}
-		.toast(isPresented: $viewModel.isToastPresented, message: "\(abs(viewModel.timeUntilColorChange))초 후에 다시 시도해주세요.")
+		.toast(isPresented: $viewModel.isToastPresented, message: viewModel.toastMessage)
 	}
 }
