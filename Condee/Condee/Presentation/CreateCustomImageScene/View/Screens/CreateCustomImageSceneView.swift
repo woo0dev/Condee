@@ -13,6 +13,8 @@ struct CreateCustomImageSceneView: View {
 	
 	@Binding var navigationPath: NavigationPath
 	
+	let dependencyContainer: DependencyContainer
+	
 	var body: some View {
 		GeometryReader { geometry in
 			VStack {
@@ -74,7 +76,7 @@ struct CreateCustomImageSceneView: View {
 				.presentationDetents([.height(300)])
 		})
 		.sheet(isPresented: $viewModel.isExtractImageModalPresented, content: {
-			TextExtractorView(viewModel: DependencyContainer.shared.makeTextExtractorViewModel(viewModel: viewModel))
+			TextExtractorView(viewModel: dependencyContainer.makeTextExtractorViewModel(viewModel: viewModel))
 		})
 		.navigationDestination(for: UIImage.self, destination: { image in
 			if let previewImage = viewModel.previewImage {

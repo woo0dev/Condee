@@ -35,7 +35,3 @@ struct StickersView: View {
 		.padding([.top, .leading, .trailing], 20)
 	}
 }
-
-//#Preview {
-//	StickersView(viewModel: DependencyContainer.shared.makeCreateCustomImageSceneViewModel())
-//}

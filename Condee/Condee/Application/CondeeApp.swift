@@ -10,6 +10,7 @@ import SwiftData
 
 @main
 struct CondeeApp: App {
+	let dependencyContainer: DependencyContainer = .init()
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
 			CustomImage.self,
@@ -25,7 +26,7 @@ struct CondeeApp: App {
 
     var body: some Scene {
         WindowGroup {
-			MainSceneView(viewModel: DependencyContainer.shared.makeMainSceneViewModel(modelContainer: sharedModelContainer))
+			MainSceneView(viewModel: dependencyContainer.makeMainSceneViewModel(modelContainer: sharedModelContainer), dependencyContainer: dependencyContainer)
         }
     }
 }

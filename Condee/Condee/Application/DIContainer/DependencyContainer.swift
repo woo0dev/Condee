@@ -9,8 +9,6 @@ import SwiftUI
 import SwiftData
 
 final class DependencyContainer {
-	static let shared = DependencyContainer()
-	
 	@MainActor
 	func makeMainSceneViewModel(modelContainer: ModelContainer) -> MainSceneViewModel {
 		let modelContext = ModelContext(modelContainer)

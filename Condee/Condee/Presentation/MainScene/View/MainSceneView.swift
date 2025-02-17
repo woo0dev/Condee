@@ -13,9 +13,7 @@ struct MainSceneView: View {
 	
 	@State private var navigationPath = NavigationPath()
 	
-	init(viewModel: MainSceneViewModel) {
-		_viewModel = StateObject(wrappedValue: viewModel)
-	}
+	let dependencyContainer: DependencyContainer
 	
     var body: some View {
 		NavigationStack(path: $navigationPath) {
@@ -45,7 +43,7 @@ struct MainSceneView: View {
 			}
 			.navigationDestination(for: String.self, destination: { value in
 				if value == "CreateCustomImageSceneView" {
-					CreateCustomImageSceneView(viewModel: DependencyContainer.shared.makeCreateCustomImageSceneViewModel(repository: viewModel.customImageRepository), navigationPath: $navigationPath)
+					CreateCustomImageSceneView(viewModel: dependencyContainer.makeCreateCustomImageSceneViewModel(repository: viewModel.customImageRepository), navigationPath: $navigationPath, dependencyContainer: dependencyContainer)
 				}
 			})
 		}
@@ -61,6 +59,7 @@ struct MainSceneView: View {
 }
 
 #Preview {
+	let dependencyContainer: DependencyContainer = .init()
 	let sharedModelContainer: ModelContainer = {
 		let schema = Schema([
 			CustomImage.self,
@@ -74,9 +73,9 @@ struct MainSceneView: View {
 		}
 	}()
 	let dummyImages: [CustomImage] = [CustomImage(id: UUID(), imageURL: URL(string: "https://picsum.photos/1179/2556")!), CustomImage(id: UUID(), imageURL: URL(string: "https://picsum.photos/1179/2556")!), CustomImage(id: UUID(), imageURL: URL(string: "https://picsum.photos/1179/2556")!), CustomImage(id: UUID(), imageURL: URL(string: "https://picsum.photos/1179/2556")!), CustomImage(id: UUID(), imageURL: URL(string: "https://picsum.photos/1179/2556")!), CustomImage(id: UUID(), imageURL: URL(string: "https://picsum.photos/1179/2556")!)]
-	let preViewModel = DependencyContainer.shared.makeMainSceneViewModel(modelContainer: sharedModelContainer)
+	let preViewModel = dependencyContainer.makeMainSceneViewModel(modelContainer: sharedModelContainer)
 	
-	MainSceneView(viewModel: preViewModel)
+	MainSceneView(viewModel: preViewModel, dependencyContainer: dependencyContainer)
 		.onAppear {
 			preViewModel.customImages = dummyImages
 		}

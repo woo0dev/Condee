@@ -47,7 +47,3 @@ struct TextStyleToolbar: View {
 		}
 	}
 }
-
-//#Preview {
-//	TextStyleToolbar(viewModel: DependencyContainer.shared.makeCreateCustomImageSceneViewModel(), fontSize: 17, selectedColor: .black)
-//}

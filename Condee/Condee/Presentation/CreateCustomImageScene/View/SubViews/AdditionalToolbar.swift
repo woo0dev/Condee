@@ -47,7 +47,3 @@ struct AdditionalToolbar: View {
 		}
 	}
 }
-
-//#Preview {
-//	AdditionalToolbar(viewModel: DependencyContainer.shared.makeCreateCustomImageSceneViewModel())
-//}

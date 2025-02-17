@@ -73,6 +73,9 @@ struct TextExtractorView: View {
 						ImageCropView(cropRect: $viewModel.cropRect, imageRect: $viewModel.imageRect, image: image)
 							.accessibilityIdentifier("ExtractImageView")
 							.transition(.opacity.animation(.easeOut))
+						Text("tip: 여러가지 색상이 포함된 이미지는 배경제거가 되지 않을 수 있습니다.")
+							.foregroundStyle(Color.gray)
+							.multilineTextAlignment(.leading)
 						Button(action: {
 							viewModel.extractTapped()
 						}, label: {
