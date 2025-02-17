@@ -35,6 +35,10 @@ struct MainSceneView: View {
 						.padding(20)
 					}
 				}
+				if viewModel.customImages.isEmpty {
+					Text("새로운 이미지를 생성해주세요.")
+						.foregroundStyle(.gray)
+				}
 			}
 			.navigationDestination(for: Int.self) { index in
 				if let image = viewModel.images[index].self {
