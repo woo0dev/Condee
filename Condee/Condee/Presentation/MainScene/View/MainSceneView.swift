@@ -11,35 +11,60 @@ import SwiftData
 struct MainSceneView: View {
 	@StateObject var viewModel: MainSceneViewModel
 	
-	init(viewModel: MainSceneViewModel) {
-		_viewModel = StateObject(wrappedValue: viewModel)
-	}
+	@State private var navigationPath = NavigationPath()
+	
+	let dependencyContainer: DependencyContainer
 	
     var body: some View {
-		NavigationStack {
+		NavigationStack(path: $navigationPath) {
 			ZStack {
 				VStack(alignment: .leading) {
 					HeaderView(title: "Condee")
 					CustomImagesGridView(viewModel: viewModel)
 				}
 				.padding([.top, .leading, .trailing], 20)
-				AddButtonView(viewModel: viewModel)
+				VStack {
+					Spacer()
+					HStack {
+						Spacer()
+						NavigationLink(value: "CreateCustomImageSceneView", label: {
+							Label("새로 만들기", systemImage: "plus")
+						})
+						.accessibilityIdentifier("AddButton")
+						.buttonStyle(RoundedRectangleButtonStyle())
+						.padding(20)
+					}
+				}
+				if viewModel.customImages.isEmpty {
+					Text("새로운 이미지를 생성해주세요.")
+						.foregroundStyle(.gray)
+				}
 			}
-			.navigationDestination(for: CustomImage.self) { image in
-				DetailCustomImageSceneView(customImage: image)
+			.navigationDestination(for: Int.self) { index in
+				if let image = viewModel.images[index].self {
+					DetailCustomImageSceneView(customImage: viewModel.customImages[index], previewImage: PreviewImage(caption: "PreviewImage", image: Image(uiImage: image)))
+				}
 			}
-			.navigationDestination(isPresented: $viewModel.isAddButtonTapped) {
-				CreateCustomImageSceneView()
-			}
+			.navigationDestination(for: String.self, destination: { value in
+				if value == "CreateCustomImageSceneView" {
+					CreateCustomImageSceneView(viewModel: dependencyContainer.makeCreateCustomImageSceneViewModel(repository: viewModel.customImageRepository), navigationPath: $navigationPath, dependencyContainer: dependencyContainer)
+				}
+			})
 		}
 		.onAppear {
 			viewModel.fetchAll()
 		}
+		.onChange(of: navigationPath, {
+			if navigationPath.isEmpty {
+				viewModel.fetchAll()
+			}
+		})
     }
 }
 
 #Preview {
-	var sharedModelContainer: ModelContainer = {
+	let dependencyContainer: DependencyContainer = .init()
+	let sharedModelContainer: ModelContainer = {
 		let schema = Schema([
 			CustomImage.self,
 		])
@@ -51,10 +76,10 @@ struct MainSceneView: View {
 			fatalError("Could not create ModelContainer: \(error)")
 		}
 	}()
-	let dummyImages: [CustomImage] = [CustomImage(imageURL: URL(string: "https://picsum.photos/1179/2556")!), CustomImage(imageURL: URL(string: "https://picsum.photos/1179/2556")!), CustomImage(imageURL: URL(string: "https://picsum.photos/1179/2556")!), CustomImage(imageURL: URL(string: "https://picsum.photos/1179/2556")!), CustomImage(imageURL: URL(string: "https://picsum.photos/1179/2556")!), CustomImage(imageURL: URL(string: "https://picsum.photos/1179/2556")!)]
-	let preViewModel = DependencyContainer.shared.makeMainSceneViewModel(modelContainer: sharedModelContainer)
+	let dummyImages: [CustomImage] = [CustomImage(id: UUID(), imageURL: URL(string: "https://picsum.photos/1179/2556")!), CustomImage(id: UUID(), imageURL: URL(string: "https://picsum.photos/1179/2556")!), CustomImage(id: UUID(), imageURL: URL(string: "https://picsum.photos/1179/2556")!), CustomImage(id: UUID(), imageURL: URL(string: "https://picsum.photos/1179/2556")!), CustomImage(id: UUID(), imageURL: URL(string: "https://picsum.photos/1179/2556")!), CustomImage(id: UUID(), imageURL: URL(string: "https://picsum.photos/1179/2556")!)]
+	let preViewModel = dependencyContainer.makeMainSceneViewModel(modelContainer: sharedModelContainer)
 	
-	MainSceneView(viewModel: preViewModel)
+	MainSceneView(viewModel: preViewModel, dependencyContainer: dependencyContainer)
 		.onAppear {
 			preViewModel.customImages = dummyImages
 		}

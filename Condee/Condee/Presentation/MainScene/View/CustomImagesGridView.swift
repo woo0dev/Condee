@@ -11,38 +11,24 @@ struct CustomImagesGridView: View {
 	@ObservedObject var viewModel: MainSceneViewModel
 	
 	var body: some View {
-		ScrollView(.vertical) {
-			LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: viewModel.numberOfColumns), spacing: 20) {
-				ForEach(viewModel.customImages, id: \.self) { customImage in
-					AsyncImage(url: customImage.imageURL) { phase in
-						switch phase {
-						case .empty:
-							ProgressView()
-						case .success(let image):
-							NavigationLink(value: customImage, label: {
-								image
-									.resizable()
-									.scaledToFit()
-									.accessibilityIdentifier("CustomImageView")
-									.contextMenu {
-										Button(action: {
-											viewModel.deleteCustomImage(customImage)
-										}, label: {
-											Label("삭제", systemImage: "trash")
-										})
-									}
-									.onLongPressGesture {
-										viewModel.didLongPressGesture()
-									}
-							})
-						case .failure:
-							Image(systemName: "exclamationmark.triangle")
+		ScrollView(.vertical, showsIndicators: false) {
+			LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: viewModel.numberOfColumns), spacing: 20) {
+				ForEach(viewModel.customImages.indices, id: \.self) { index in
+					NavigationLink(value: index, label: {
+						if let image = viewModel.images[index] {
+							Image(uiImage: image)
 								.resizable()
+								.accessibilityIdentifier("CustomImageView")
 								.scaledToFit()
-						@unknown default:
-							EmptyView()
+								.contextMenu {
+									Button(action: {
+										viewModel.deleteCustomImage(viewModel.customImages[index])
+									}, label: {
+										Label("삭제", systemImage: "trash")
+									})
+								}
 						}
-					}
+					})
 					.cornerRadius(20)
 				}
 			}
@@ -53,6 +39,9 @@ struct CustomImagesGridView: View {
 					}
 			)
 			.accessibilityIdentifier("CustomImagesView")
+		}
+		.refreshable {
+			viewModel.fetchAll()
 		}
 	}
 }

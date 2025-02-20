@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E24B17812D151B7E0071572F /* OpenCV in Frameworks */ = {isa = PBXBuildFile; productRef = E24B17802D151B7E0071572F /* OpenCV */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		E2EE5AF82CD5F20E00DEB2E6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E24B17812D151B7E0071572F /* OpenCV in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,12 +77,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E24B177F2D151B7E0071572F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E2EE5ADC2CD5F20D00DEB2E6 = {
 			isa = PBXGroup;
 			children = (
 				E2EE5AE72CD5F20D00DEB2E6 /* Condee */,
 				E2EE5AFA2CD5F20E00DEB2E6 /* CondeeTests */,
 				E2EE5B042CD5F20E00DEB2E6 /* CondeeUITests */,
+				E24B177F2D151B7E0071572F /* Frameworks */,
 				E2EE5AE62CD5F20D00DEB2E6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -112,6 +125,7 @@
 			);
 			name = Condee;
 			packageProductDependencies = (
+				E24B17802D151B7E0071572F /* OpenCV */,
 			);
 			productName = Condee;
 			productReference = E2EE5AE52CD5F20D00DEB2E6 /* Condee.app */;
@@ -195,6 +209,9 @@
 			);
 			mainGroup = E2EE5ADC2CD5F20D00DEB2E6;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				E24B177E2D1518A90071572F /* XCRemoteSwiftPackageReference "opencv-spm" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E2EE5AE62CD5F20D00DEB2E6 /* Products */;
 			projectDirPath = "";
@@ -399,11 +416,12 @@
 				DEVELOPMENT_TEAM = SXSNK823Y9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "사진을 앨범에 저장하기 위해 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -428,11 +446,12 @@
 				DEVELOPMENT_TEAM = SXSNK823Y9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "사진을 앨범에 저장하기 위해 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -558,6 +577,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E24B177E2D1518A90071572F /* XCRemoteSwiftPackageReference "opencv-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/yeatse/opencv-spm";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.10.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E24B17802D151B7E0071572F /* OpenCV */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E24B177E2D1518A90071572F /* XCRemoteSwiftPackageReference "opencv-spm" */;
+			productName = OpenCV;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E2EE5ADD2CD5F20D00DEB2E6 /* Project object */;
 }

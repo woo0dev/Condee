@@ -12,30 +12,43 @@ import SwiftUI
 @MainActor
 final class MainSceneViewModel: ObservableObject {
 	@Published var customImages: [CustomImage] = []
-	@Published var isAddButtonTapped: Bool = false
-	@Published var isLongPressGesture: Bool = false
+	@Published var images: [UIImage?] = []
+	@Published var isCreateViewPresented: Bool = false
 	@Published var numberOfColumns: Int = 2
 	
 	private let fetchAllCustomImagesUseCase: FetchAllCustomImagesUseCase
 	private let deleteCustomImageUseCase: DeleteCustomImageUseCase
+	private let imageLoaderUseCase: ImageLoaderUseCase
 	private var cancellables = Set<AnyCancellable>()
 	
-	init(fetchIAllCustomImagesUseCase: FetchAllCustomImagesUseCase, deleteCustomImageUseCase: DeleteCustomImageUseCase) {
-		self.fetchAllCustomImagesUseCase = fetchIAllCustomImagesUseCase
+	let customImageRepository: CustomImageRepository
+	
+	init(fetchAllCustomImagesUseCase: FetchAllCustomImagesUseCase, deleteCustomImageUseCase: DeleteCustomImageUseCase, imageLoaderUseCase: ImageLoaderUseCase, customImageRepository: CustomImageRepository) {
+		self.fetchAllCustomImagesUseCase = fetchAllCustomImagesUseCase
 		self.deleteCustomImageUseCase = deleteCustomImageUseCase
+		self.imageLoaderUseCase = imageLoaderUseCase
+		self.customImageRepository = customImageRepository
 	}
 	
 	func fetchAll() {
 		fetchAllCustomImagesUseCase.execute()
+			.flatMap { filteredCustomImages in
+				self.imageLoaderUseCase.execute(from: filteredCustomImages)
+					.map { uiImages in
+						return (filteredCustomImages, uiImages)
+					}
+			}
+			.receive(on: DispatchQueue.main)
 			.sink(receiveCompletion: { completion in
 				switch completion {
 				case .finished:
 					break
 				case .failure(let error):
-					print("Failed to fetch all custom images: \(error)")
+					print("Failed to fetch images: \(error.localizedDescription)")
 				}
-			}, receiveValue: { [weak self] images in
-				self?.customImages = images
+			}, receiveValue: { [weak self] filteredCustomImages, uiImages in
+				self?.customImages = filteredCustomImages
+				self?.images = uiImages
 			})
 			.store(in: &cancellables)
 	}
@@ -56,11 +69,7 @@ final class MainSceneViewModel: ObservableObject {
 	}
 	
 	func didSelectAddButton() {
-		isAddButtonTapped = true
-	}
-	
-	func didLongPressGesture() {
-		isLongPressGesture = true
+		isCreateViewPresented = true
 	}
 	
 	func handlePinchGesture(with value: CGFloat) {
