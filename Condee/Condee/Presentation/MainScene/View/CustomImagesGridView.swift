@@ -10,12 +10,18 @@ import SwiftUI
 struct CustomImagesGridView: View {
 	@ObservedObject var viewModel: MainSceneViewModel
 	
+	@Binding var navigationPath: NavigationPath
+	
 	var body: some View {
 		ScrollView(.vertical, showsIndicators: false) {
-			LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: viewModel.numberOfColumns), spacing: 20) {
+			LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 2), count: viewModel.numberOfColumns), spacing: 2) {
 				ForEach(viewModel.customImages.indices, id: \.self) { index in
-					NavigationLink(value: index, label: {
-						if let image = viewModel.images[index] {
+					if let image = viewModel.images[index] {
+						Button(action: {
+							guard !viewModel.isNavigationActive, !viewModel.isPinchActive else { return }
+							viewModel.startNavigation()
+							navigationPath.append(index)
+						}, label: {
 							Image(uiImage: image)
 								.resizable()
 								.accessibilityIdentifier("CustomImageView")
@@ -27,21 +33,28 @@ struct CustomImagesGridView: View {
 										Label("삭제", systemImage: "trash")
 									})
 								}
-						}
-					})
-					.cornerRadius(20)
+						})
+					}
 				}
 			}
-			.gesture(
-				MagnificationGesture()
-					.onChanged { value in
-						viewModel.handlePinchGesture(with: value)
+			.animation(.easeInOut, value: viewModel.numberOfColumns)
+		}
+		.highPriorityGesture(
+			MagnificationGesture()
+				.onChanged { value in
+					if !viewModel.isPinchActive {
+						viewModel.startPinchGesture()
 					}
-			)
-			.accessibilityIdentifier("CustomImagesView")
-		}
-		.refreshable {
-			viewModel.fetchAll()
-		}
+					let delta = value - viewModel.lastPinchThreshold
+					if delta <= -0.2 {
+						viewModel.handlePinchGesture(increase: true, value: value)
+					} else if delta >= 0.2 {
+						viewModel.handlePinchGesture(increase: false, value: value)
+					}
+				}
+				.onEnded { _ in
+					viewModel.endPinchGesture()
+				}
+		)
 	}
 }

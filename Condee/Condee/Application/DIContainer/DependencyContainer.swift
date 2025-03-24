@@ -14,12 +14,14 @@ final class DependencyContainer {
 		let modelContext = ModelContext(modelContainer)
 		let customImageRepository = CustomImageRepositoryImpl(modelContext: modelContext)
 		let imageRepository = ImageRepositoryImpl()
+		let numberOfColumnsRepository = NumberOfColumnsRepositoryImpl()
 		
 		let fetchUseCase = FetchAllCustomImagesUseCaseImpl(repository: customImageRepository)
 		let deleteUseCase = DeleteCustomImageUseCaseImpl(repository: customImageRepository)
 		let imageLoaderUseCase = ImageLoaderUseCaseImpl(repository: imageRepository)
+		let numberOfColumnsUseCase = NumberOfColumnsUseCaseImpl(repository: numberOfColumnsRepository)
 		
-		return MainSceneViewModel(fetchAllCustomImagesUseCase: fetchUseCase, deleteCustomImageUseCase: deleteUseCase, imageLoaderUseCase: imageLoaderUseCase, customImageRepository: customImageRepository)
+		return MainSceneViewModel(fetchAllCustomImagesUseCase: fetchUseCase, deleteCustomImageUseCase: deleteUseCase, imageLoaderUseCase: imageLoaderUseCase, numberOfColumnsUseCase: numberOfColumnsUseCase, customImageRepository: customImageRepository)
 	}
 	
 	@MainActor

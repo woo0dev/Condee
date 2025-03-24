@@ -29,7 +29,7 @@ struct CustomImageRepositoryTests {
 			let context = ModelContext(modelContainer)
 			let imageURL = URL(string: "https://picsum.photos/1179/2556")!
 			
-			let customImage = CustomImage(imageURL: imageURL)
+			let customImage = CustomImage(id: UUID(), imageURL: imageURL)
 			
 			context.insert(customImage)
 			try context.save()
