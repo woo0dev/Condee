@@ -9,6 +9,8 @@ import SwiftUI
 import SwiftData
 
 struct MainSceneView: View {
+	@Environment(\.scenePhase) var scenePhase
+	
 	@StateObject var viewModel: MainSceneViewModel
 	
 	@State private var navigationPath = NavigationPath()
@@ -20,7 +22,7 @@ struct MainSceneView: View {
 			ZStack {
 				VStack(alignment: .leading) {
 					HeaderView(title: "Condee")
-					CustomImagesGridView(viewModel: viewModel)
+					CustomImagesGridView(viewModel: viewModel, navigationPath: $navigationPath)
 				}
 				.padding([.top, .leading, .trailing], 20)
 				VStack {
@@ -43,11 +45,15 @@ struct MainSceneView: View {
 			.navigationDestination(for: Int.self) { index in
 				if let image = viewModel.images[index].self {
 					DetailCustomImageSceneView(customImage: viewModel.customImages[index], previewImage: PreviewImage(caption: "PreviewImage", image: Image(uiImage: image)))
+						.onDisappear {
+							viewModel.endNavigation()
+						}
 				}
 			}
 			.navigationDestination(for: String.self, destination: { value in
 				if value == "CreateCustomImageSceneView" {
 					CreateCustomImageSceneView(viewModel: dependencyContainer.makeCreateCustomImageSceneViewModel(repository: viewModel.customImageRepository), navigationPath: $navigationPath, dependencyContainer: dependencyContainer)
+						.accessibilityIdentifier("CreateCustomImageScene")
 				}
 			})
 		}
@@ -59,6 +65,11 @@ struct MainSceneView: View {
 				viewModel.fetchAll()
 			}
 		})
+		.onChange(of: scenePhase) { _, newPhase in
+			if newPhase == .background {
+				viewModel.updateNumberOfColumns()
+			}
+		}
     }
 }
 

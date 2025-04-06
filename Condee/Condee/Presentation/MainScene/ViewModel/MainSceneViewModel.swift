@@ -13,21 +13,28 @@ import SwiftUI
 final class MainSceneViewModel: ObservableObject {
 	@Published var customImages: [CustomImage] = []
 	@Published var images: [UIImage?] = []
+	@Published var isNavigationActive: Bool = false
 	@Published var isCreateViewPresented: Bool = false
-	@Published var numberOfColumns: Int = 2
+	@Published var numberOfColumns: Int
+	@Published var lastPinchThreshold: CGFloat = 1
+	@Published var isPinchActive: Bool = false
 	
 	private let fetchAllCustomImagesUseCase: FetchAllCustomImagesUseCase
 	private let deleteCustomImageUseCase: DeleteCustomImageUseCase
 	private let imageLoaderUseCase: ImageLoaderUseCase
+	private let numberOfColumnsUseCase: NumberOfColumnsUseCase
 	private var cancellables = Set<AnyCancellable>()
 	
 	let customImageRepository: CustomImageRepository
 	
-	init(fetchAllCustomImagesUseCase: FetchAllCustomImagesUseCase, deleteCustomImageUseCase: DeleteCustomImageUseCase, imageLoaderUseCase: ImageLoaderUseCase, customImageRepository: CustomImageRepository) {
+	init(fetchAllCustomImagesUseCase: FetchAllCustomImagesUseCase, deleteCustomImageUseCase: DeleteCustomImageUseCase, imageLoaderUseCase: ImageLoaderUseCase, numberOfColumnsUseCase: NumberOfColumnsUseCase, customImageRepository: CustomImageRepository) {
 		self.fetchAllCustomImagesUseCase = fetchAllCustomImagesUseCase
 		self.deleteCustomImageUseCase = deleteCustomImageUseCase
 		self.imageLoaderUseCase = imageLoaderUseCase
+		self.numberOfColumnsUseCase = numberOfColumnsUseCase
 		self.customImageRepository = customImageRepository
+		
+		self.numberOfColumns = numberOfColumnsUseCase.getNumberOfColumns()
 	}
 	
 	func fetchAll() {
@@ -72,11 +79,32 @@ final class MainSceneViewModel: ObservableObject {
 		isCreateViewPresented = true
 	}
 	
-	func handlePinchGesture(with value: CGFloat) {
-		if value > 1.2 && numberOfColumns == 3 {
-			numberOfColumns = 2
-		} else if value < 0.8 && numberOfColumns == 2 {
-			numberOfColumns = 3
+	func startNavigation() {
+		isNavigationActive = true
+	}
+
+	func endNavigation() {
+		isNavigationActive = false
+	}
+	
+	func handlePinchGesture(increase: Bool, value: CGFloat) {
+		if increase {
+			numberOfColumns = min(5, numberOfColumns + 1)
+		} else {
+			numberOfColumns = max(2, numberOfColumns - 1)
 		}
+		lastPinchThreshold = value
+	}
+	
+	func startPinchGesture() {
+		isPinchActive = true
+	}
+
+	func endPinchGesture() {
+		isPinchActive = false
+	}
+	
+	func updateNumberOfColumns() {
+		numberOfColumnsUseCase.updateNumberOfColumns(newNumberOfColumns: numberOfColumns)
 	}
 }

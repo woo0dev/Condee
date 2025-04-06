@@ -21,6 +21,7 @@ struct DetailCustomImageSceneView: View {
 					image
 						.resizable()
 						.scaledToFit()
+						.accessibilityIdentifier("DetailCustomImage")
 				case .failure(_):
 					Image(systemName: "exclamationmark.triangle")
 						.resizable()
