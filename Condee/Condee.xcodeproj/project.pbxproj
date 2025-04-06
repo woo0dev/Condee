@@ -33,20 +33,55 @@
 		E2EE5B012CD5F20E00DEB2E6 /* CondeeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CondeeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		E20ECD2E2D9552AC00286FF9 /* Exceptions for "Tests" folder in "Condee" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				CondeeTests/CustomImageRepositoryTests.swift,
+				CondeeTests/NumberOfColumnsRepositoryTests.swift,
+				CondeeUITests/CondeeUITestsLaunchTests.swift,
+				CondeeUITests/CreateCustomImageSceneUITests.swift,
+				CondeeUITests/MainSceneUITests.swift,
+			);
+			target = E2EE5AE42CD5F20D00DEB2E6 /* Condee */;
+		};
+		E20ECD2F2D9552AC00286FF9 /* Exceptions for "Tests" folder in "CondeeTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				CondeeTests/CustomImageRepositoryTests.swift,
+				CondeeTests/NumberOfColumnsRepositoryTests.swift,
+				Mocks/Repositories/MockCustomImageRepositoryImpl.swift,
+				Mocks/UseCases/MockDeleteCustomImageUseCaseImpl.swift,
+				Mocks/UseCases/MockFetchAllCustomImagesUseCaseImpl.swift,
+				TestDIContainer/TestDependencyContainer.swift,
+			);
+			target = E2EE5AF62CD5F20E00DEB2E6 /* CondeeTests */;
+		};
+		E20ECD302D9552AC00286FF9 /* Exceptions for "Tests" folder in "CondeeUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				CondeeUITests/CondeeUITestsLaunchTests.swift,
+				CondeeUITests/CreateCustomImageSceneUITests.swift,
+				CondeeUITests/MainSceneUITests.swift,
+			);
+			target = E2EE5B002CD5F20E00DEB2E6 /* CondeeUITests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		E20ECD212D95529A00286FF9 /* Tests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				E20ECD2E2D9552AC00286FF9 /* Exceptions for "Tests" folder in "Condee" target */,
+				E20ECD2F2D9552AC00286FF9 /* Exceptions for "Tests" folder in "CondeeTests" target */,
+				E20ECD302D9552AC00286FF9 /* Exceptions for "Tests" folder in "CondeeUITests" target */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
 		E2EE5AE72CD5F20D00DEB2E6 /* Condee */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Condee;
-			sourceTree = "<group>";
-		};
-		E2EE5AFA2CD5F20E00DEB2E6 /* CondeeTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = CondeeTests;
-			sourceTree = "<group>";
-		};
-		E2EE5B042CD5F20E00DEB2E6 /* CondeeUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = CondeeUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -87,9 +122,8 @@
 		E2EE5ADC2CD5F20D00DEB2E6 = {
 			isa = PBXGroup;
 			children = (
+				E20ECD212D95529A00286FF9 /* Tests */,
 				E2EE5AE72CD5F20D00DEB2E6 /* Condee */,
-				E2EE5AFA2CD5F20E00DEB2E6 /* CondeeTests */,
-				E2EE5B042CD5F20E00DEB2E6 /* CondeeUITests */,
 				E24B177F2D151B7E0071572F /* Frameworks */,
 				E2EE5AE62CD5F20D00DEB2E6 /* Products */,
 			);
@@ -121,6 +155,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				E20ECD212D95529A00286FF9 /* Tests */,
 				E2EE5AE72CD5F20D00DEB2E6 /* Condee */,
 			);
 			name = Condee;
@@ -144,9 +179,6 @@
 			dependencies = (
 				E2EE5AF92CD5F20E00DEB2E6 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				E2EE5AFA2CD5F20E00DEB2E6 /* CondeeTests */,
-			);
 			name = CondeeTests;
 			packageProductDependencies = (
 			);
@@ -166,9 +198,6 @@
 			);
 			dependencies = (
 				E2EE5B032CD5F20E00DEB2E6 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				E2EE5B042CD5F20E00DEB2E6 /* CondeeUITests */,
 			);
 			name = CondeeUITests;
 			packageProductDependencies = (

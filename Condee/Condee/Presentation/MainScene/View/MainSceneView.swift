@@ -53,6 +53,7 @@ struct MainSceneView: View {
 			.navigationDestination(for: String.self, destination: { value in
 				if value == "CreateCustomImageSceneView" {
 					CreateCustomImageSceneView(viewModel: dependencyContainer.makeCreateCustomImageSceneViewModel(repository: viewModel.customImageRepository), navigationPath: $navigationPath, dependencyContainer: dependencyContainer)
+						.accessibilityIdentifier("CreateCustomImageScene")
 				}
 			})
 		}

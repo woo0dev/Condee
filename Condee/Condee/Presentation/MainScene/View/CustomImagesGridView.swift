@@ -24,7 +24,7 @@ struct CustomImagesGridView: View {
 						}, label: {
 							Image(uiImage: image)
 								.resizable()
-								.accessibilityIdentifier("CustomImageView")
+//								.accessibilityIdentifier("CustomImageView")
 								.scaledToFit()
 								.contextMenu {
 									Button(action: {
@@ -32,11 +32,14 @@ struct CustomImagesGridView: View {
 									}, label: {
 										Label("삭제", systemImage: "trash")
 									})
+									.accessibilityIdentifier("DeleteButton")
 								}
 						})
+						.accessibilityIdentifier("CustomImageView")
 					}
 				}
 			}
+			.accessibilityIdentifier("CustomImagesGridView")
 			.animation(.easeInOut, value: viewModel.numberOfColumns)
 		}
 		.highPriorityGesture(

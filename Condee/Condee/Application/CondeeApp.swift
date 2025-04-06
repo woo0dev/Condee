@@ -25,8 +25,12 @@ struct CondeeApp: App {
     }()
 
     var body: some Scene {
-        WindowGroup {
-			MainSceneView(viewModel: dependencyContainer.makeMainSceneViewModel(modelContainer: sharedModelContainer), dependencyContainer: dependencyContainer)
+		WindowGroup {
+			if CommandLine.arguments.contains("-UITesting") {
+				MainSceneView(viewModel: TestDependencyContainer().makeMainSceneViewModelWithMocks(), dependencyContainer: dependencyContainer)
+			} else {
+				MainSceneView(viewModel: dependencyContainer.makeMainSceneViewModel(modelContainer: sharedModelContainer), dependencyContainer: dependencyContainer)
+			}
         }
     }
 }
