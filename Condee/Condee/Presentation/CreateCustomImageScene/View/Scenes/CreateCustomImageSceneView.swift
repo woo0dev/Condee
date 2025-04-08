@@ -17,49 +17,65 @@ struct CreateCustomImageSceneView: View {
 	
 	var body: some View {
 		GeometryReader { geometry in
-			VStack {
-				let containerSize = geometry.size
-				let aspectRatio: CGFloat = UIScreen.main.bounds.width / UIScreen.main.bounds.height
-				
-				let toolbarHeight: CGFloat = 50
-				
-				let canvasHeight: CGFloat = containerSize.height - toolbarHeight
-				let canvasWidth: CGFloat = canvasHeight * aspectRatio
-				
-				if canvasWidth > 0 && canvasHeight > 0 {
-					CanvasView(viewModel: viewModel)
-						.frame(width: canvasWidth, height: canvasHeight)
-						.border(.gray, width: 1)
-						.clipped()
-				}
-				ScrollView(.horizontal, showsIndicators: false) {
-					HStack(spacing: 20) {
-						AdditionalToolbar(viewModel: viewModel)
-						Button(action: viewModel.toggleGridPatternColor, label: {
-							GridPatternBackgroundView(color: $viewModel.gridPatternColor)
-								.frame(width: 30, height: 30)
-								.cornerRadius(20)
-								.overlay(Circle().stroke(Color.gray, lineWidth: 2))
-						})
-						TextStyleToolbar(viewModel: viewModel)
+			ZStack {
+				BackGestureEnabler()
+				VStack {
+					let containerSize = geometry.size
+					let aspectRatio: CGFloat = UIScreen.main.bounds.width / UIScreen.main.bounds.height
+					
+					let toolbarHeight: CGFloat = 50
+					
+					let canvasHeight: CGFloat = containerSize.height - toolbarHeight
+					let canvasWidth: CGFloat = canvasHeight * aspectRatio
+					
+					if canvasWidth > 0 && canvasHeight > 0 {
+						CanvasView(viewModel: viewModel)
+							.frame(width: canvasWidth, height: canvasHeight)
+							.border(.gray, width: 1)
+							.clipped()
 					}
-					.frame(height: toolbarHeight)
-					.padding([.leading, .trailing], 20)
+					ScrollView(.horizontal, showsIndicators: false) {
+						HStack(spacing: 20) {
+							AdditionalToolbar(viewModel: viewModel)
+							Button(action: viewModel.toggleGridPatternColor, label: {
+								GridPatternBackgroundView(color: $viewModel.gridPatternColor)
+									.frame(width: 30, height: 30)
+									.cornerRadius(20)
+									.overlay(Circle().stroke(Color.gray, lineWidth: 2))
+							})
+							TextStyleToolbar(viewModel: viewModel)
+						}
+						.frame(height: toolbarHeight)
+						.padding([.leading, .trailing], 20)
+					}
+					.overlay(
+						Rectangle()
+							.frame(height: 1)
+							.foregroundColor(.gray),
+						alignment: .top
+					)
 				}
-				.overlay(
-					Rectangle()
-						.frame(height: 1)
-						.foregroundColor(.gray),
-					alignment: .top
-				)
 			}
 		}
 		.ignoresSafeArea(.keyboard)
-		.navigationBarItems(trailing: Button(action: {
-			viewModel.doneTapped()
-		}, label: {
-			Text("미리보기")
-		}).accessibilityIdentifier("PreviewButton"))
+		.navigationBarBackButtonHidden()
+		.toolbar(content: {
+			ToolbarItem(placement: .topBarLeading, content: {
+				BackButtonView() {
+					navigationPath.removeLast()
+				}
+				.accessibilityIdentifier("BackButton")
+			})
+			ToolbarItem(placement: .topBarTrailing, content: {
+				Button(action: {
+					viewModel.doneTapped()
+				}, label: {
+					Text("미리보기")
+				})
+				.accessibilityIdentifier("PreviewButton")
+				.buttonStyle(.plain)
+			})
+		})
 		.actionSheet(isPresented: $viewModel.isActionSheetPresented) {
 			switch viewModel.actionSheetType {
 			case .image:
