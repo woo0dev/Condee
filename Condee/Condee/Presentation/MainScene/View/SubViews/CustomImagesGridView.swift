@@ -24,7 +24,6 @@ struct CustomImagesGridView: View {
 						}, label: {
 							Image(uiImage: image)
 								.resizable()
-//								.accessibilityIdentifier("CustomImageView")
 								.scaledToFit()
 								.contextMenu {
 									Button(action: {

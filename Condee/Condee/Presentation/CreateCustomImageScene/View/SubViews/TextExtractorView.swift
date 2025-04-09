@@ -23,6 +23,7 @@ struct TextExtractorView: View {
 							.padding(20)
 					})
 					.accessibilityIdentifier("CancelButton")
+					.buttonStyle(.plain)
 					Spacer()
 					Button(action: {
 						viewModel.doneTapped()
@@ -31,6 +32,7 @@ struct TextExtractorView: View {
 							.padding(20)
 					})
 					.accessibilityIdentifier("DoneButton")
+					.buttonStyle(.plain)
 				}
 				.overlay(
 					Rectangle()
