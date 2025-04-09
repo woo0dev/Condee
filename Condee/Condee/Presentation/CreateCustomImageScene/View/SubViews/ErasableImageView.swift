@@ -12,53 +12,58 @@ struct ErasableImageView: View {
 	
 	@State private var currentPoint: CGPoint? = nil
 	@State private var lastPoint: CGPoint? = nil
-	@State var imageViewSize: CGSize = .zero
+	@State var imageRect: CGRect = .zero
 	@State var eraserSize: CGFloat = 40
 	
 	let image: UIImage
 	
 	var body: some View {
 		VStack {
-			Spacer()
-			ZStack {
-				Image(uiImage: image)
-					.resizable()
-					.scaledToFit()
-					.background(
-						GeometryReader { contentGeometry in
-							Color.clear
-								.onAppear {
-									imageViewSize = CGSize(width: contentGeometry.size.width, height: contentGeometry.size.height)
-								}
-						}
-					)
-					.gesture(
-						DragGesture(minimumDistance: 0)
-							.onChanged { value in
-								let tapPoint = CGPoint(x: max(min(value.location.x, imageViewSize.width), 0), y: max(min(value.location.y, imageViewSize.height), 0))
-								let distance = sqrt(pow(tapPoint.x - (lastPoint?.x ?? 0), 2) + pow(tapPoint.y - (lastPoint?.y ?? 0), 2))
-								
-								if distance > 5 {
-									viewModel.eraseImage(at: tapPoint, eraserSize: eraserSize, imageViewSize: imageViewSize)
-									lastPoint = tapPoint
-								}
-								currentPoint = tapPoint
+			GeometryReader { geometry in
+				ZStack {
+					Image(uiImage: image)
+						.resizable()
+						.scaledToFit()
+						.background(
+							GeometryReader { contentGeometry in
+								Color.clear
+									.onAppear {
+										let width = contentGeometry.size.width
+										let height = contentGeometry.size.height
+										let xOffset = (geometry.size.width - width) / 2
+										let yOffset = (geometry.size.height - height) / 2
+										
+										imageRect = CGRect(x: xOffset, y: yOffset, width: width, height: height)
+									}
 							}
-							.onEnded { _ in
-								lastPoint = nil
-								currentPoint = nil
-							}
-					)
-				if let currentPoint = currentPoint {
-					Circle()
-						.fill(.white)
-						.frame(width: eraserSize, height: eraserSize)
-						.position(currentPoint)
+						)
+						.gesture(
+							DragGesture(minimumDistance: 0)
+								.onChanged { value in
+									let tapPoint = CGPoint(x: max(min(value.location.x, imageRect.size.width), 0), y: max(min(value.location.y, imageRect.size.height), 0))
+									let distance = sqrt(pow(tapPoint.x - (lastPoint?.x ?? 0), 2) + pow(tapPoint.y - (lastPoint?.y ?? 0), 2))
+									
+									if distance > 5 {
+										viewModel.eraseImage(at: tapPoint, eraserSize: eraserSize, imageViewSize: imageRect.size)
+										lastPoint = tapPoint
+									}
+									currentPoint = tapPoint
+								}
+								.onEnded { _ in
+									lastPoint = nil
+									currentPoint = nil
+								}
+						)
+						.background(GridPatternBackgroundView(color: $viewModel.gridPatternColor).clipped())
+					if let currentPoint = currentPoint {
+						Circle()
+							.fill(.white)
+							.frame(width: eraserSize, height: eraserSize)
+							.position(x: currentPoint.x + imageRect.origin.x, y: currentPoint.y + imageRect.origin.y)
+					}
 				}
+				.frame(width: geometry.size.width, height: geometry.size.height)
 			}
-			.frame(width: imageViewSize == .zero ? UIScreen.main.bounds.width : imageViewSize.width, height: imageViewSize == .zero ? UIScreen.main.bounds.height : imageViewSize.height )
-			.background(GridPatternBackgroundView(color: $viewModel.gridPatternColor).clipped())
-			Spacer()
 			HStack {
 				Spacer()
 				Button(action: viewModel.toggleGridPatternColor, label: {
